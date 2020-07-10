@@ -49,12 +49,6 @@
     },
     "scripts": {
         "post-autoload-dump": "captainhook install --ansi -f -s",
-        "pre-commit": [
-            "@br:lint:fix",
-            "@br:lint",
-            "@br:analyze"
-        ],
-        "test": "@br:test:all",
         "br:analyze": [
             "@br:analyze:phpstan",
             "@br:analyze:psalm"
@@ -75,11 +69,15 @@
             "@br:test"
         ],
         "br:test:coverage:ci": "phpunit --coverage-clover build/logs/clover.xml",
-        "br:test:coverage:html": "phpunit --coverage-html build/coverage"
+        "br:test:coverage:html": "phpunit --coverage-html build/coverage",
+        "pre-commit": [
+            "@br:lint:fix",
+            "@br:lint",
+            "@br:analyze"
+        ],
+        "test": "@br:test:all"
     },
     "scripts-descriptions": {
-        "pre-commit": "These commands are run as part of a Git pre-commit hook installed using captainhook/captainhook. Each command should be prepared to accept a list of space-separated staged files.",
-        "test": "Shortcut to run the full test suite.",
         "br:analyze": "Performs static analysis on the code base.",
         "br:analyze:phpstan": "Runs the PHPStan static analyzer.",
         "br:analyze:psalm": "Runs the Psalm static analyzer.",
@@ -91,6 +89,8 @@
         "br:test": "Runs the full unit test suite.",
         "br:test:all": "Runs linting, static analysis, and unit tests.",
         "br:test:coverage:ci": "Runs the unit test suite and generates a Clover coverage report.",
-        "br:test:coverage:html": "Runs the unit tests suite and generates an HTML coverage report."
+        "br:test:coverage:html": "Runs the unit tests suite and generates an HTML coverage report.",
+        "pre-commit": "These commands are run as part of a Git pre-commit hook installed using captainhook/captainhook. Each command should be prepared to accept a list of space-separated staged files.",
+        "test": "Shortcut to run the full test suite."
     }
 }
