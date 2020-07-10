@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Test\Captainhook\Conventional;
+namespace Ramsey\Test\CaptainHook\Conventional;
 
 use Mockery\MockInterface;
-use Ramsey\Captainhook\Conventional\Example;
+use Ramsey\CaptainHook\Conventional\Example;
 
 class ExampleTest extends RamseyTestCase
 {

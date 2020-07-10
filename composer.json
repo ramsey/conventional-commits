@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Ramsey\\Captainhook\\Conventional\\": "src/"
+            "Ramsey\\CaptainHook\\Conventional\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Ramsey\\Console\\": "resources/console/",
-            "Ramsey\\Test\\Captainhook\\Conventional\\": "tests/"
+            "Ramsey\\Test\\CaptainHook\\Conventional\\": "tests/"
         },
         "files": [
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
