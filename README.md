@@ -75,9 +75,8 @@ Now, you are ready to develop!
 
 ### Tooling
 
-This project uses [Husky](https://github.com/typicode/husky) and
-[lint-staged](https://github.com/okonet/lint-staged) to validate all staged
-changes prior to commit.
+This project uses [CaptainHook](https://github.com/CaptainHookPhp/captainhook)
+to validate all staged changes prior to commit.
 
 #### Composer Commands
 
@@ -120,7 +119,7 @@ This project follows a superset of [PSR-12](https://www.php-fig.org/psr/psr-12/)
 coding standards, enforced by [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 The project PHP_CodeSniffer configuration may be found in `phpcs.xml.dist`.
 
-lint-staged will run PHP_CodeSniffer before committing. It will attempt to fix
+CaptainHook will run PHP_CodeSniffer before committing. It will attempt to fix
 any errors it can, and it will reject the commit if there are any un-fixable
 issues. Many issues can be fixed automatically and will be done so pre-commit.
 
@@ -142,7 +141,7 @@ and [Psalm](https://github.com/vimeo/psalm) to provide static analysis of PHP
 code. Configurations for these are in `phpstan.neon.dist` and `psalm.xml`,
 respectively.
 
-lint-staged will run PHPStan and Psalm before committing. The pre-commit hook
+CaptainHook will run PHPStan and Psalm before committing. The pre-commit hook
 does not attempt to fix any static analysis errors. Instead, the commit will
 fail, and you must fix the errors manually.
 
