@@ -37,8 +37,6 @@ class Repl
     {
         static::loadEnvironment();
 
-        unset($_SERVER['argv']);
-
         $config = new Configuration([
             'startupMessage' => '<info>'
                 . 'Welcome to the REPL for ramsey/captainhook-conventional!'
