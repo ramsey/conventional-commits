@@ -20,7 +20,8 @@
     ],
     "require": {
         "php": "^7.4",
-        "captainhook/captainhook": "^5.3"
+        "captainhook/captainhook": "^5.3",
+        "symfony/polyfill-php80": "^1.17"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
@@ -42,13 +43,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Ramsey\\CaptainHook\\Conventional\\": "src/"
+            "Ramsey\\CaptainHook\\": "src/CaptainHook/",
+            "Ramsey\\Conventional\\": "src/Conventional/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ramsey\\Console\\": "resources/console/",
-            "Ramsey\\Test\\CaptainHook\\Conventional\\": "tests/"
+            "Ramsey\\Test\\": "tests/",
+            "Ramsey\\Console\\": "resources/console/"
         },
         "files": [
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
