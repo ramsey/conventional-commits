@@ -1,10 +1,5 @@
 # ramsey/captainhook-conventional
 
-<!--
-TODO: Make sure the following URLs are correct and working for your project.
-      Then, remove these comments to display the badges, giving users a quick
-      overview of your package.
-
 [![Source Code][badge-source]][source]
 [![Latest Version][badge-release]][packagist]
 [![Software License][badge-license]][license]
@@ -13,7 +8,7 @@ TODO: Make sure the following URLs are correct and working for your project.
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
 
-[badge-source]: http://img.shields.io/badge/source-ramsey/captainhook-conventional-blue.svg?style=flat-square
+[badge-source]: http://img.shields.io/badge/source-ramsey/captainhook--conventional-blue.svg?style=flat-square
 [badge-release]: https://img.shields.io/packagist/v/ramsey/captainhook-conventional.svg?style=flat-square&label=release
 [badge-license]: https://img.shields.io/packagist/l/ramsey/captainhook-conventional.svg?style=flat-square
 [badge-php]: https://img.shields.io/packagist/php-v/ramsey/captainhook-conventional.svg?style=flat-square
@@ -28,7 +23,6 @@ TODO: Make sure the following URLs are correct and working for your project.
 [build]: https://travis-ci.org/ramsey/captainhook-conventional
 [coverage]: https://coveralls.io/r/ramsey/captainhook-conventional?branch=master
 [downloads]: https://packagist.org/packages/ramsey/captainhook-conventional
--->
 
 
 
