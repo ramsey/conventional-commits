@@ -1,0 +1,5 @@
+feat: this is a description
+Fix                             #1234
+Signed-off-by        :          Alice <alice@example.com>
+Acked-by             :          Bob <bob@example.com>
+See-also             :          fe3187489d69c4

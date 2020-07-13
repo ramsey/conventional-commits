@@ -1,0 +1,2 @@
+feat(my-scope): this is a description
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
