@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This file is part of ramsey/captainhook-conventional
+ * This file is part of ramsey/conventional-commits
  *
- * ramsey/captainhook-conventional is open source software: you can distribute
- * it and/or modify it under the terms of the MIT License (the "License"). You
- * may not use this file except in compliance with the License.
+ * ramsey/conventional-commits is open source software: you can distribute it
+ * and/or modify it under the terms of the MIT License (the "License"). You may
+ * not use this file except in compliance with the License.
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -19,14 +19,14 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Conventional;
+namespace Ramsey\ConventionalCommits;
 
-use Ramsey\Conventional\Commit\Body;
-use Ramsey\Conventional\Commit\Description;
-use Ramsey\Conventional\Commit\Footer;
-use Ramsey\Conventional\Commit\Scope;
-use Ramsey\Conventional\Commit\Type;
-use Ramsey\Conventional\Exception\InvalidCommitMessage;
+use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
+use Ramsey\ConventionalCommits\Message\Body;
+use Ramsey\ConventionalCommits\Message\Description;
+use Ramsey\ConventionalCommits\Message\Footer;
+use Ramsey\ConventionalCommits\Message\Scope;
+use Ramsey\ConventionalCommits\Message\Type;
 
 use function count;
 use function preg_match;
@@ -54,14 +54,14 @@ class Parser
         . "(?'value'(?:.*?)(?=(?P>tokenPrefix))|(?:.*)))/iusm";
 
     /**
-     * Parses a commit message, returning a Commit instance or throwing an
+     * Parses a commit message, returning a Message instance or throwing an
      * exception on failure
      */
-    public function parse(string $commitMessage): Commit
+    public function parse(string $commitMessage): Message
     {
         if (!preg_match(self::COMMIT_PATTERN, $commitMessage, $matches)) {
             throw new InvalidCommitMessage(
-                'Could not find a valid Conventional Commit message',
+                'Could not find a valid Conventional Commits message',
             );
         }
 
@@ -69,7 +69,7 @@ class Parser
         $description = new Description($matches['desc']);
         $hasBreakingChanges = trim($matches['bc'] ?? '') === '!';
 
-        $commit = new Commit($type, $description, $hasBreakingChanges);
+        $commit = new Message($type, $description, $hasBreakingChanges);
 
         if (trim($matches['scope'] ?? '') !== '') {
             $commit->setScope(new Scope($matches['scope']));

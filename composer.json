@@ -1,14 +1,16 @@
 {
-    "name": "ramsey/captainhook-conventional",
+    "name": "ramsey/conventional-commits",
     "type": "library",
-    "description": "CaptainHook plugin to create and validate commit messages using Conventional Commits.",
+    "description": "A PHP library for creating and validating commit messages according to the Conventional Commits specification. Includes a CaptainHook plugin!",
     "keywords": [
         "captainhook",
-        "plugin",
-        "conventional",
         "commit",
+        "commit-msg",
+        "conventional",
+        "conventional-commits",
         "git",
-        "pre-commit"
+        "hook",
+        "plugin"
     ],
     "license": "MIT",
     "authors": [
@@ -44,7 +46,7 @@
     "autoload": {
         "psr-4": {
             "Ramsey\\CaptainHook\\": "src/CaptainHook/",
-            "Ramsey\\Conventional\\": "src/Conventional/"
+            "Ramsey\\ConventionalCommits\\": "src/ConventionalCommits/"
         }
     },
     "autoload-dev": {

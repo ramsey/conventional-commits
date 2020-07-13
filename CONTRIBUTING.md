@@ -12,7 +12,7 @@ this project and its community, you are expected to uphold this code.
 
 You can find help and discussion in the following places:
 
-* GitHub Issues: <https://github.com/ramsey/captainhook-conventional/issues>
+* GitHub Issues: <https://github.com/ramsey/conventional-commits/issues>
 
 
 ## Reporting Bugs
@@ -56,11 +56,11 @@ When you do begin working on your feature, here are some guidelines to consider:
   We will use this description to update the CHANGELOG. If there is no
   description or it does not adequately describe your feature, we may ask you
   to update the description.
-* ramsey/captainhook-conventional follows the **[PSR-12 coding standard][psr-12]**. Please
+* ramsey/conventional-commits follows the **[PSR-12 coding standard][psr-12]**. Please
   ensure your code does, too.
 * Please **write tests** for any new features you add.
 * Please **ensure that tests pass** before submitting your pull request.
-  ramsey/captainhook-conventional has Travis CI automatically running tests for pull requests.
+  ramsey/conventional-commits has Travis CI automatically running tests for pull requests.
   However, running the tests locally will help save time.
 * **Use topic/feature branches.** Please do not ask to pull from your master
   branch.
@@ -87,9 +87,9 @@ composer br:test:all
 ```
 
 
-[github]: https://github.com/ramsey/captainhook-conventional
-[issues]: https://github.com/ramsey/captainhook-conventional/issues
-[pull requests]: https://github.com/ramsey/captainhook-conventional/pulls
+[github]: https://github.com/ramsey/conventional-commits
+[issues]: https://github.com/ramsey/conventional-commits/issues
+[pull requests]: https://github.com/ramsey/conventional-commits/pulls
 [psr-12]: https://www.php-fig.org/psr/psr-12/
 [gh-flow]: https://guides.github.com/introduction/flow/
 [git-commit]: https://chris.beams.io/posts/git-commit/

@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Test\Conventional;
+namespace Ramsey\Test\ConventionalCommits;
 
-use Ramsey\Conventional\Commit;
-use Ramsey\Conventional\Commit\Body;
-use Ramsey\Conventional\Commit\Description;
-use Ramsey\Conventional\Commit\Footer;
-use Ramsey\Conventional\Commit\Scope;
-use Ramsey\Conventional\Commit\Type;
-use Ramsey\Test\Conventional\Commit\BodyTest;
+use Ramsey\ConventionalCommits\Message;
+use Ramsey\ConventionalCommits\Message\Body;
+use Ramsey\ConventionalCommits\Message\Description;
+use Ramsey\ConventionalCommits\Message\Footer;
+use Ramsey\ConventionalCommits\Message\Scope;
+use Ramsey\ConventionalCommits\Message\Type;
+use Ramsey\Test\ConventionalCommits\Message\BodyTest;
 use Ramsey\Test\RamseyTestCase;
 
 use const PHP_EOL;
 
-class CommitTest extends RamseyTestCase
+class MessageTest extends RamseyTestCase
 {
     public function testBasicCommit(): void
     {
@@ -23,7 +23,7 @@ class CommitTest extends RamseyTestCase
 
         $type = new Type('feat');
         $description = new Description('implement awesome thing');
-        $commit = new Commit($type, $description);
+        $commit = new Message($type, $description);
 
         $this->assertSame($type, $commit->getType());
         $this->assertSame($description, $commit->getDescription());
@@ -43,7 +43,7 @@ class CommitTest extends RamseyTestCase
         $description = new Description('implement awesome thing');
         $scope = new Scope('my-scope');
 
-        $commit = new Commit($type, $description);
+        $commit = new Message($type, $description);
         $commit->setScope($scope);
 
         $this->assertSame($scope, $commit->getScope());
@@ -61,7 +61,7 @@ class CommitTest extends RamseyTestCase
         $description = new Description('implement awesome thing');
         $body = new Body($bodyTest->getRawBodyForTest());
 
-        $commit = new Commit($type, $description);
+        $commit = new Message($type, $description);
         $commit->setBody($body);
 
         $this->assertSame($body, $commit->getBody());
@@ -79,7 +79,7 @@ class CommitTest extends RamseyTestCase
         $type = new Type('feat');
         $description = new Description('implement awesome thing');
 
-        $commit = new Commit($type, $description);
+        $commit = new Message($type, $description);
         $commit->addFooter(new Footer('Fix', '1234', Footer::SEPARATOR_HASH));
         $commit->addFooter(new Footer('Signed-off-by', 'Alice <alice@example.com>'));
         $commit->addFooter(new Footer('Acked-by', 'Bob <bob@example.com>'));
@@ -98,7 +98,7 @@ class CommitTest extends RamseyTestCase
         $type = new Type('fix');
         $description = new Description('fix a bug');
 
-        $commit = new Commit($type, $description);
+        $commit = new Message($type, $description);
         $commit->addFooter(new Footer('Breaking Change', 'this is a breaking change'));
         $commit->addFooter(new Footer('Fix', '1234', Footer::SEPARATOR_HASH));
 
@@ -114,7 +114,7 @@ class CommitTest extends RamseyTestCase
         $type = new Type('fix');
         $description = new Description('fix a bug');
 
-        $commit = new Commit($type, $description, true);
+        $commit = new Message($type, $description, true);
 
         $this->assertTrue($commit->hasBreakingChanges());
         $this->assertSame($expectedMessage, $commit->toString());
@@ -132,7 +132,7 @@ class CommitTest extends RamseyTestCase
             . 'See-also: fe3187489d69c4' . PHP_EOL
             . 'BREAKING CHANGE: this is a breaking change' . PHP_EOL;
 
-        $commit = new Commit(new Type('feat'), new Description('implement awesome thing'));
+        $commit = new Message(new Type('feat'), new Description('implement awesome thing'));
         $commit->setScope(new Scope('my-scope'));
         $commit->setBody(new Body($bodyTest->getRawBodyForTest()));
         $commit->addFooter(new Footer('Fix', '1234', Footer::SEPARATOR_HASH));

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This file is part of ramsey/captainhook-conventional
+ * This file is part of ramsey/conventional-commits
  *
- * ramsey/captainhook-conventional is open source software: you can distribute
- * it and/or modify it under the terms of the MIT License (the "License"). You
- * may not use this file except in compliance with the License.
+ * ramsey/conventional-commits is open source software: you can distribute it
+ * and/or modify it under the terms of the MIT License (the "License"). You may
+ * not use this file except in compliance with the License.
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -19,13 +19,13 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Conventional;
+namespace Ramsey\ConventionalCommits;
 
-use Ramsey\Conventional\Commit\Body;
-use Ramsey\Conventional\Commit\Description;
-use Ramsey\Conventional\Commit\Footer;
-use Ramsey\Conventional\Commit\Scope;
-use Ramsey\Conventional\Commit\Type;
+use Ramsey\ConventionalCommits\Message\Body;
+use Ramsey\ConventionalCommits\Message\Description;
+use Ramsey\ConventionalCommits\Message\Footer;
+use Ramsey\ConventionalCommits\Message\Scope;
+use Ramsey\ConventionalCommits\Message\Type;
 use Stringable;
 
 use const PHP_EOL;
@@ -35,7 +35,7 @@ use const PHP_EOL;
  *
  * @link https://www.conventionalcommits.org/en/v1.0.0/#specification Conventional Commits
  */
-class Commit implements Stringable
+class Message implements Stringable
 {
     private Type $type;
     private ?Scope $scope = null;

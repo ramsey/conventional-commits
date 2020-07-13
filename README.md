@@ -1,4 +1,4 @@
-# ramsey/captainhook-conventional
+# ramsey/conventional-commits
 
 [![Source Code][badge-source]][source]
 [![Latest Version][badge-release]][packagist]
@@ -8,21 +8,21 @@
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
 
-[badge-source]: http://img.shields.io/badge/source-ramsey/captainhook--conventional-blue.svg?style=flat-square
-[badge-release]: https://img.shields.io/packagist/v/ramsey/captainhook-conventional.svg?style=flat-square&label=release
-[badge-license]: https://img.shields.io/packagist/l/ramsey/captainhook-conventional.svg?style=flat-square
-[badge-php]: https://img.shields.io/packagist/php-v/ramsey/captainhook-conventional.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/ramsey/captainhook-conventional/master.svg?style=flat-square
-[badge-coverage]: https://img.shields.io/coveralls/github/ramsey/captainhook-conventional/master.svg?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/ramsey/captainhook-conventional.svg?style=flat-square&colorB=mediumvioletred
+[badge-source]: http://img.shields.io/badge/source-ramsey/conventional--commits-blue.svg?style=flat-square
+[badge-release]: https://img.shields.io/packagist/v/ramsey/conventional-commits.svg?style=flat-square&label=release
+[badge-license]: https://img.shields.io/packagist/l/ramsey/conventional-commits.svg?style=flat-square
+[badge-php]: https://img.shields.io/packagist/php-v/ramsey/conventional-commits.svg?style=flat-square
+[badge-build]: https://img.shields.io/travis/ramsey/conventional-commits/master.svg?style=flat-square
+[badge-coverage]: https://img.shields.io/coveralls/github/ramsey/conventional-commits/master.svg?style=flat-square
+[badge-downloads]: https://img.shields.io/packagist/dt/ramsey/conventional-commits.svg?style=flat-square&colorB=mediumvioletred
 
-[source]: https://github.com/ramsey/captainhook-conventional
-[packagist]: https://packagist.org/packages/ramsey/captainhook-conventional
-[license]: https://github.com/ramsey/captainhook-conventional/blob/master/LICENSE
+[source]: https://github.com/ramsey/conventional-commits
+[packagist]: https://packagist.org/packages/ramsey/conventional-commits
+[license]: https://github.com/ramsey/conventional-commits/blob/master/LICENSE
 [php]: https://php.net
-[build]: https://travis-ci.org/ramsey/captainhook-conventional
-[coverage]: https://coveralls.io/r/ramsey/captainhook-conventional?branch=master
-[downloads]: https://packagist.org/packages/ramsey/captainhook-conventional
+[build]: https://travis-ci.org/ramsey/conventional-commits
+[coverage]: https://coveralls.io/r/ramsey/conventional-commits?branch=master
+[downloads]: https://packagist.org/packages/ramsey/conventional-commits
 
 
 
@@ -37,7 +37,7 @@ uphold this code.
 Install this package as a dependency using [Composer](https://getcomposer.org).
 
 ``` bash
-composer require ramsey/captainhook-conventional
+composer require ramsey/conventional-commits
 ```
 
 <!--
@@ -48,7 +48,7 @@ If you need to provide more detailed examples, use the `docs/` directory
 and provide a link here to the documentation.
 
 ``` php
-use Ramsey\CaptainHook\Conventional\Example;
+use Ramsey\CaptainHook\ConventionalCommits\Example;
 
 $example = new Example();
 echo $example->greet('fellow human');
@@ -173,7 +173,7 @@ base folder structure and layout.
 
 ## Copyright and License
 
-The ramsey/captainhook-conventional library is copyright © [Ben Ramsey](https://benramsey.com)
+The ramsey/conventional-commits library is copyright © [Ben Ramsey](https://benramsey.com)
 and licensed for use under the terms of the
 MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
 

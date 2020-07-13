@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Test\Conventional\Commit;
+namespace Ramsey\Test\ConventionalCommits\Message;
 
-use Ramsey\Conventional\Commit\Type;
+use Ramsey\ConventionalCommits\Message\Type;
 
 class TypeTest extends NounTestCase
 {

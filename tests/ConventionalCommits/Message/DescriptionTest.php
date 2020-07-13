@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Test\Conventional\Commit;
+namespace Ramsey\Test\ConventionalCommits\Message;
 
-use Ramsey\Conventional\Commit\Description;
-use Ramsey\Conventional\Exception\InvalidArgument;
+use Ramsey\ConventionalCommits\Exception\InvalidArgument;
+use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\Test\RamseyTestCase;
 
 class DescriptionTest extends RamseyTestCase

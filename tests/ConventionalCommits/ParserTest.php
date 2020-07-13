@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Test\Conventional;
+namespace Ramsey\Test\ConventionalCommits;
 
-use Ramsey\Conventional\Exception\InvalidCommitMessage;
-use Ramsey\Conventional\Parser;
+use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
+use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Test\RamseyTestCase;
 
 class ParserTest extends RamseyTestCase
@@ -90,7 +90,7 @@ class ParserTest extends RamseyTestCase
         $parser = new Parser();
 
         $this->expectException(InvalidCommitMessage::class);
-        $this->expectExceptionMessage('Could not find a valid Conventional Commit message');
+        $this->expectExceptionMessage('Could not find a valid Conventional Commits message');
 
         $parser->parse($invalidMessage);
     }

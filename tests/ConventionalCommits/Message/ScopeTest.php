@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Test\Conventional\Commit;
+namespace Ramsey\Test\ConventionalCommits\Message;
 
-use Ramsey\Conventional\Commit\Scope;
+use Ramsey\ConventionalCommits\Message\Scope;
 
 class ScopeTest extends NounTestCase
 {

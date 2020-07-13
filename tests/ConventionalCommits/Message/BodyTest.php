@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Test\Conventional\Commit;
+namespace Ramsey\Test\ConventionalCommits\Message;
 
-use Ramsey\Conventional\Commit\Body;
+use Ramsey\ConventionalCommits\Message\Body;
 use Ramsey\Test\RamseyTestCase;
 
 use const PHP_EOL;

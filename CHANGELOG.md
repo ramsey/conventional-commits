@@ -1,4 +1,4 @@
-# ramsey/captainhook-conventional Changelog
+# ramsey/conventional-commits Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -30,5 +30,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Feature C description
 
 
-[Unreleased]: https://github.com/ramsey/captainhook-conventional/compare/1.0.0...HEAD
-[1.0.0]: https://github.com/ramsey/captainhook-conventional/commits/1.0.0
+[Unreleased]: https://github.com/ramsey/conventional-commits/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/ramsey/conventional-commits/commits/1.0.0
