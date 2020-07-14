@@ -31,6 +31,7 @@ use CaptainHook\App\Hook\Restriction;
 use CaptainHook\App\Hooks;
 use Ramsey\ConventionalCommits\Exception\ConventionalException;
 use Ramsey\ConventionalCommits\Parser;
+use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 
 /**
@@ -51,10 +52,28 @@ class ConventionalCommits implements Action, Constrained
         try {
             $parser->parse($message->getContent());
         } catch (ConventionalException $exception) {
-            throw new ActionFailed(
-                'The commit message is not properly formatted according '
-                . 'to the Conventional Commits specification',
-            );
+            $io->writeError($this->getErrorMessage($message));
+
+            throw new ActionFailed('Validation failed');
         }
+    }
+
+    private function getErrorMessage(CommitMessage $message): string
+    {
+        return <<<EOD
+
+            <error>
+            
+                INVALID COMMIT MESSAGE
+            </error>
+
+            The commit message is not properly formatted according to the
+            Conventional Commits specification. For more details, see
+            https://www.conventionalcommits.org/en/v1.0.0/
+
+            Your commit message was:
+
+            <info>{$message->getContent()}</info>
+            EOD;
     }
 }

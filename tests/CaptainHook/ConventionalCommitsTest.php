@@ -60,6 +60,7 @@ class ConventionalCommitsTest extends RamseyTestCase
 
         /** @var IO & MockInterface $io */
         $io = $this->mockery(IO::class);
+        $io->shouldReceive('writeError')->once();
 
         /** @var ConfigAction & MockInterface $configAction */
         $configAction = $this->mockery(ConfigAction::class);
@@ -69,6 +70,7 @@ class ConventionalCommitsTest extends RamseyTestCase
         $commitMessage
             ->expects()
             ->getContent()
+            ->twice()
             ->andReturn('not a valid commit message');
 
         /** @var Repository & MockInterface $repository */
@@ -81,10 +83,7 @@ class ConventionalCommitsTest extends RamseyTestCase
         $action = new ConventionalCommits();
 
         $this->expectException(ActionFailed::class);
-        $this->expectExceptionMessage(
-            'The commit message is not properly formatted according '
-            . 'to the Conventional Commits specification',
-        );
+        $this->expectExceptionMessage('Validation failed');
 
         $action->execute($config, $io, $repository, $configAction);
     }
