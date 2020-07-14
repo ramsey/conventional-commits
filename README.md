@@ -24,13 +24,13 @@
 [coverage]: https://coveralls.io/r/ramsey/conventional-commits?branch=master
 [downloads]: https://packagist.org/packages/ramsey/conventional-commits
 
-
-
+ramsey/conventional-commits is a PHP library for creating and validating commit
+messages according to the Conventional Commits specification. It also includes a
+[CaptainHook](https://github.com/captainhookphp/captainhook) plugin!
 
 This project adheres to a [code of conduct](CODE_OF_CONDUCT.md).
 By participating in this project and its community, you are expected to
 uphold this code.
-
 
 ## Installation
 
@@ -55,7 +55,6 @@ echo $example->greet('fellow human');
 ```
 -->
 
-
 ## Contributing
 
 Contributions are welcome! Before contributing to this project, familiarize
@@ -67,7 +66,7 @@ and [Composer](https://getcomposer.org).
 After cloning this repository locally, execute the following commands:
 
 ``` bash
-cd /path/to/repository
+cd /path/to/conventional-commits
 composer install
 ```
 
@@ -167,14 +166,8 @@ base folder structure and layout.
 | **src/**          | Project library and application source code    |
 | **tests/**        | Tests for this project                         |
 
-
-
-
-
 ## Copyright and License
 
 The ramsey/conventional-commits library is copyright © [Ben Ramsey](https://benramsey.com)
-and licensed for use under the terms of the
-MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
-
-
+and licensed for use under the terms of the MIT License (MIT). Please see
+[LICENSE](LICENSE) for more information.
