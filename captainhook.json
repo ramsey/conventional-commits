@@ -5,6 +5,9 @@
     "commit-msg": {
         "enabled": true,
         "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\ConventionalCommits"
+            }
         ]
     },
     "pre-push": {
