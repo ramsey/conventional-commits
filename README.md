@@ -25,8 +25,8 @@
 [downloads]: https://packagist.org/packages/ramsey/conventional-commits
 
 ramsey/conventional-commits is a PHP library for creating and validating commit
-messages according to the Conventional Commits specification. It also includes a
-[CaptainHook](https://github.com/captainhookphp/captainhook) plugin!
+messages according to the [Conventional Commits specification][]. It also
+includes a [CaptainHook][] plugin!
 
 This project adheres to a [code of conduct](CODE_OF_CONDUCT.md).
 By participating in this project and its community, you are expected to
@@ -40,20 +40,26 @@ Install this package as a dependency using [Composer](https://getcomposer.org).
 composer require ramsey/conventional-commits
 ```
 
-<!--
 ## Usage
 
-Provide a brief description or short example of how to use this library.
-If you need to provide more detailed examples, use the `docs/` directory
-and provide a link here to the documentation.
+### Validating Commit Messages
 
-``` php
-use Ramsey\CaptainHook\ConventionalCommits\Example;
+To use the CaptainHook plugin to validate commit messages according to the
+Conventional Commits specification, add the following to the `commit-msg`
+property in your `captainhook.json` file:
 
-$example = new Example();
-echo $example->greet('fellow human');
+``` json
+{
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\ConventionalCommits"
+            }
+        ]
+    }
+}
 ```
--->
 
 ## Contributing
 
@@ -171,3 +177,7 @@ base folder structure and layout.
 The ramsey/conventional-commits library is copyright © [Ben Ramsey](https://benramsey.com)
 and licensed for use under the terms of the MIT License (MIT). Please see
 [LICENSE](LICENSE) for more information.
+
+
+[Conventional Commits specification]: https://www.conventionalcommits.org/en/v1.0.0/
+[CaptainHook]: https://github.com/captainhookphp/captainhook
