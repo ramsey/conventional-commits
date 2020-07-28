@@ -22,58 +22,64 @@ declare(strict_types=1);
 namespace Ramsey\CaptainHook;
 
 use CaptainHook\App\Config;
-use CaptainHook\App\Config\Action as ConfigAction;
+use CaptainHook\App\Config\Action as ActionConfig;
 use CaptainHook\App\Console\IO;
 use CaptainHook\App\Exception\ActionFailed;
 use CaptainHook\App\Hook\Action;
 use CaptainHook\App\Hook\Constrained;
 use CaptainHook\App\Hook\Restriction;
 use CaptainHook\App\Hooks;
+use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
 use Ramsey\ConventionalCommits\Exception\ConventionalException;
 use Ramsey\ConventionalCommits\Parser;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 
 /**
- * Provides Conventional Commits commit message validation to CaptainHook
+ * During the commit-msg Git hook, this validates the commit message according
+ * to the Conventional Commits specification
  */
-class ConventionalCommits implements Action, Constrained
+class ValidateConventionalCommit implements Action, Constrained
 {
+    private SymfonyStyleFactory $styleFactory;
+
+    public function __construct(?SymfonyStyleFactory $styleFactory = null)
+    {
+        $this->styleFactory = $styleFactory ?? new SymfonyStyleFactory();
+    }
+
     public static function getRestriction(): Restriction
     {
         return Restriction::fromArray([Hooks::COMMIT_MSG]);
     }
 
-    public function execute(Config $config, IO $io, Repository $repository, ConfigAction $action): void
-    {
+    public function execute(
+        Config $config,
+        IO $io,
+        Repository $repository,
+        ActionConfig $actionConfig
+    ): void {
         $message = $repository->getCommitMsg();
         $parser = new Parser();
 
         try {
             $parser->parse($message->getContent());
         } catch (ConventionalException $exception) {
-            $io->writeError($this->getErrorMessage($message));
+            $this->writeErrorMessage($io, $message);
 
             throw new ActionFailed('Validation failed');
         }
     }
 
-    private function getErrorMessage(CommitMessage $message): string
+    private function writeErrorMessage(IO $io, CommitMessage $message): void
     {
-        return <<<EOD
+        $console = $this->styleFactory->factory(new Input($io), new Output($io));
 
-            <error>
-            
-                INVALID COMMIT MESSAGE
-            </error>
-
-            The commit message is not properly formatted according to the
-            Conventional Commits specification. For more details, see
-            https://www.conventionalcommits.org/en/v1.0.0/
-
-            Your commit message was:
-
-            <info>{$message->getContent()}</info>
-            EOD;
+        $console->error([
+            'Invalid Commit Message',
+            'The commit message is not properly formatted according to the '
+            . 'Conventional Commits specification. For more details, see '
+            . 'https://www.conventionalcommits.org/en/v1.0.0/',
+        ]);
     }
 }

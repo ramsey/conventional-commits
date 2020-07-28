@@ -22,7 +22,8 @@
     ],
     "require": {
         "php": "^7.4",
-        "captainhook/captainhook": "^5.3",
+        "captainhook/captainhook": "^5.3.3",
+        "symfony/console": "^5.1",
         "symfony/polyfill-php80": "^1.17"
     },
     "require-dev": {
@@ -73,7 +74,7 @@
         "br:repl": [
             "echo ; echo 'Type ./bin/repl to start the REPL.'"
         ],
-        "br:test": "phpunit",
+        "br:test": "phpunit --colors=always",
         "br:test:all": [
             "@br:lint",
             "@br:analyze",

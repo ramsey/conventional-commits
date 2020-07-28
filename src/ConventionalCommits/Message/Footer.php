@@ -86,34 +86,9 @@ class Footer implements Unit
         string $value,
         string $separator = self::SEPARATOR_COLON
     ) {
-        if (!preg_match(self::TOKEN_PATTERN, $token)) {
-            throw new InvalidArgument("Token '{$token}' is invalid");
-        }
-
-        // Prepend a newline to assert it doesn't begin with any footer tokens.
-        if (!preg_match(self::VALUE_PATTERN, PHP_EOL . $value)) {
-            throw new InvalidArgument('Value contains unexpected footer tokens');
-        }
-
-        if (!in_array($separator, self::SEPARATORS)) {
-            throw new InvalidArgument(sprintf(
-                "Separator '%s' is invalid; expected one of ['%s']",
-                $separator,
-                implode("', '", self::SEPARATORS),
-            ));
-        }
-
-        // Normalize "breaking change" token.
-        if (
-            strcasecmp($token, 'BREAKING CHANGE') === 0
-            || strcasecmp($token, 'BREAKING-CHANGE') === 0
-        ) {
-            $token = self::TOKEN_BREAKING_CHANGE;
-        }
-
-        $this->token = trim($token);
-        $this->value = trim($value);
-        $this->separator = $separator;
+        $this->token = $this->validateToken($token);
+        $this->value = $this->validateValue($value);
+        $this->separator = $this->validateSeparator($separator);
     }
 
     public function getToken(): string
@@ -139,5 +114,53 @@ class Footer implements Unit
     public function toString(): string
     {
         return $this->token . $this->separator . $this->value;
+    }
+
+    private function validateToken(string $token): string
+    {
+        if (!preg_match(self::TOKEN_PATTERN, $token)) {
+            throw new InvalidArgument("Token '{$token}' is invalid");
+        }
+
+        return $this->normalizeBreakingChange(trim($token));
+    }
+
+    private function validateValue(string $value): string
+    {
+        // Prepend a newline to assert it doesn't begin with any footer tokens.
+        if (!preg_match(self::VALUE_PATTERN, PHP_EOL . $value)) {
+            throw new InvalidArgument('Value is invalid');
+        }
+
+        if (trim($value) === '') {
+            throw new InvalidArgument('Value is invalid');
+        }
+
+        return trim($value);
+    }
+
+    private function validateSeparator(string $separator): string
+    {
+        if (!in_array($separator, self::SEPARATORS)) {
+            throw new InvalidArgument(sprintf(
+                "Separator '%s' is invalid; expected one of ['%s']",
+                $separator,
+                implode("', '", self::SEPARATORS),
+            ));
+        }
+
+        return $separator;
+    }
+
+    private function normalizeBreakingChange(string $token): string
+    {
+        if (
+            strcasecmp($token, 'BREAKING CHANGE') === 0
+            || strcasecmp($token, 'BREAKING-CHANGE') === 0
+        ) {
+            $token = self::TOKEN_BREAKING_CHANGE;
+        }
+
+        return $token;
     }
 }

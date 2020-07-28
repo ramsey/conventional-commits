@@ -19,22 +19,17 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\ConventionalCommits\Message;
+namespace Ramsey\ConventionalCommits\Console\Question;
+
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * A Conventional Commits body
- *
- * From the Conventional Commits 1.0.0 specification:
- *
- * > 6. A longer commit body MAY be provided after the short description,
- * > providing additional contextual information about the code changes. The
- * > body MUST begin one blank line after the description.
- * >
- * > 7. A commit body is free-form and MAY consist of any number of newline
- * > separated paragraphs.
- *
- * @link https://www.conventionalcommits.org/en/v1.0.0/#specification Conventional Commits
+ * A question asking the user whether the commit introduces any breaking changes
  */
-class Body extends Text
+class HasBreakingChangesQuestion extends ConfirmationQuestion
 {
+    public function __construct()
+    {
+        parent::__construct('Are there any breaking changes?', false);
+    }
 }

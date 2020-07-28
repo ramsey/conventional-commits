@@ -19,22 +19,32 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\ConventionalCommits\Message;
+namespace Ramsey\ConventionalCommits\Console\Question;
+
+use Ramsey\ConventionalCommits\Message\Body;
+use Symfony\Component\Console\Question\Question;
 
 /**
- * A Conventional Commits body
- *
- * From the Conventional Commits 1.0.0 specification:
- *
- * > 6. A longer commit body MAY be provided after the short description,
- * > providing additional contextual information about the code changes. The
- * > body MUST begin one blank line after the description.
- * >
- * > 7. A commit body is free-form and MAY consist of any number of newline
- * > separated paragraphs.
- *
- * @link https://www.conventionalcommits.org/en/v1.0.0/#specification Conventional Commits
+ * A prompt that accepts long-form body content for the commit message
  */
-class Body extends Text
+class BodyQuestion extends Question
 {
+    public function __construct()
+    {
+        parent::__construct(
+            'You may provide a longer description of the change '
+            . '<comment>(press enter to skip)</comment>',
+        );
+    }
+
+    public function getValidator(): callable
+    {
+        return function (?string $answer): ?Body {
+            if ($answer === null || strlen(trim($answer)) === 0) {
+                return null;
+            }
+
+            return new Body($answer);
+        };
+    }
 }

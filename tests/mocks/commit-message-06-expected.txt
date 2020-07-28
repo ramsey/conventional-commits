@@ -1,7 +1,5 @@
 feat!: this is a description
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pharetra
-quis massa ut elementum. Pellentesque dapibus ultricies pharetra. In in
-finibus massa.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pharetra quis massa ut elementum. Pellentesque dapibus ultricies pharetra. In in finibus massa.
 
 BREAKING CHANGE: this is a breaking change

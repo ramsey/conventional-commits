@@ -18,4 +18,9 @@
         </whitelist>
     </filter>
 
+    <php>
+        <!-- Turn off console color output for easier testing of output strings. -->
+        <env name="NO_COLOR" value="1"/>
+    </php>
+
 </phpunit>

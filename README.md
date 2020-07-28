@@ -54,7 +54,26 @@ property in your `captainhook.json` file:
         "enabled": true,
         "actions": [
             {
-                "action": "\\Ramsey\\CaptainHook\\ConventionalCommits"
+                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit"
+            }
+        ]
+    }
+}
+```
+
+### Preparing Commit Messages
+
+To use the CaptainHook plugin to prepare commit messages according to the
+Conventional Commits specification, add the following to the `prepare-commit-msg`
+property in your `captainhook.json` file:
+
+``` json
+{
+    "prepare-commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\PrepareConventionalCommit"
             }
         ]
     }

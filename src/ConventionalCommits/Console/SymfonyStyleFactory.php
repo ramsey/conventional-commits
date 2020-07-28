@@ -19,22 +19,19 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\ConventionalCommits\Message;
+namespace Ramsey\ConventionalCommits\Console;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * A Conventional Commits body
- *
- * From the Conventional Commits 1.0.0 specification:
- *
- * > 6. A longer commit body MAY be provided after the short description,
- * > providing additional contextual information about the code changes. The
- * > body MUST begin one blank line after the description.
- * >
- * > 7. A commit body is free-form and MAY consist of any number of newline
- * > separated paragraphs.
- *
- * @link https://www.conventionalcommits.org/en/v1.0.0/#specification Conventional Commits
+ * A factory useful for creating a SymfonyStyle instance
  */
-class Body extends Text
+class SymfonyStyleFactory
 {
+    public function factory(InputInterface $input, OutputInterface $output): SymfonyStyle
+    {
+        return new SymfonyStyle($input, $output);
+    }
 }

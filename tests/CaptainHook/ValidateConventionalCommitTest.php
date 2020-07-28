@@ -9,16 +9,17 @@ use CaptainHook\App\Config\Action as ConfigAction;
 use CaptainHook\App\Console\IO;
 use CaptainHook\App\Exception\ActionFailed;
 use Mockery\MockInterface;
-use Ramsey\CaptainHook\ConventionalCommits;
+use Ramsey\CaptainHook\ValidateConventionalCommit;
 use Ramsey\Test\RamseyTestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
+use Throwable;
 
-class ConventionalCommitsTest extends RamseyTestCase
+class ValidateConventionalCommitTest extends RamseyTestCase
 {
     public function testGetRestriction(): void
     {
-        $restriction = ConventionalCommits::getRestriction();
+        $restriction = ValidateConventionalCommit::getRestriction();
 
         $this->assertTrue($restriction->isApplicableFor('commit-msg'));
     }
@@ -48,7 +49,7 @@ class ConventionalCommitsTest extends RamseyTestCase
             ->getCommitMsg()
             ->andReturn($commitMessage);
 
-        $action = new ConventionalCommits();
+        $action = new ValidateConventionalCommit();
 
         $action->execute($config, $io, $repository, $configAction);
     }
@@ -58,9 +59,22 @@ class ConventionalCommitsTest extends RamseyTestCase
         /** @var Config & MockInterface $config */
         $config = $this->mockery(Config::class);
 
+        $output = '';
+
         /** @var IO & MockInterface $io */
-        $io = $this->mockery(IO::class);
-        $io->shouldReceive('writeError')->once();
+        $io = $this->mockery(IO::class, [
+            'isDebug' => false,
+            'isVeryVerbose' => false,
+            'isVerbose' => false,
+        ]);
+
+        $io->shouldReceive('write')->andReturnUsing(
+            function (string $value) use (&$output): void {
+                if (trim($value) !== '') {
+                    $output .= trim($value) . ' ';
+                }
+            },
+        );
 
         /** @var ConfigAction & MockInterface $configAction */
         $configAction = $this->mockery(ConfigAction::class);
@@ -70,7 +84,7 @@ class ConventionalCommitsTest extends RamseyTestCase
         $commitMessage
             ->expects()
             ->getContent()
-            ->twice()
+            ->once()
             ->andReturn('not a valid commit message');
 
         /** @var Repository & MockInterface $repository */
@@ -80,11 +94,26 @@ class ConventionalCommitsTest extends RamseyTestCase
             ->getCommitMsg()
             ->andReturn($commitMessage);
 
-        $action = new ConventionalCommits();
+        $action = new ValidateConventionalCommit();
 
-        $this->expectException(ActionFailed::class);
-        $this->expectExceptionMessage('Validation failed');
+        $exception = null;
 
-        $action->execute($config, $io, $repository, $configAction);
+        try {
+            $action->execute($config, $io, $repository, $configAction);
+        } catch (Throwable $exception) {
+            // Do nothing.
+        }
+
+        // We do not use the expectException() or expectExceptionMessage()
+        // assertions here because we want to assert the content of $output.
+        $this->assertInstanceOf(ActionFailed::class, $exception);
+        $this->assertSame('Validation failed', $exception->getMessage());
+        $this->assertSame(
+            '[ERROR] Invalid Commit Message The commit message is '
+            . 'not properly formatted according to the Conventional '
+            . 'Commits specification. For more details, see '
+            . 'https://www.conventionalcommits.org/en/v1.0.0/',
+            trim($output),
+        );
     }
 }

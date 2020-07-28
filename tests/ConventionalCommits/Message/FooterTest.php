@@ -35,6 +35,7 @@ class FooterTest extends RamseyTestCase
             ['invalidToken' => "foo\tbar"],
             ['invalidToken' => "foobar\t"],
             ['invalidToken' => "\tfoobar"],
+            ['invalidToken' => ''],
         ];
     }
 
@@ -72,6 +73,7 @@ class FooterTest extends RamseyTestCase
             ['invalidValue' => "some value\naToken: a footer within a value\nMore of the value"],
             ['invalidValue' => "some value\raToken: a footer within a value\rMore of the value"],
             ['invalidValue' => "some value\r\naToken: a footer within a value\r\nMore of the value"],
+            ['invalidValue' => ''],
         ];
     }
 
@@ -163,7 +165,7 @@ class FooterTest extends RamseyTestCase
     public function testThrowsExceptionForInvalidValue(string $invalidValue): void
     {
         $this->expectException(InvalidArgument::class);
-        $this->expectExceptionMessage('Value contains unexpected footer tokens');
+        $this->expectExceptionMessage('Value is invalid');
 
         new Footer('aToken', $invalidValue);
     }
