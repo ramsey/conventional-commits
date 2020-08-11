@@ -1,28 +1,24 @@
-# ramsey/conventional-commits
+<h1 align="center">ramsey/conventional-commits</h1>
 
-[![Source Code][badge-source]][source]
-[![Latest Version][badge-release]][packagist]
-[![Software License][badge-license]][license]
-[![PHP Version][badge-php]][php]
-[![Build Status][badge-build]][build]
-[![Coverage Status][badge-coverage]][coverage]
-[![Total Downloads][badge-downloads]][downloads]
+<p align="center">
+    <strong>A PHP library for creating and validating commit messages.</strong>
+</p>
 
-[badge-source]: http://img.shields.io/badge/source-ramsey/conventional--commits-blue.svg?style=flat-square
-[badge-release]: https://img.shields.io/packagist/v/ramsey/conventional-commits.svg?style=flat-square&label=release
-[badge-license]: https://img.shields.io/packagist/l/ramsey/conventional-commits.svg?style=flat-square
-[badge-php]: https://img.shields.io/packagist/php-v/ramsey/conventional-commits.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/ramsey/conventional-commits/master.svg?style=flat-square
-[badge-coverage]: https://img.shields.io/coveralls/github/ramsey/conventional-commits/master.svg?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/ramsey/conventional-commits.svg?style=flat-square&colorB=mediumvioletred
+<p align="center">
+    <a href="https://github.com/ramsey/conventional-commits"><img src="http://img.shields.io/badge/source-ramsey/conventional--commits-blue.svg?style=flat-square" alt="Source Code"></a>
+    <a href="https://packagist.org/packages/ramsey/conventional-commits"><img src="https://img.shields.io/packagist/v/ramsey/conventional-commits.svg?style=flat-square&label=release" alt="Download Package"></a>
+    <a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/ramsey/conventional-commits.svg?style=flat-square&colorB=%238892BF" alt="PHP Programming Language"></a>
+    <br>
+    <a href="https://github.com/ramsey/conventional-commits/actions?query=workflow%3Amain"><img src="https://img.shields.io/github/workflow/status/ramsey/conventional-commits/main?logo=github&style=flat-square" alt="Build Status"></a>
+    <a href="https://codeclimate.com/github/ramsey/conventional-commits"><img src="https://img.shields.io/codeclimate/coverage/ramsey/conventional-commits?logo=Code%20Climate&style=flat-square" alt="Code Coverage"></a>
+    <a href="https://codeclimate.com/github/ramsey/conventional-commits"><img src="https://img.shields.io/codeclimate/coverage-letter/ramsey/conventional-commits?label=maintainability&logo=Code%20Climate&style=flat-square" alt="Maintainability"></a>
+    <br>
+    <a href="https://github.com/ramsey/conventional-commits/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/conventional-commits.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
+    <a href="https://packagist.org/packages/ramsey/conventional-commits/stats"><img src="https://img.shields.io/packagist/dt/ramsey/conventional-commits.svg?style=flat-square&colorB=darkmagenta" alt="Package downloads on Packagist"></a>
+    <a href="https://phpc.chat/channel/ramsey"><img src="https://img.shields.io/badge/phpc.chat-%23ramsey-darkslateblue?style=flat-square" alt="Chat with the maintainers"></a>
+</p>
 
-[source]: https://github.com/ramsey/conventional-commits
-[packagist]: https://packagist.org/packages/ramsey/conventional-commits
-[license]: https://github.com/ramsey/conventional-commits/blob/master/LICENSE
-[php]: https://php.net
-[build]: https://travis-ci.org/ramsey/conventional-commits
-[coverage]: https://coveralls.io/r/ramsey/conventional-commits?branch=master
-[downloads]: https://packagist.org/packages/ramsey/conventional-commits
+## About
 
 ramsey/conventional-commits is a PHP library for creating and validating commit
 messages according to the [Conventional Commits specification][]. It also
