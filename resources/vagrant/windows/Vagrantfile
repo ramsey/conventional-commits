@@ -2,12 +2,12 @@
 # vi: set ft=ruby :
 
 $script = <<-SCRIPT
-choco install composer php unzip --no-progress -y
+choco install composer php unzip git.install vim --no-progress -y
 Invoke-WebRequest -Uri https://windows.php.net/downloads/pecl/releases/pcov/1.0.6/php_pcov-1.0.6-7.4-nts-vc15-x64.zip -UseBasicParsing -OutFile C:\\temp\\php_pcov.zip
 unzip C:\\temp\\php_pcov.zip -d C:\\temp\\php_pcov
 move C:\\temp\\php_pcov\\php_pcov.dll C:\\tools\\php74\\ext\\php_pcov.dll
 Add-Content C:\\tools\\php74\\php.ini "`nextension=pcov"
-composer self-update --preview
+C:\\ProgramData\\ComposerSetup\\bin\\composer self-update --preview
 SCRIPT
 
 Vagrant.configure("2") do |config|
