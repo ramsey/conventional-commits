@@ -43,7 +43,7 @@ class Parser
         . "(?'type'(?P>noun))"
         . "(?:\((?'scope'(?P>noun))\))?(?'bc'!)?: "
         . "(?'desc'[[:print:]]+)"
-        . "(?:(?:\\n|\\r|\\r\\n){2}"
+        . "(?:(?:\n{2}|\r{2}|(?:\r\n){2})"
         . "(?'body'.*?(?=(?P>tokenPrefix)|\$))?"
         . "(?:(?=(?P>tokenPrefix))(?'footer'.*))?)?\$/ius";
 
@@ -59,6 +59,8 @@ class Parser
      */
     public function parse(string $commitMessage): Message
     {
+        $commitMessage = trim($commitMessage);
+
         if (!preg_match(self::COMMIT_PATTERN, $commitMessage, $matches)) {
             throw new InvalidCommitMessage(
                 'Could not find a valid Conventional Commits message',

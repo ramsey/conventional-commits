@@ -30,6 +30,8 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+use const PHP_EOL;
+
 class PrepareCommandTest extends RamseyTestCase
 {
     public function testCommandName(): void
@@ -60,6 +62,9 @@ class PrepareCommandTest extends RamseyTestCase
             See-also: abcdef0123456789
 
             EOD;
+
+        // Fix line endings in case running tests on Windows.
+        $expectedMessage = preg_replace('/(?<!\r)\n/', PHP_EOL, $expectedMessage);
 
         $input = new StringInput('');
         $output = new NullOutput();
@@ -162,6 +167,9 @@ class PrepareCommandTest extends RamseyTestCase
             feat: this is a commit summary
 
             EOD;
+
+        // Fix line endings in case running tests on Windows.
+        $expectedMessage = preg_replace('/(?<!\r)\n/', PHP_EOL, $expectedMessage);
 
         $input = new StringInput('');
         $output = new NullOutput();

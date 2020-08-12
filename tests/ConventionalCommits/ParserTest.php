@@ -8,6 +8,8 @@ use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
 use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Test\RamseyTestCase;
 
+use const PHP_EOL;
+
 class ParserTest extends RamseyTestCase
 {
     /**
@@ -57,6 +59,10 @@ class ParserTest extends RamseyTestCase
         $rawMessage = (string) file_get_contents($rawMessageFile);
         $expectedMessage = (string) file_get_contents($expectedMessageFile);
 
+        // Fix line endings in case running tests on Windows.
+        $rawMessage = (string) preg_replace('/(?<!\r)\n/', PHP_EOL, $rawMessage);
+        $expectedMessage = (string) preg_replace('/(?<!\r)\n/', PHP_EOL, $expectedMessage);
+
         $parser = new Parser();
         $commit = $parser->parse($rawMessage);
 
@@ -87,6 +93,10 @@ class ParserTest extends RamseyTestCase
     public function testInvalidCommitMessageThrowsException(string $invalidMessageFile): void
     {
         $invalidMessage = (string) file_get_contents($invalidMessageFile);
+
+        // Fix line endings in case running tests on Windows.
+        $invalidMessage = (string) preg_replace('/(?<!\r)\n/', PHP_EOL, $invalidMessage);
+
         $parser = new Parser();
 
         $this->expectException(InvalidCommitMessage::class);
