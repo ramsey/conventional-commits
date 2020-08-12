@@ -50,11 +50,14 @@ jobs:
             - name: Install dependencies
               run: composer install --no-interaction --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
 
-            - name: Analyze & test
-              run: |
-                  composer br:lint
-                  composer br:analyze
-                  composer br:test:coverage:ci -- --coverage-text
+            - name: Enforce coding standards
+              run: composer br:lint
+
+            - name: Analyze the code for type safety issues, etc.
+              run: composer br:analyze
+
+            - name: Run unit tests
+              run: composer br:test:coverage:ci -- --coverage-text
 
             - name: Publish code coverage
               uses: paambaati/codeclimate-action@v2.6.0 # https://github.com/paambaati/codeclimate-action
