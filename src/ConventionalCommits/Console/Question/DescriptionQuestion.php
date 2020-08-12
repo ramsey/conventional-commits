@@ -35,6 +35,10 @@ class DescriptionQuestion extends Question
     public function __construct()
     {
         parent::__construct('Write a short description of the change');
+
+        if (method_exists($this, 'setMultiline')) {
+            $this->setMultiline(true);
+        }
     }
 
     public function getValidator(): callable
