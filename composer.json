@@ -59,6 +59,9 @@
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
         ]
     },
+    "bin": [
+        "bin/conventional-commits"
+    ],
     "scripts": {
         "post-autoload-dump": "captainhook install --ansi -f -s",
         "br:analyze": [

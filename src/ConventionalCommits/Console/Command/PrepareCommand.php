@@ -76,10 +76,11 @@ class PrepareCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Prepares a commit message.')
+            ->setDescription('Prepares a commit message conforming to Conventional Commits')
             ->setHelp(
-                'This command helps prepare a commit message according to the '
-                . 'Conventional Commits specification.',
+                'This command interactively helps prepare a commit message '
+                . 'according to the Conventional Commits specification. For more '
+                . 'information, see https://www.conventionalcommits.org.',
             );
     }
 

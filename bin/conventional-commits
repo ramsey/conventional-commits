@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * This file is part of ramsey/conventional-commits
+ *
+ * ramsey/conventional-commits is open source software: you can distribute it
+ * and/or modify it under the terms of the MIT License (the "License"). You may
+ * not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
+ * @license https://opensource.org/licenses/MIT MIT License
+ */
+
+declare(strict_types=1);
+
+use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+(static function (array $argv): void {
+    $composerAutoloadLocations = [
+        __DIR__ . '/../autoload.php',
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/../../../autoload.php',
+    ];
+
+    foreach ($composerAutoloadLocations as $file) {
+        if (file_exists($file)) {
+            $composerAutoloader = $file;
+
+            break;
+        }
+    }
+    unset($file);
+
+    if (!isset($composerAutoloader)) {
+        fwrite(
+            STDERR,
+            'To execute this command, please install Composer and run \'composer install\'.' . PHP_EOL
+            . 'For more information, go to https://getcomposer.org' . PHP_EOL,
+        );
+
+        exit(1);
+    }
+
+    require $composerAutoloader;
+
+    $application = new Application('Conventional Commits');
+    $application->add(new PrepareCommand());
+    $application->run(new ArgvInput($argv));
+})($argv);
