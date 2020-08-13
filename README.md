@@ -38,6 +38,19 @@ composer require ramsey/conventional-commits
 
 ## Usage
 
+To use the `conventional-commits` console command to help you prepare commit
+messages according to Conventional Commits, enter the following in your console:
+
+``` bash
+./vendor/bin/conventional-commits prepare
+```
+
+To see all the features of the console command, enter:
+
+``` bash
+./vendor/bin/conventional-commits
+```
+
 ### Validating Commit Messages
 
 To use the CaptainHook plugin to validate commit messages according to the
@@ -58,6 +71,9 @@ property in your `captainhook.json` file:
 ```
 
 ### Preparing Commit Messages
+
+You can set up this library to prompt you to prepare commit messages when you
+use `git commit`!
 
 To use the CaptainHook plugin to prepare commit messages according to the
 Conventional Commits specification, add the following to the `prepare-commit-msg`
