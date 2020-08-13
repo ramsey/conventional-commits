@@ -21,13 +21,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
-## [1.0.0] - YYYY-MM-DD
+## [1.0.0] - 2020-08-12
+
+Initial release
 
 ### Added
 
-* Feature A description
-* Feature B description
-* Feature C description
+* **parser:** implement Conventional Commits parser
+* **console:** add console command with prompts to prepare commit messages
+* **hook:** expose a CaptainHook plugin to validate Conventional Commit messages
+* **hook:** expose a CaptainHook plugin to prepare Conventional Commit messages
 
 
 [Unreleased]: https://github.com/ramsey/conventional-commits/compare/1.0.0...HEAD
