@@ -8,11 +8,11 @@ use CaptainHook\App\Console\IO;
 use InvalidArgumentException;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\Input;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputDefinition;
 
-class InputTest extends RamseyTestCase
+class InputTest extends TestCase
 {
     private Input $input;
 

@@ -57,7 +57,7 @@ class ValidateConventionalCommit implements Action, Constrained
         Config $config,
         IO $io,
         Repository $repository,
-        ActionConfig $actionConfig
+        ActionConfig $action
     ): void {
         $message = $repository->getCommitMsg();
         $parser = new Parser();

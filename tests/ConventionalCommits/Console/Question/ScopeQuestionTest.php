@@ -7,9 +7,9 @@ namespace Ramsey\Test\ConventionalCommits\Console\Question;
 use Ramsey\ConventionalCommits\Console\Question\ScopeQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Scope;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
-class ScopeQuestionTest extends RamseyTestCase
+class ScopeQuestionTest extends TestCase
 {
     public function testQuestion(): void
     {

@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Console\Command;
 
+use Closure;
 use Ramsey\ConventionalCommits\Console\Question\AddFootersQuestion;
 use Ramsey\ConventionalCommits\Console\Question\AffectsOpenIssuesQuestion;
 use Ramsey\ConventionalCommits\Console\Question\BodyQuestion;
@@ -156,35 +157,33 @@ class PrepareCommand extends Command
 
         $footers = array_merge($footers, $this->askFooterQuestionSection(
             $console,
-            AffectsOpenIssuesQuestion::class,
-            IssueTypeQuestion::class,
-            IssueIdentifierQuestion::class,
+            new AffectsOpenIssuesQuestion(),
+            new IssueTypeQuestion(),
+            fn (string $token): Question => new IssueIdentifierQuestion($token),
         ));
 
         $footers = array_merge($footers, $this->askFooterQuestionSection(
             $console,
-            AddFootersQuestion::class,
-            FooterTokenQuestion::class,
-            FooterValueQuestion::class,
+            new AddFootersQuestion(),
+            new FooterTokenQuestion(),
+            fn (string $token): Question => new FooterValueQuestion($token),
         ));
 
         return $footers;
     }
 
     /**
-     * @param class-string<Question> $decisionPathQuestionClass
-     * @param class-string<Question> $tokenQuestionClass
-     * @param class-string<Question> $valueQuestionClass
-     *
      * @return Footer[]
+     *
+     * @psalm-param Closure(string):Question $valueQuestionCallback
      */
     private function askFooterQuestionSection(
         SymfonyStyle $console,
-        string $decisionPathQuestionClass,
-        string $tokenQuestionClass,
-        string $valueQuestionClass
+        Question $decisionPathQuestion,
+        Question $tokenQuestion,
+        Closure $valueQuestionCallback
     ): array {
-        if (!$console->askQuestion(new $decisionPathQuestionClass())) {
+        if (!$console->askQuestion($decisionPathQuestion)) {
             return [];
         }
 
@@ -192,7 +191,7 @@ class PrepareCommand extends Command
 
         do {
             /** @var Footer|null $footer */
-            $footer = $this->askFooterQuestion($console, $tokenQuestionClass, $valueQuestionClass);
+            $footer = $this->askFooterQuestion($console, $tokenQuestion, $valueQuestionCallback);
 
             if ($footer !== null) {
                 $footers[] = $footer;
@@ -203,23 +202,22 @@ class PrepareCommand extends Command
     }
 
     /**
-     * @param class-string<Question> $tokenQuestionClass
-     * @param class-string<Question> $valueQuestionClass
+     * @psalm-param Closure(string):Question $valueQuestionCallback
      */
     private function askFooterQuestion(
         SymfonyStyle $console,
-        string $tokenQuestionClass,
-        string $valueQuestionClass
+        Question $tokenQuestion,
+        Closure $valueQuestionCallback
     ): ?Footer {
         /** @var string|null $token */
-        $token = $console->askQuestion(new $tokenQuestionClass());
+        $token = $console->askQuestion($tokenQuestion);
 
         if ($token === null) {
             return null;
         }
 
         /** @var Footer|null $footer */
-        $footer = $console->askQuestion(new $valueQuestionClass($token));
+        $footer = $console->askQuestion($valueQuestionCallback($token));
 
         return $footer;
     }

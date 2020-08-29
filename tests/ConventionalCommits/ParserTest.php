@@ -6,11 +6,11 @@ namespace Ramsey\Test\ConventionalCommits;
 
 use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
 use Ramsey\ConventionalCommits\Parser;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
 use const PHP_EOL;
 
-class ParserTest extends RamseyTestCase
+class ParserTest extends TestCase
 {
     /**
      * @return array<array{rawMessageFile: string, expectedMessageFile: string}>

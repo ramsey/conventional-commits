@@ -6,9 +6,9 @@ namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Console\Question\FooterTokenQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
-class FooterTokenQuestionTest extends RamseyTestCase
+class FooterTokenQuestionTest extends TestCase
 {
     public function testQuestion(): void
     {

@@ -7,10 +7,10 @@ namespace Ramsey\Test\CaptainHook;
 use CaptainHook\App\Console\IO;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\Output;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OutputTest extends RamseyTestCase
+class OutputTest extends TestCase
 {
     public function testDebugVerbosity(): void
     {

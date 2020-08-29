@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Message\Body;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
 use const PHP_EOL;
 
-class BodyTest extends RamseyTestCase
+class BodyTest extends TestCase
 {
     public function testBody(): void
     {

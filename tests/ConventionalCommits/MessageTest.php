@@ -10,12 +10,12 @@ use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
+use Ramsey\Dev\Tools\TestCase;
 use Ramsey\Test\ConventionalCommits\Message\BodyTest;
-use Ramsey\Test\RamseyTestCase;
 
 use const PHP_EOL;
 
-class MessageTest extends RamseyTestCase
+class MessageTest extends TestCase
 {
     public function testBasicCommit(): void
     {

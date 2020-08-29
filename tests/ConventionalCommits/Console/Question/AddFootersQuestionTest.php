@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Console\Question\AddFootersQuestion;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
-class AddFootersQuestionTest extends RamseyTestCase
+class AddFootersQuestionTest extends TestCase
 {
     public function testQuestion(): void
     {

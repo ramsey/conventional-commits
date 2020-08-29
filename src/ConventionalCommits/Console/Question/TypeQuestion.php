@@ -50,7 +50,7 @@ class TypeQuestion extends Question
         };
     }
 
-    public function getAutocompleterCallback(): ?callable
+    public function getAutocompleterCallback(): callable
     {
         return fn (): iterable => ['feat', 'fix'];
     }

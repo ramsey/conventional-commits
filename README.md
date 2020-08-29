@@ -8,11 +8,9 @@
     <a href="https://github.com/ramsey/conventional-commits"><img src="http://img.shields.io/badge/source-ramsey/conventional--commits-blue.svg?style=flat-square" alt="Source Code"></a>
     <a href="https://packagist.org/packages/ramsey/conventional-commits"><img src="https://img.shields.io/packagist/v/ramsey/conventional-commits.svg?style=flat-square&label=release" alt="Download Package"></a>
     <a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/ramsey/conventional-commits.svg?style=flat-square&colorB=%238892BF" alt="PHP Programming Language"></a>
-    <br>
     <a href="https://github.com/ramsey/conventional-commits/actions?query=workflow%3Amain"><img src="https://img.shields.io/github/workflow/status/ramsey/conventional-commits/main?logo=github&style=flat-square" alt="Build Status"></a>
-    <a href="https://codeclimate.com/github/ramsey/conventional-commits"><img src="https://img.shields.io/codeclimate/coverage/ramsey/conventional-commits?logo=Code%20Climate&style=flat-square" alt="Code Coverage"></a>
-    <a href="https://codeclimate.com/github/ramsey/conventional-commits"><img src="https://img.shields.io/codeclimate/coverage-letter/ramsey/conventional-commits?label=maintainability&logo=Code%20Climate&style=flat-square" alt="Maintainability"></a>
-    <br>
+    <a href="https://codecov.io/gh/ramsey/conventional-commits"><img src="https://img.shields.io/codecov/c/gh/ramsey/conventional-commits?label=codecov&logo=codecov&style=flat-square" alt="Codecov Code Coverage"></a>
+    <a href="https://shepherd.dev/github/ramsey/conventional-commits"><img src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Framsey%2Fconventional-commits%2Fcoverage" alt="Psalm Type Coverage"></a>
     <a href="https://github.com/ramsey/conventional-commits/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/conventional-commits.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
     <a href="https://packagist.org/packages/ramsey/conventional-commits/stats"><img src="https://img.shields.io/packagist/dt/ramsey/conventional-commits.svg?style=flat-square&colorB=darkmagenta" alt="Package downloads on Packagist"></a>
     <a href="https://phpc.chat/channel/ramsey"><img src="https://img.shields.io/badge/phpc.chat-%23ramsey-darkslateblue?style=flat-square" alt="Chat with the maintainers"></a>
@@ -30,10 +28,11 @@ uphold this code.
 
 ## Installation
 
-Install this package as a dependency using [Composer](https://getcomposer.org).
+Install this package as a development dependency using
+[Composer](https://getcomposer.org).
 
 ``` bash
-composer require ramsey/conventional-commits
+composer require --dev ramsey/conventional-commits
 ```
 
 ## Usage
@@ -116,37 +115,11 @@ to validate all staged changes prior to commit.
 
 #### Composer Commands
 
-To see all the commands available in the project `br` namespace for
+To see all the commands available in the project `dev` namespace for
 Composer, type:
 
 ``` bash
-composer list br
-```
-
-##### Composer Command Autocompletion
-
-If you'd like to have Composer command auto-completion, you may use
-[bamarni/symfony-console-autocomplete](https://github.com/bamarni/symfony-console-autocomplete).
-Install it globally with Composer:
-
-``` bash
-composer global require bamarni/symfony-console-autocomplete
-```
-
-Then, in your shell configuration file — usually `~/.bash_profile` or `~/.zshrc`,
-but it could be different depending on your settings — ensure that your global
-Composer `bin` directory is in your `PATH`, and evaluate the
-`symfony-autocomplete` command. This will look like this:
-
-``` bash
-export PATH="$(composer config home)/vendor/bin:$PATH"
-eval "$(symfony-autocomplete)"
-```
-
-Now, you can use the `tab` key to auto-complete Composer commands:
-
-``` bash
-composer br:[TAB][TAB]
+composer list dev
 ```
 
 #### Coding Standards
@@ -164,10 +137,10 @@ commands:
 
 ``` bash
 # Lint
-composer br:lint
+composer dev:lint
 
 # Lint and autofix
-composer br:lint:fix
+composer dev:lint:fix
 ```
 
 #### Static Analysis
@@ -186,22 +159,13 @@ following command:
 
 ``` bash
 # Static analysis
-composer br:analyze
+composer dev:analyze
 ```
 
-### Project Structure
+#### Project Structure
 
 This project uses [pds/skeleton](https://github.com/php-pds/skeleton) as its
 base folder structure and layout.
-
-| Name              | Description                                    |
-| ------------------| ---------------------------------------------- |
-| **bin/**          | Commands and scripts for this project          |
-| **build/**        | Cache, logs, reports, etc. for project builds  |
-| **docs/**         | Project-specific documentation                 |
-| **resources/**    | Additional resources for this project          |
-| **src/**          | Project library and application source code    |
-| **tests/**        | Tests for this project                         |
 
 ## Copyright and License
 

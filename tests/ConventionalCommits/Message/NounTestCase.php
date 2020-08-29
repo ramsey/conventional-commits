@@ -6,11 +6,11 @@ namespace Ramsey\Test\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Message\Noun;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
 use function trim;
 
-abstract class NounTestCase extends RamseyTestCase
+abstract class NounTestCase extends TestCase
 {
     /**
      * @return class-string<Noun>

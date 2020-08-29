@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Console\Question\HasBreakingChangesQuestion;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
-class HasBreakingChangesQuestionTest extends RamseyTestCase
+class HasBreakingChangesQuestionTest extends TestCase
 {
     public function testQuestion(): void
     {

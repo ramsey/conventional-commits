@@ -6,9 +6,9 @@ namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Console\Question\BodyQuestion;
 use Ramsey\ConventionalCommits\Message\Body;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
-class BodyQuestionTest extends RamseyTestCase
+class BodyQuestionTest extends TestCase
 {
     public function testQuestion(): void
     {

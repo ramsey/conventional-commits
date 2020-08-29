@@ -7,9 +7,9 @@ namespace Ramsey\Test\ConventionalCommits\Console\Question;
 use Ramsey\ConventionalCommits\Console\Question\TypeQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Type;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
-class TypeQuestionTest extends RamseyTestCase
+class TypeQuestionTest extends TestCase
 {
     public function testQuestion(): void
     {

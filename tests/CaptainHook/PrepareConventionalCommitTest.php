@@ -14,11 +14,11 @@ use Ramsey\CaptainHook\Output;
 use Ramsey\CaptainHook\PrepareConventionalCommit;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use Ramsey\ConventionalCommits\Message;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 
-class PrepareConventionalCommitTest extends RamseyTestCase
+class PrepareConventionalCommitTest extends TestCase
 {
     public function testGetRestriction(): void
     {

@@ -83,7 +83,7 @@ To run all the tests and coding standards checks, execute the following from the
 command line, while in the project root directory:
 
 ```
-composer br:test:all
+composer test
 ```
 
 

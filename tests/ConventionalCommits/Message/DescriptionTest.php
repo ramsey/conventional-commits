@@ -6,9 +6,9 @@ namespace Ramsey\Test\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Message\Description;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
-class DescriptionTest extends RamseyTestCase
+class DescriptionTest extends TestCase
 {
     /**
      * @return array<array{invalidDescription: string}>

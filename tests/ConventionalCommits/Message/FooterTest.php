@@ -6,11 +6,11 @@ namespace Ramsey\Test\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Message\Footer;
-use Ramsey\Test\RamseyTestCase;
+use Ramsey\Dev\Tools\TestCase;
 
 use function trim;
 
-class FooterTest extends RamseyTestCase
+class FooterTest extends TestCase
 {
     /**
      * @return array<array{invalidToken: string}>

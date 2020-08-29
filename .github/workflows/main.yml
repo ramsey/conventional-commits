@@ -1,6 +1,11 @@
 name: main
 
-on: [push, pull_request]
+on:
+    push:
+        branches:
+            - master
+        tags:
+    pull_request:
 
 jobs:
 
@@ -50,21 +55,12 @@ jobs:
             - name: Install dependencies
               run: composer install --no-interaction --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
 
-            - name: Enforce coding standards
-              run: composer br:lint
+            - name: Analyze & test
+              run: |
+                  composer dev:lint
+                  composer dev:analyze:phpstan
+                  composer dev:analyze:psalm -- --shepherd
+                  composer dev:test:coverage:ci -- --coverage-text
 
-            - name: Analyze the code for type safety issues, etc.
-              run: composer br:analyze
-
-            - name: Run unit tests
-              run: composer br:test:coverage:ci -- --coverage-text
-
-            - name: Publish code coverage
-              uses: paambaati/codeclimate-action@v2.6.0 # https://github.com/paambaati/codeclimate-action
-              with:
-                  # Action requires coverageCommand, but we ran it in the previous step.
-                  coverageCommand: echo "Sending coverage to Code Climate"
-                  coverageLocations: ${{github.workspace}}/build/logs/clover.xml:clover
-              env:
-                  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-              continue-on-error: true
+            - name: Publish code coverage to Codecov
+              uses: codecov/codecov-action@v1
