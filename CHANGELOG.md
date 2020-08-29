@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [1.0.1] - 2020-08-28
+
+### Fixed
+
+* **refactor:** add ramsey/devtools to the project and refactor accordingly
+
+
 ## [1.0.0] - 2020-08-12
 
 Initial release
@@ -33,5 +40,6 @@ Initial release
 * **hook:** expose a CaptainHook plugin to prepare Conventional Commit messages
 
 
-[Unreleased]: https://github.com/ramsey/conventional-commits/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/ramsey/conventional-commits/compare/1.0.1...HEAD
+[1.0.1]: https://github.com/ramsey/conventional-commits/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/ramsey/conventional-commits/commits/1.0.0
