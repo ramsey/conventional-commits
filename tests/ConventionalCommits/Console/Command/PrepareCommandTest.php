@@ -30,6 +30,9 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+use function anInstanceOf;
+use function preg_replace;
+
 use const PHP_EOL;
 
 class PrepareCommandTest extends TestCase

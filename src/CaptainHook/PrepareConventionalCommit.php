@@ -32,6 +32,8 @@ use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 
+use function trim;
+
 /**
  * During the prepare-commit-msg Git hook, this prompts the user for input and
  * builds a valid Conventional Commits commit message

@@ -18,6 +18,8 @@ use Ramsey\Dev\Tools\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 
+use function anInstanceOf;
+
 class PrepareConventionalCommitTest extends TestCase
 {
     public function testGetRestriction(): void

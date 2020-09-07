@@ -28,6 +28,8 @@ use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
 use Stringable;
 
+use function count;
+
 use const PHP_EOL;
 
 /**

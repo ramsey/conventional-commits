@@ -8,6 +8,9 @@ use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
 use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Dev\Tools\TestCase;
 
+use function file_get_contents;
+use function preg_replace;
+
 use const PHP_EOL;
 
 class ParserTest extends TestCase

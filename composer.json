@@ -27,7 +27,7 @@
         "symfony/polyfill-php80": "^1.17"
     },
     "require-dev": {
-        "ramsey/devtools": "^1.1"
+        "ramsey/devtools": "^1.4"
     },
     "config": {
         "sort-packages": true
@@ -36,7 +36,9 @@
         "branch-alias": {
             "dev-master": "1.x-dev"
         },
-        "command-prefix": "dev"
+        "ramsey/devtools": {
+            "command-prefix": "dev"
+        }
     },
     "autoload": {
         "psr-4": {

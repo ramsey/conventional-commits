@@ -26,6 +26,8 @@ use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Description;
 use Symfony\Component\Console\Question\Question;
 
+use function method_exists;
+
 /**
  * A prompt asking the user to provide a short description (or subject)
  * for the commit message

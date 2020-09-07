@@ -27,6 +27,8 @@ use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 
+use function reset;
+
 /**
  * Wraps CaptainHook console IO for use with symfony/console
  */

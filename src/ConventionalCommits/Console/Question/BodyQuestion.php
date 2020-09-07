@@ -24,6 +24,9 @@ namespace Ramsey\ConventionalCommits\Console\Question;
 use Ramsey\ConventionalCommits\Message\Body;
 use Symfony\Component\Console\Question\Question;
 
+use function strlen;
+use function trim;
+
 /**
  * A prompt that accepts long-form body content for the commit message
  */

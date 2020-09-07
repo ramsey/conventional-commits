@@ -1,5 +1,4 @@
-captainhook.config.json
-composer.lock
-phpcs.xml
-phpunit.xml
-vendor/
+/captainhook.config.json
+/phpcs.xml
+/phpunit.xml
+/vendor/

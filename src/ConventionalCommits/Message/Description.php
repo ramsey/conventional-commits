@@ -24,6 +24,7 @@ namespace Ramsey\ConventionalCommits\Message;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 
 use function preg_match;
+use function trim;
 
 /**
  * A Conventional Commits body

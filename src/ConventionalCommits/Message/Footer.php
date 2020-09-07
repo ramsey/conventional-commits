@@ -27,6 +27,7 @@ use function implode;
 use function in_array;
 use function preg_match;
 use function sprintf;
+use function strcasecmp;
 use function trim;
 
 use const PHP_EOL;

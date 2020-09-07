@@ -15,6 +15,8 @@ use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 use Throwable;
 
+use function trim;
+
 class ValidateConventionalCommitTest extends TestCase
 {
     public function testGetRestriction(): void

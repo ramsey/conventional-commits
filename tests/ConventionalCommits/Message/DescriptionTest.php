@@ -8,6 +8,8 @@ use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\Dev\Tools\TestCase;
 
+use function trim;
+
 class DescriptionTest extends TestCase
 {
     /**

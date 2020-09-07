@@ -26,6 +26,9 @@ use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
+use function strlen;
+use function trim;
+
 /**
  * A prompt asking the user to enter a footer token
  */

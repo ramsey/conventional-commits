@@ -26,6 +26,9 @@ use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
+use function strlen;
+use function trim;
+
 /**
  * A prompt asking the user to enter the relationship of this commit to
  * the issue tracker issue/ticket (i.e., "fix", "re", etc.)
