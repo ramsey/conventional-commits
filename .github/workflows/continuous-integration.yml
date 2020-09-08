@@ -119,6 +119,7 @@ jobs:
     name: "Unit Tests"
 
     runs-on: ${{ matrix.operating-system }}
+    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: false
@@ -135,6 +136,7 @@ jobs:
         include:
           - php: "8.0"
             composer-options: "--ignore-platform-reqs"
+            experimental: true
 
     steps:
       - name: "Configure Git"
