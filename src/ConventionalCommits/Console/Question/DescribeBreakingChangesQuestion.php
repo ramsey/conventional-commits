@@ -23,6 +23,7 @@ namespace Ramsey\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
@@ -42,8 +43,8 @@ class DescribeBreakingChangesQuestion extends Question
         return function (?string $answer): Footer {
             try {
                 return new Footer(Footer::TOKEN_BREAKING_CHANGE, (string) $answer);
-            } catch (InvalidArgument $exception) {
-                throw new InvalidConsoleInput('Invalid description. Please try again.');
+            } catch (InvalidArgument | InvalidValue $exception) {
+                throw new InvalidConsoleInput('Invalid breaking changes value. ' . $exception->getMessage());
             }
         };
     }

@@ -12,6 +12,7 @@ use Mockery\MockInterface;
 use Ramsey\CaptainHook\Input;
 use Ramsey\CaptainHook\Output;
 use Ramsey\CaptainHook\PrepareConventionalCommit;
+use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use Ramsey\ConventionalCommits\Message;
 use Ramsey\Dev\Tools\TestCase;
@@ -91,6 +92,7 @@ class PrepareConventionalCommitTest extends TestCase
                 anInstanceOf(Output::class),
             );
 
+        $prepareCommand->expects()->setConfiguration(anInstanceOf(DefaultConfiguration::class));
         $prepareCommand->expects()->getMessage()->andReturnNull();
 
         /** @var Config & MockInterface $config */
@@ -110,7 +112,9 @@ class PrepareConventionalCommitTest extends TestCase
         ]);
 
         /** @var ActionConfig & MockInterface $actionConfig */
-        $actionConfig = $this->mockery(ActionConfig::class);
+        $actionConfig = $this->mockery(ActionConfig::class, [
+            'getOptions->getAll' => [],
+        ]);
 
         $action = new PrepareConventionalCommit($prepareCommand);
 
@@ -134,6 +138,7 @@ class PrepareConventionalCommitTest extends TestCase
                 anInstanceOf(Output::class),
             );
 
+        $prepareCommand->expects()->setConfiguration(anInstanceOf(DefaultConfiguration::class));
         $prepareCommand->expects()->getMessage()->andReturn($message);
 
         /** @var Config & MockInterface $config */
@@ -163,7 +168,9 @@ class PrepareConventionalCommitTest extends TestCase
             });
 
         /** @var ActionConfig & MockInterface $actionConfig */
-        $actionConfig = $this->mockery(ActionConfig::class);
+        $actionConfig = $this->mockery(ActionConfig::class, [
+            'getOptions->getAll' => [],
+        ]);
 
         $action = new PrepareConventionalCommit($prepareCommand);
 

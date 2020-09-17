@@ -21,36 +21,46 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Console\Question;
 
+use Ramsey\ConventionalCommits\Configuration\Configurable;
+use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
+use Ramsey\ConventionalCommits\Configuration\Configuration;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Description;
 use Symfony\Component\Console\Question\Question;
 
-use function method_exists;
+use function trim;
 
 /**
  * A prompt asking the user to provide a short description (or subject)
  * for the commit message
  */
-class DescriptionQuestion extends Question
+class DescriptionQuestion extends Question implements Configurable
 {
-    public function __construct()
+    use ConfigurableTool;
+
+    public function __construct(?Configuration $configuration = null)
     {
         parent::__construct('Write a short description of the change');
-
-        if (method_exists($this, 'setMultiline')) {
-            $this->setMultiline(true);
-        }
+        $this->configuration = $configuration;
     }
 
     public function getValidator(): callable
     {
         return function (?string $answer): Description {
-            try {
-                return new Description((string) $answer);
-            } catch (InvalidArgument $exception) {
-                throw new InvalidConsoleInput('Invalid description. Please try again.');
+            if (trim((string) $answer) === '') {
+                throw new InvalidConsoleInput('You must provide a short description.');
             }
+
+            try {
+                $description = new Description((string) $answer);
+                $this->getConfiguration()->getMessageValidator()->validateDescription($description);
+            } catch (InvalidArgument | InvalidValue $exception) {
+                throw new InvalidConsoleInput('Invalid description. ' . $exception->getMessage());
+            }
+
+            return $description;
         };
     }
 }

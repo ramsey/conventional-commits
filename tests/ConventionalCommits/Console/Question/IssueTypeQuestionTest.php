@@ -15,8 +15,7 @@ class IssueTypeQuestionTest extends TestCase
         $question = new IssueTypeQuestion();
 
         $this->assertSame(
-            'What is the issue reference type? (e.g., fix, re) '
-            . '<comment>(press enter to continue)</comment>',
+            'What is the issue reference type? (e.g., fix, re)',
             $question->getQuestion(),
         );
         $this->assertNull($question->getDefault());
@@ -55,7 +54,7 @@ class IssueTypeQuestionTest extends TestCase
         $validator = $question->getValidator();
 
         $this->expectException(InvalidConsoleInput::class);
-        $this->expectExceptionMessage('Invalid issue reference type. Please try again.');
+        $this->expectExceptionMessage('Invalid issue reference type. Token \'fix re\' is invalid.');
 
         $validator('fix re');
     }

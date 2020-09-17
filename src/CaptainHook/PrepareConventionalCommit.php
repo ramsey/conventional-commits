@@ -28,6 +28,7 @@ use CaptainHook\App\Hook\Action;
 use CaptainHook\App\Hook\Constrained;
 use CaptainHook\App\Hook\Restriction;
 use CaptainHook\App\Hooks;
+use Ramsey\ConventionalCommits\Configuration\FinderTool;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
@@ -40,6 +41,8 @@ use function trim;
  */
 class PrepareConventionalCommit implements Action, Constrained
 {
+    use FinderTool;
+
     private PrepareCommand $prepareCommand;
 
     public function __construct(?PrepareCommand $prepareCommand = null)
@@ -69,7 +72,16 @@ class PrepareConventionalCommit implements Action, Constrained
             return;
         }
 
-        $this->prepareCommand->run(new Input($io), new Output($io));
+        $input = new Input($io);
+        $output = new Output($io);
+
+        $this->prepareCommand->setConfiguration($this->findConfiguration(
+            $input,
+            $output,
+            $action->getOptions()->getAll(),
+        ));
+
+        $this->prepareCommand->run($input, $output);
 
         $message = $this->prepareCommand->getMessage();
 

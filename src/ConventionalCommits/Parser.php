@@ -21,6 +21,9 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits;
 
+use Ramsey\ConventionalCommits\Configuration\Configurable;
+use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
+use Ramsey\ConventionalCommits\Configuration\Configuration;
 use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
 use Ramsey\ConventionalCommits\Message\Body;
 use Ramsey\ConventionalCommits\Message\Description;
@@ -36,8 +39,10 @@ use function trim;
 /**
  * Validates and parses a Conventional Commits message
  */
-class Parser
+class Parser implements Configurable
 {
+    use ConfigurableTool;
+
     private const COMMIT_PATTERN = "/^(?(DEFINE)(?'noun'[A-Z0-9][\w-]+)"
         . "(?'tokenPrefix'(?:BREAKING CHANGE|(?P>noun))\ *(?:\:\ |\ \#(?=\w))))"
         . "(?'type'(?P>noun))"
@@ -53,6 +58,11 @@ class Parser
         . "(?'footer'(?'token'(?P>tokenName))\ *(?'separator'(?P>tokenSeparator))\ *"
         . "(?'value'(?:.*?)(?=(?P>tokenPrefix))|(?:.*)))/iusm";
 
+    public function __construct(?Configuration $configuration = null)
+    {
+        $this->configuration = $configuration;
+    }
+
     /**
      * Parses a commit message, returning a Message instance or throwing an
      * exception on failure
@@ -63,7 +73,7 @@ class Parser
 
         if (!preg_match(self::COMMIT_PATTERN, $commitMessage, $matches)) {
             throw new InvalidCommitMessage(
-                'Could not find a valid Conventional Commits message',
+                'Could not find a valid Conventional Commits message.',
             );
         }
 
@@ -72,6 +82,7 @@ class Parser
         $hasBreakingChanges = trim($matches['bc'] ?? '') === '!';
 
         $commit = new Message($type, $description, $hasBreakingChanges);
+        $commit->setConfiguration($this->getConfiguration());
 
         if (trim($matches['scope'] ?? '') !== '') {
             $commit->setScope(new Scope($matches['scope']));
@@ -84,6 +95,8 @@ class Parser
         foreach ($this->parseFooter($matches['footer'] ?? '') as $footer) {
             $commit->addFooter($footer);
         }
+
+        $commit->validate();
 
         return $commit;
     }

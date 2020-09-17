@@ -4,19 +4,28 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\ConventionalCommits;
 
+use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message;
 use Ramsey\ConventionalCommits\Message\Body;
 use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
+use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Dev\Tools\TestCase;
 use Ramsey\Test\ConventionalCommits\Message\BodyTest;
+use Spatie\Snapshots\MatchesSnapshots;
+
+use function file_get_contents;
+use function preg_replace;
 
 use const PHP_EOL;
 
 class MessageTest extends TestCase
 {
+    use MatchesSnapshots;
+
     public function testBasicCommit(): void
     {
         $expectedMessage = 'feat: implement awesome thing' . PHP_EOL;
@@ -143,5 +152,76 @@ class MessageTest extends TestCase
 
         $this->assertSame($expectedMessage, $commit->toString());
         $this->assertSame($expectedMessage, (string) $commit);
+    }
+
+    public function testParserCallsValidateOnMessageAndDoesNotThrowExceptions(): void
+    {
+        $config = new DefaultConfiguration([
+            'typeCase' => 'kebab',
+            'types' => ['feat', 'fix', 'foo', 'bar'],
+            'scopeCase' => 'kebab',
+            'scopeRequired' => true,
+            'scopes' => ['component', 'unit', 'my-scope'],
+            'descriptionCase' => 'sentence',
+            'descriptionEndMark' => '.',
+            'bodyRequired' => true,
+            'requiredFooters' => ['Signed-off-by'],
+        ]);
+
+        $raw = (string) file_get_contents(__DIR__ . '/commit-messages/commit-message-01.txt');
+
+        $parser = new Parser($config);
+        $message = $parser->parse($raw);
+
+        $this->assertInstanceOf(Message::class, $message);
+    }
+
+    public function testThrowsInvalidValueWhenScopeIsRequiredAndMissing(): void
+    {
+        $config = new DefaultConfiguration([
+            'scopeRequired' => true,
+        ]);
+
+        $message = new Message(new Type('foo'), new Description('a description'));
+        $message->setBody(new Body('this is a body'));
+        $message->setConfiguration($config);
+
+        $this->expectException(InvalidValue::class);
+        $this->expectExceptionMessage('You must provide a scope');
+
+        $message->validate();
+    }
+
+    public function testThrowsInvalidValueWhenBodyIsRequiredAndMissing(): void
+    {
+        $config = new DefaultConfiguration([
+            'bodyRequired' => true,
+        ]);
+
+        $message = new Message(new Type('foo'), new Description('a description'));
+        $message->setScope(new Scope('aScope'));
+        $message->setConfiguration($config);
+
+        $this->expectException(InvalidValue::class);
+        $this->expectExceptionMessage('You must provide a body');
+
+        $message->validate();
+    }
+
+    public function testMessageWrapsBodyWhenBodyWrappingEnabled(): void
+    {
+        $config = new DefaultConfiguration([
+            'bodyWrapWidth' => 72,
+        ]);
+
+        $raw = (string) file_get_contents(__DIR__ . '/commit-messages/commit-message-07.txt');
+
+        // Fix line endings in case running tests on Windows.
+        $raw = (string) preg_replace('/(?<!\r)\n/', PHP_EOL, $raw);
+
+        $parser = new Parser($config);
+        $message = $parser->parse($raw);
+
+        $this->assertMatchesTextSnapshot($message->toString());
     }
 }

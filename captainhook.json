@@ -6,7 +6,10 @@
         "enabled": true,
         "actions": [
             {
-                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit"
+                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit",
+                "options": {
+                    "configFile": "./conventional-commits.json"
+                }
             }
         ]
     },
@@ -40,7 +43,10 @@
         "enabled": true,
         "actions": [
             {
-                "action": "\\Ramsey\\CaptainHook\\PrepareConventionalCommit"
+                "action": "\\Ramsey\\CaptainHook\\PrepareConventionalCommit",
+                "options": {
+                    "configFile": "./conventional-commits.json"
+                }
             }
         ]
     },

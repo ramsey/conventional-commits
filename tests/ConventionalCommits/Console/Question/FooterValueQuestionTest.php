@@ -16,7 +16,7 @@ class FooterValueQuestionTest extends TestCase
         $question = new FooterValueQuestion('token-name');
 
         $this->assertSame(
-            'Provide a description for token-name',
+            'Provide a value for the footer token-name',
             $question->getQuestion(),
         );
         $this->assertNull($question->getDefault());
@@ -41,8 +41,30 @@ class FooterValueQuestionTest extends TestCase
         $validator = $question->getValidator();
 
         $this->expectException(InvalidConsoleInput::class);
-        $this->expectExceptionMessage('Invalid footer value. Please try again.');
+        $this->expectExceptionMessage('Invalid footer value. Footer values may not contain other footers.');
 
         $validator("This footer value is invalid because\ntoken-name: it contains another footer");
+    }
+
+    public function testValidatorAcceptsUrlsAsValidValues(): void
+    {
+        $question = new FooterValueQuestion('token-name');
+        $validator = $question->getValidator();
+
+        /** @var Footer $footer */
+        $footer = $validator('https://example.com/foo');
+
+        $this->assertSame('https://example.com/foo', $footer->getValue());
+    }
+
+    public function testValidatorThrowsExceptionForEmptyValue(): void
+    {
+        $question = new FooterValueQuestion('token-name');
+        $validator = $question->getValidator();
+
+        $this->expectException(InvalidConsoleInput::class);
+        $this->expectExceptionMessage('Invalid footer value. Footer values may not be empty.');
+
+        $validator("\n");
     }
 }

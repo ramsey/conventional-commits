@@ -5,41 +5,70 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-
-## [Unreleased]
+## 1.1.0 - TBD
 
 ### Added
 
+- [#2](https://github.com/ramsey/conventional-commits/pull/2) enables configuration of Conventional Commits messages
+
 ### Changed
+
+- Nothing.
 
 ### Deprecated
 
+- Nothing.
+
 ### Removed
 
-### Fixed
-
-### Security
-
-
-## [1.0.1] - 2020-08-28
+- Nothing.
 
 ### Fixed
 
-* **refactor:** add ramsey/devtools to the project and refactor accordingly
+- Nothing.
 
+## 1.0.1 - 2020-08-28
 
-## [1.0.0] - 2020-08-12
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- adds ramsey/devtools to the project and refactor accordingly.
+
+## 1.0.0 - 2020-08-12
 
 Initial release
 
 ### Added
 
-* **parser:** implement Conventional Commits parser
-* **console:** add console command with prompts to prepare commit messages
-* **hook:** expose a CaptainHook plugin to validate Conventional Commit messages
-* **hook:** expose a CaptainHook plugin to prepare Conventional Commit messages
+- Nothing.
 
+### Changed
 
-[Unreleased]: https://github.com/ramsey/conventional-commits/compare/1.0.1...HEAD
-[1.0.1]: https://github.com/ramsey/conventional-commits/compare/1.0.0...1.0.1
-[1.0.0]: https://github.com/ramsey/conventional-commits/commits/1.0.0
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.

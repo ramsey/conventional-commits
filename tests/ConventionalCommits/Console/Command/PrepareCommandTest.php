@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Command;
 
 use Mockery\MockInterface;
+use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use Ramsey\ConventionalCommits\Console\Question\AddFootersQuestion;
 use Ramsey\ConventionalCommits\Console\Question\AffectsOpenIssuesQuestion;
@@ -174,7 +175,8 @@ class PrepareCommandTest extends TestCase
         // Fix line endings in case running tests on Windows.
         $expectedMessage = preg_replace('/(?<!\r)\n/', PHP_EOL, $expectedMessage);
 
-        $input = new StringInput('');
+        $configFile = __DIR__ . '/../../../configs/default.json';
+        $input = new StringInput("--config {$configFile}");
         $output = new NullOutput();
 
         $console = $this->mockery(SymfonyStyle::class);
@@ -228,6 +230,110 @@ class PrepareCommandTest extends TestCase
         $factory->expects()->factory($input, $output)->andReturn($console);
 
         $command = new PrepareCommand($factory);
+        $command->run($input, $output);
+
+        $this->assertInstanceOf(Message::class, $command->getMessage());
+        $this->assertSame($expectedMessage, $command->getMessage()->toString());
+    }
+
+    public function testRunChecksForRequiredFooters(): void
+    {
+        $expectedMessage = <<<'EOD'
+            fix: this is a commit message
+
+            Signed-off-by: Janet Doe <jdoe@example.com>
+            See-also: https://example.com/foo
+            Foo-bar: some footer value
+
+            EOD;
+
+        // Fix line endings in case running tests on Windows.
+        $expectedMessage = preg_replace('/(?<!\r)\n/', PHP_EOL, $expectedMessage);
+
+        $input = new StringInput('');
+        $output = new NullOutput();
+
+        $console = $this->mockery(SymfonyStyle::class);
+
+        $console->expects()->title('Prepare Commit Message');
+        $console->expects()->text([
+            'The following prompts will help you create a commit message that',
+            'follows the <href=https://www.conventionalcommits.org/en/v1.0.0/>Conventional Commits</> specification.',
+        ]);
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(TypeQuestion::class))
+            ->andReturn(new Type('fix'));
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(ScopeQuestion::class))
+            ->andReturnNull();
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(DescriptionQuestion::class))
+            ->andReturn(new Description('this is a commit message'));
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(BodyQuestion::class))
+            ->andReturnNull();
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(HasBreakingChangesQuestion::class))
+            ->andReturnFalse();
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(AffectsOpenIssuesQuestion::class))
+            ->andReturnFalse();
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(AddFootersQuestion::class))
+            ->never();
+
+        $console
+            ->expects()
+            ->error('Please provide the following required footers: see-also, signed-off-by.');
+
+        $console
+            ->expects()
+            ->error('Please provide the following required footers: see-also.');
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(FooterTokenQuestion::class))
+            ->times(6)
+            ->andReturn(null, 'Signed-off-by', null, 'See-also', 'Foo-bar', null);
+
+        $console
+            ->expects()
+            ->askQuestion(anInstanceOf(FooterValueQuestion::class))
+            ->times(3)
+            ->andReturn(
+                new Footer('Signed-off-by', 'Janet Doe <jdoe@example.com>'),
+                new Footer('See-also', 'https://example.com/foo'),
+                new Footer('Foo-bar', 'some footer value'),
+            );
+
+        $console->expects()->section('Commit Message');
+        $console->expects()->block($expectedMessage);
+
+        /** @var SymfonyStyleFactory & MockInterface $factory */
+        $factory = $this->mockery(SymfonyStyleFactory::class);
+        $factory->expects()->factory($input, $output)->andReturn($console);
+
+        $configuration = new DefaultConfiguration([
+            'requiredFooters' => ['See-also', 'Signed-off-by'],
+        ]);
+
+        $command = new PrepareCommand($factory);
+        $command->setConfiguration($configuration);
+
         $command->run($input, $output);
 
         $this->assertInstanceOf(Message::class, $command->getMessage());

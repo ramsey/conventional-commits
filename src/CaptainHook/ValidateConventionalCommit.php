@@ -29,6 +29,7 @@ use CaptainHook\App\Hook\Action;
 use CaptainHook\App\Hook\Constrained;
 use CaptainHook\App\Hook\Restriction;
 use CaptainHook\App\Hooks;
+use Ramsey\ConventionalCommits\Configuration\FinderTool;
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
 use Ramsey\ConventionalCommits\Exception\ConventionalException;
 use Ramsey\ConventionalCommits\Parser;
@@ -41,6 +42,8 @@ use SebastianFeldmann\Git\Repository;
  */
 class ValidateConventionalCommit implements Action, Constrained
 {
+    use FinderTool;
+
     private SymfonyStyleFactory $styleFactory;
 
     public function __construct(?SymfonyStyleFactory $styleFactory = null)
@@ -59,15 +62,20 @@ class ValidateConventionalCommit implements Action, Constrained
         Repository $repository,
         ActionConfig $action
     ): void {
+        $parser = new Parser($this->findConfiguration(
+            new Input($io),
+            new Output($io),
+            $action->getOptions()->getAll(),
+        ));
+
         $message = $repository->getCommitMsg();
-        $parser = new Parser();
 
         try {
             $parser->parse($message->getContent());
         } catch (ConventionalException $exception) {
             $this->writeErrorMessage($io, $message);
 
-            throw new ActionFailed('Validation failed');
+            throw new ActionFailed('Validation failed.');
         }
     }
 

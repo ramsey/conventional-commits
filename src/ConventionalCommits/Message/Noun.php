@@ -22,7 +22,10 @@ declare(strict_types=1);
 namespace Ramsey\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
+use Ramsey\ConventionalCommits\Validator\ValidatableTool;
 
+use function array_pop;
+use function explode;
 use function preg_match;
 use function trim;
 
@@ -31,6 +34,8 @@ use function trim;
  */
 abstract class Noun implements Unit
 {
+    use ValidatableTool;
+
     private const NOUN_PATTERN = '/^[a-zA-Z0-9][\w-]+$/u';
 
     private string $noun;
@@ -38,8 +43,11 @@ abstract class Noun implements Unit
     public function __construct(string $noun)
     {
         if (!preg_match(self::NOUN_PATTERN, $noun)) {
+            $nameSegments = explode('\\', static::class);
+            $entity = array_pop($nameSegments);
+
             throw new InvalidArgument(
-                'Nouns must contain only alphanumeric characters, underscores, and dashes',
+                $entity . 's must contain only alphanumeric characters, underscores, and dashes.',
             );
         }
 

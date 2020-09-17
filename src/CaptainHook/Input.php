@@ -94,7 +94,7 @@ class Input implements InputInterface
     public function getArgument(string $name)
     {
         if (!$this->hasArgument($name)) {
-            throw new InvalidArgumentException("Argument '{$name}' does not exist");
+            throw new InvalidArgumentException("Argument '{$name}' does not exist.");
         }
 
         /** @var string|string[]|null $value */

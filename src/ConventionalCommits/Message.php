@@ -21,14 +21,19 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits;
 
+use Ramsey\ConventionalCommits\Configuration\Configurable;
+use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
 use Ramsey\ConventionalCommits\Message\Body;
 use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
+use Ramsey\ConventionalCommits\Validator\Validatable;
+use Ramsey\ConventionalCommits\Validator\ValidatableTool;
 use Stringable;
 
 use function count;
+use function wordwrap;
 
 use const PHP_EOL;
 
@@ -37,8 +42,11 @@ use const PHP_EOL;
  *
  * @link https://www.conventionalcommits.org/en/v1.0.0/#specification Conventional Commits
  */
-class Message implements Stringable
+class Message implements Configurable, Stringable, Validatable
 {
+    use ConfigurableTool;
+    use ValidatableTool;
+
     private Type $type;
     private ?Scope $scope = null;
     private Description $description;
@@ -112,6 +120,11 @@ class Message implements Stringable
         return $this->hasBreakingChanges;
     }
 
+    public function validate(): bool
+    {
+        return $this->getConfiguration()->getMessageValidator()->isValidOrException($this);
+    }
+
     public function __toString(): string
     {
         return $this->toString();
@@ -132,7 +145,7 @@ class Message implements Stringable
         $message .= ': ' . $this->description->toString();
 
         if ($this->body !== null) {
-            $message .= PHP_EOL . PHP_EOL . $this->body->toString();
+            $message .= PHP_EOL . PHP_EOL . $this->formatBody($this->body->toString());
         }
 
         if (count($this->footers) > 0) {
@@ -146,5 +159,16 @@ class Message implements Stringable
         $message .= PHP_EOL;
 
         return $message;
+    }
+
+    private function formatBody(string $body): string
+    {
+        $bodyWrapWidth = $this->getConfiguration()->getBodyWrapWidth();
+
+        if ($bodyWrapWidth !== null) {
+            $body = wordwrap($body, $bodyWrapWidth, PHP_EOL);
+        }
+
+        return $body;
     }
 }

@@ -21,25 +21,33 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Console\Question;
 
+use Ramsey\ConventionalCommits\Configuration\Configurable;
+use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
+use Ramsey\ConventionalCommits\Configuration\Configuration;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
+use function count;
 use function strlen;
 use function trim;
 
 /**
  * A prompt asking the user to enter a footer token
  */
-class FooterTokenQuestion extends Question
+class FooterTokenQuestion extends Question implements Configurable
 {
-    public function __construct()
+    use ConfigurableTool;
+
+    public function __construct(?Configuration $configuration = null)
     {
         parent::__construct(
-            'What is the name of the footer? (e.g., Signed-off-by, See-also) '
-            . '<comment>(press enter to continue)</comment>',
+            'To add a footer, provide a footer name, or press ENTER to skip (e.g., Signed-off-by)',
         );
+
+        $this->configuration = $configuration;
     }
 
     public function getValidator(): callable
@@ -51,11 +59,20 @@ class FooterTokenQuestion extends Question
 
             try {
                 $validFooter = new Footer((string) $answer, 'validation');
-            } catch (InvalidArgument $exception) {
-                throw new InvalidConsoleInput('Invalid footer name. Please try again.');
+            } catch (InvalidArgument | InvalidValue $exception) {
+                throw new InvalidConsoleInput('Invalid footer name. ' . $exception->getMessage());
             }
 
             return $validFooter->getToken();
         };
+    }
+
+    public function getAutocompleterCallback(): ?callable
+    {
+        if (count($this->getConfiguration()->getRequiredFooters()) === 0) {
+            return null;
+        }
+
+        return fn (): iterable => $this->getConfiguration()->getRequiredFooters();
     }
 }

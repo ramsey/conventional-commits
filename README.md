@@ -91,6 +91,226 @@ property in your `captainhook.json` file:
 }
 ```
 
+### Configuration
+
+Configuring ramsey/conventional-commits offers control over a few more aspects
+of commit messages, such as letter case (i.e. lower, upper), allowed types and
+scopes, required footers, and more.
+
+We look for configuration in one of two places:
+
+* `composer.json`
+* `captainhook.json`
+
+> ⚠️ **Please note:** if your `composer.json` file is not in the same location as
+> the `vendor/` directory, we might have trouble locating it. Feel free to open
+> an issue, and we'll work with you to see if we can find a solution.
+
+#### Configuration Properties
+
+Configuration for ramsey/conventional-commits consists of the following
+properties:
+
+| Property             | Description |
+| -------------------- | ----------- |
+| `typeCase`           | The letter case to require for the type. By default, any letter case is acceptable.
+| `types`              | An array of accepted types (in addition to "feat" and "fix"). By default, any type is acceptable.
+| `scopeCase`          | The letter case to require for the scope. By default, any letter case is acceptable.
+| `scopeRequired`      | Whether a scope is required. By default, scope is not required.
+| `scopes`             | An array of accepted scopes. By default, any scope is acceptable.
+| `descriptionCase`    | The letter case to require for the description. By default, any letter case is acceptable.
+| `descriptionEndMark` | A character to require at the end of the description. By default, any character is allowed. Use an empty string to indicate a punctuation character is not allowed at the end of the description.
+| `bodyRequired`       | Whether a body is required. By default, a body is not required.
+| `bodyWrapWidth`      | An integer indicating the character width to auto-wrap the body of the commit message. By default, the commit body does not auto-wrap.
+| `requiredFooters`    | An array of footers that must be provided. By default, footers are not required.
+
+When specifying configuration, if you wish to use the default behavior for a
+property, it is not necessary to list the property in your configuration.
+
+Recognized letter cases are:
+
+| Identifier | Name          | Example |
+| ---------- | ------------- | ------- |
+| `ada`      | Ada case      | `The_Quick_Brown_Fox`
+| `camel`    | Camel case    | `theQuickBrownFox`
+| `cobol`    | COBOL case    | `THE-QUICK-BROWN-FOX`
+| `dot`      | Dot notation  | `the.quick.brown.fox`
+| `kebab`    | Kebab case    | `the-quick-brown-fox`
+| `lower`    | Lower case    | `the quick brown fox`
+| `macro`    | Macro case    | `THE_QUICK_BROWN_FOX`
+| `pascal`   | Pascal case   | `TheQuickBrownFox`
+| `sentence` | Sentence case | `The quick brown fox`
+| `snake`    | Snake case    | `the_quick_brown_fox`
+| `title`    | Title case    | `The Quick Brown Fox`
+| `train`    | Train case    | `The-Quick-Brown-Fox`
+| `upper`    | Upper case    | `THE QUICK BROWN FOX`
+
+#### Configuration in composer.json
+
+If you choose to put your configuration in `composer.json`, place it within the
+`extra` property, namespaced under `ramsey/conventional-commits`, like this:
+
+``` json
+{
+    "extra": {
+        "ramsey/conventional-commits": {
+            "config": {
+                "typeCase": null,
+                "types": [],
+                "scopeCase": null,
+                "scopeRequired": false,
+                "scopes": [],
+                "descriptionCase": null,
+                "descriptionEndMark": null,
+                "bodyRequired": false,
+                "bodyWrapWidth": null,
+                "requiredFooters": []
+            }
+        }
+    }
+}
+```
+
+> 📝 The properties in this example represent the default values.
+
+#### Configuration in captainhook.json
+
+If you choose to put your configuration in `captainhook.json`, you must provide
+it for *each action* you configure, like this:
+
+``` json
+{
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit",
+                "options": {
+                    "config": {
+                        "typeCase": null,
+                        "types": [],
+                        "scopeCase": null,
+                        "scopeRequired": false,
+                        "scopes": [],
+                        "descriptionCase": null,
+                        "descriptionEndMark": null,
+                        "bodyRequired": false,
+                        "bodyWrapWidth": null,
+                        "requiredFooters": []
+                    }
+                }
+            }
+        ]
+    },
+    "prepare-commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\PrepareConventionalCommit",
+                "options": {
+                    "config": {
+                        "typeCase": null,
+                        "types": [],
+                        "scopeCase": null,
+                        "scopeRequired": false,
+                        "scopes": [],
+                        "descriptionCase": null,
+                        "descriptionEndMark": null,
+                        "bodyRequired": false,
+                        "bodyWrapWidth": null,
+                        "requiredFooters": []
+                    }
+                }
+            }
+        ]
+    }
+}
+```
+
+However, if you provide your configuration in `composer.json`, it is not
+necessary to also provide it in `captainhook.json`.
+
+> 🚨 If using the Git commit hook functionality of Captain Hook, any
+> configuration provided in `captainhook.json` will override configuration
+> in `composer.json`.
+>
+> ⚠️ When using the standalone command (i.e. `./vendor/bin/conventional-commits`),
+> only configuration in `composer.json` will apply, unless providing the
+> `--config` option.
+
+#### Configuration in a Separate File
+
+You may also store your configuration in a separate file. For example, you may
+store it in `conventional-commits.json`, like this:
+
+``` json
+{
+    "typeCase": "kebab",
+    "types": [
+        "ci",
+        "deps",
+        "docs",
+        "refactor",
+        "style",
+        "test"
+    ],
+    "scopeCase": "kebab",
+    "scopeRequired": false,
+    "scopes": [],
+    "descriptionCase": "lower",
+    "descriptionEndMark": "",
+    "bodyRequired": true,
+    "bodyWrapWidth": 72,
+    "requiredFooters": ["Signed-off-by"]
+}
+```
+
+When stored in a separate file, we won't know where to look for your
+configuration, unless you tell us, so you must still provide a small amount of
+configuration in either `composer.json` or `captainhook.json`, so we can find
+it.
+
+Here's what this looks like in `composer.json`:
+
+``` json
+{
+    "extra": {
+        "ramsey/conventional-commits": {
+            "configFile": "./conventional-commits.json"
+        }
+    }
+}
+```
+
+And here's what this looks like in `captainhook.json`:
+
+``` json
+{
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit",
+                "options": {
+                    "configFile": "./conventional-commits.json"
+                }
+            }
+        ]
+    },
+    "prepare-commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\PrepareConventionalCommit",
+                "options": {
+                    "configFile": "./conventional-commits.json"
+                }
+            }
+        ]
+    }
+}
+```
+
 ## Contributing
 
 Contributions are welcome! Before contributing to this project, familiarize

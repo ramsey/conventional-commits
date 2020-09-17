@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace Ramsey\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
+use Ramsey\ConventionalCommits\Validator\ValidatableTool;
 
 use function implode;
 use function in_array;
@@ -64,6 +65,8 @@ use const PHP_EOL;
  */
 class Footer implements Unit
 {
+    use ValidatableTool;
+
     public const TOKEN_BREAKING_CHANGE = 'BREAKING CHANGE';
 
     public const SEPARATOR_COLON = ': ';
@@ -75,8 +78,8 @@ class Footer implements Unit
     ];
 
     private const TOKEN_PATTERN = '/^(?:BREAKING CHANGE|[a-zA-Z0-9][\w-]+)$/iu';
-    private const VALUE_PATTERN = '/^(?:(?!(?:\r\n|\n|\r)'
-        . '(?:BREAKING CHANGE|[a-zA-Z0-9][\w-]+)\ *(?:\:\ *|\#\w)).)*$/siu';
+    private const VALUE_PATTERN = '/^(?:(?!(?:\r\n|\n|\r)(?!(?:https?\:\/\/))'
+        . '(?:BREAKING CHANGE|[a-zA-Z0-9][\w-]*)\ *(?:\:\ *|\#\w)).)*$/siu';
 
     private string $token;
     private string $value;
@@ -117,10 +120,19 @@ class Footer implements Unit
         return $this->token . $this->separator . $this->value;
     }
 
+    public function validate(): bool
+    {
+        foreach ($this->getValidators() as $validator) {
+            $validator->isValidOrException($this->getToken());
+        }
+
+        return true;
+    }
+
     private function validateToken(string $token): string
     {
         if (!preg_match(self::TOKEN_PATTERN, $token)) {
-            throw new InvalidArgument("Token '{$token}' is invalid");
+            throw new InvalidArgument("Token '{$token}' is invalid.");
         }
 
         return $this->normalizeBreakingChange(trim($token));
@@ -130,11 +142,11 @@ class Footer implements Unit
     {
         // Prepend a newline to assert it doesn't begin with any footer tokens.
         if (!preg_match(self::VALUE_PATTERN, PHP_EOL . $value)) {
-            throw new InvalidArgument('Value is invalid');
+            throw new InvalidArgument('Footer values may not contain other footers.');
         }
 
         if (trim($value) === '') {
-            throw new InvalidArgument('Value is invalid');
+            throw new InvalidArgument('Footer values may not be empty.');
         }
 
         return trim($value);
@@ -144,7 +156,7 @@ class Footer implements Unit
     {
         if (!in_array($separator, self::SEPARATORS)) {
             throw new InvalidArgument(sprintf(
-                "Separator '%s' is invalid; expected one of ['%s']",
+                "Separator '%s' is invalid; expected one of ['%s'].",
                 $separator,
                 implode("', '", self::SEPARATORS),
             ));

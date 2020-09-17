@@ -1,0 +1,89 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://ramsey.dev/schema/conventional-commits.json#",
+    "title": "ramsey/conventional-commits Configuration Schema",
+    "type": "object",
+    "properties": {
+        "typeCase": {
+            "description": "The letter case required when formatting the type. If this is `null`, no format is enforced.",
+            "$ref": "#/$defs/case"
+        },
+        "types": {
+            "description": "A list of acceptable types. If this is an empty array, any type is acceptable.",
+            "$ref": "#/$defs/noun"
+        },
+        "scopeCase": {
+            "description": "The letter case required when formatting the scope. If this is `null`, no format is enforced.",
+            "$ref": "#/$defs/case"
+        },
+        "scopeRequired": {
+            "description": "Whether the scope property is required.",
+            "type": "boolean",
+            "default": false
+        },
+        "scopes": {
+            "description": "A list of acceptable scopes. If this is an empty array, any scope is acceptable.",
+            "$ref": "#/$defs/noun"
+        },
+        "descriptionCase": {
+            "description": "The letter case required when formatting the description. If this is `null`, no format is enforced.",
+            "$ref": "#/$defs/case"
+        },
+        "descriptionEndMark": {
+            "description": "The character(s) required at the end of the description (i.e., the full stop character). If `null`, any or no end mark is acceptable. An empty string indicates the description must not have an end mark.",
+            "type": ["string", "null"],
+            "default": null
+        },
+        "bodyRequired": {
+            "description": "Whether the body property is required.",
+            "type": "boolean",
+            "default": false
+        },
+        "bodyWrapWidth": {
+            "description": "The number of characters at which the body should automatically wrap (e.g. 72, 80). If `null`, the body will not wrap automatically.",
+            "type": ["integer", "null"],
+            "default": null
+        },
+        "requiredFooters": {
+            "description": "The names of footers that must be required as part of the commit message.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^(BREAKING CHANGE|[a-zA-Z0-9][a-zA-Z0-9-]+)$"
+            },
+            "uniqueItems": true,
+            "default": []
+        }
+    },
+    "$defs": {
+        "case": {
+            "type": ["string", "null"],
+            "enum": [
+                "ada",
+                "camel",
+                "cobol",
+                "dot",
+                "kebab",
+                "lower",
+                "macro",
+                "pascal",
+                "sentence",
+                "snake",
+                "title",
+                "train",
+                "upper",
+                null
+            ],
+            "default": null
+        },
+        "noun": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]+$"
+            },
+            "uniqueItems": true,
+            "default": []
+        }
+    }
+}

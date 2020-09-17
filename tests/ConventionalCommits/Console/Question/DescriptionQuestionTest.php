@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
+use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Question\DescriptionQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Description;
@@ -40,8 +41,35 @@ class DescriptionQuestionTest extends TestCase
         $validator = $question->getValidator();
 
         $this->expectException(InvalidConsoleInput::class);
-        $this->expectExceptionMessage('Invalid description. Please try again.');
+        $this->expectExceptionMessage('Invalid description. Description may not contain any control characters.');
 
-        $validator(null);
+        $validator("foo\nbar");
+    }
+
+    public function testValidatorThrowsExceptionForMissingShortDescription(): void
+    {
+        $question = new DescriptionQuestion();
+        $validator = $question->getValidator();
+
+        $this->expectException(InvalidConsoleInput::class);
+        $this->expectExceptionMessage('You must provide a short description.');
+
+        $validator("\n");
+    }
+
+    public function testValidatorThrowsExceptionForInvalidValueWithDefaultMessageValidator(): void
+    {
+        $question = new DescriptionQuestion(new DefaultConfiguration([
+            'descriptionCase' => 'lower',
+        ]));
+
+        $validator = $question->getValidator();
+
+        $this->expectException(InvalidConsoleInput::class);
+        $this->expectExceptionMessage(
+            'Invalid description. \'THIS IS AN INVALID DESCRIPTION\' is not formatted in lower case.',
+        );
+
+        $validator('THIS IS AN INVALID DESCRIPTION');
     }
 }

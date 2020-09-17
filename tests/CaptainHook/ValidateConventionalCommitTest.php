@@ -32,10 +32,16 @@ class ValidateConventionalCommitTest extends TestCase
         $config = $this->mockery(Config::class);
 
         /** @var IO & MockInterface $io */
-        $io = $this->mockery(IO::class);
+        $io = $this->mockery(IO::class, [
+            'isDebug' => false,
+            'isVeryVerbose' => false,
+            'isVerbose' => false,
+        ]);
 
         /** @var ConfigAction & MockInterface $configAction */
-        $configAction = $this->mockery(ConfigAction::class);
+        $configAction = $this->mockery(ConfigAction::class, [
+            'getOptions->getAll' => ['config' => []],
+        ]);
 
         /** @var CommitMessage & MockInterface $commitMessage */
         $commitMessage = $this->mockery(CommitMessage::class);
@@ -79,7 +85,9 @@ class ValidateConventionalCommitTest extends TestCase
         );
 
         /** @var ConfigAction & MockInterface $configAction */
-        $configAction = $this->mockery(ConfigAction::class);
+        $configAction = $this->mockery(ConfigAction::class, [
+            'getOptions->getAll' => ['config' => []],
+        ]);
 
         /** @var CommitMessage & MockInterface $commitMessage */
         $commitMessage = $this->mockery(CommitMessage::class);
@@ -109,7 +117,7 @@ class ValidateConventionalCommitTest extends TestCase
         // We do not use the expectException() or expectExceptionMessage()
         // assertions here because we want to assert the content of $output.
         $this->assertInstanceOf(ActionFailed::class, $exception);
-        $this->assertSame('Validation failed', $exception->getMessage());
+        $this->assertSame('Validation failed.', $exception->getMessage());
         $this->assertSame(
             '[ERROR] Invalid Commit Message The commit message is '
             . 'not properly formatted according to the Conventional '
