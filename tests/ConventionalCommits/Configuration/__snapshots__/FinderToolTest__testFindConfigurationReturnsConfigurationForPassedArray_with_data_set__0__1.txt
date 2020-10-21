@@ -1,0 +1,1 @@
+{"typeCase":"ada","types":[],"scopeCase":null,"scopeRequired":false,"scopes":[],"descriptionCase":null,"descriptionEndMark":null,"bodyRequired":false,"bodyWrapWidth":null,"requiredFooters":[]}

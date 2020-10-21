@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Command\Functional;
 
 use Ramsey\Dev\Tools\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
+use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\WindowsSafeTextDriver;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 
@@ -15,7 +16,7 @@ use const PHP_EOL;
 
 class PrepareCommandFunctionalTest extends TestCase
 {
-    use MatchesSnapshots;
+    use SnapshotsTool;
 
     /**
      * @param string[] $input
@@ -39,7 +40,7 @@ class PrepareCommandFunctionalTest extends TestCase
         $inputStream->close();
         $process->wait();
 
-        $this->assertMatchesTextSnapshot($process->getOutput());
+        $this->assertMatchesSnapshot($process->getOutput(), new WindowsSafeTextDriver());
     }
 
     /**

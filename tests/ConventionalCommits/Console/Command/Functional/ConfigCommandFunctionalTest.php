@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Command\Functional;
 
 use Ramsey\Dev\Tools\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
+use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\WindowsSafeTextDriver;
 use Symfony\Component\Process\Process;
 
 use function realpath;
 
 class ConfigCommandFunctionalTest extends TestCase
 {
-    use MatchesSnapshots;
+    use SnapshotsTool;
 
     /**
      * @dataProvider provideConfigs
@@ -24,7 +25,7 @@ class ConfigCommandFunctionalTest extends TestCase
         $process = new Process(['php', $cli, 'config', '--config', $configFile, '--dump']);
         $process->run();
 
-        $this->assertMatchesTextSnapshot($process->getOutput());
+        $this->assertMatchesSnapshot($process->getOutput(), new WindowsSafeTextDriver());
     }
 
     /**

@@ -7,16 +7,18 @@ namespace Ramsey\Test\ConventionalCommits;
 use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
 use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Dev\Tools\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
+use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\WindowsSafeTextDriver;
 
 use function file_get_contents;
 use function preg_replace;
+use function realpath;
 
 use const PHP_EOL;
 
 class ParserTest extends TestCase
 {
-    use MatchesSnapshots;
+    use SnapshotsTool;
 
     /**
      * @return array<array{rawMessageFile: string}>
@@ -25,25 +27,25 @@ class ParserTest extends TestCase
     {
         return [
             'a basic commit' => [
-                'rawMessageFile' => __DIR__ . '/commit-messages/commit-message-00.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-00.txt'),
             ],
             'a full commit' => [
-                'rawMessageFile' => __DIR__ . '/commit-messages/commit-message-01.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-01.txt'),
             ],
             'with body and no footers' => [
-                'rawMessageFile' => __DIR__ . '/commit-messages/commit-message-02.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-02.txt'),
             ],
             'with footers and no body' => [
-                'rawMessageFile' => __DIR__ . '/commit-messages/commit-message-03.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-03.txt'),
             ],
             'with simple body and single footer' => [
-                'rawMessageFile' => __DIR__ . '/commit-messages/commit-message-04.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-04.txt'),
             ],
             'with breaking change and no body adds bang' => [
-                'rawMessageFile' => __DIR__ . '/commit-messages/commit-message-05.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-05.txt'),
             ],
             'with breaking change and body adds bang' => [
-                'rawMessageFile' => __DIR__ . '/commit-messages/commit-message-06.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-06.txt'),
             ],
         ];
     }
@@ -61,7 +63,7 @@ class ParserTest extends TestCase
         $parser = new Parser();
         $commit = $parser->parse($rawMessage);
 
-        $this->assertMatchesTextSnapshot($commit->toString());
+        $this->assertMatchesSnapshot($commit->toString(), new WindowsSafeTextDriver());
     }
 
     /**
@@ -70,15 +72,15 @@ class ParserTest extends TestCase
     public function provideInvalidCommitMessage(): array
     {
         return [
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-00.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-01.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-02.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-03.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-04.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-05.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-06.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-07.txt'],
-            ['invalidMessageFile' => __DIR__ . '/commit-messages/invalid-commit-message-08.txt'],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-00.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-01.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-02.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-03.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-04.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-05.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-06.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-07.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-08.txt')],
         ];
     }
 

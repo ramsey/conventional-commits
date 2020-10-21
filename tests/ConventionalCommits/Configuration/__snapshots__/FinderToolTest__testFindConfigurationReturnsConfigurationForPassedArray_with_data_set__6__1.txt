@@ -1,0 +1,1 @@
+{"typeCase":"kebab","types":["tests","docs"],"scopeCase":"train","scopeRequired":true,"scopes":["message","console"],"descriptionCase":"title","descriptionEndMark":"","bodyRequired":true,"bodyWrapWidth":80,"requiredFooters":["Some-footer"]}

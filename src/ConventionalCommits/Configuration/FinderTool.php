@@ -172,7 +172,11 @@ trait FinderTool
     private function validateConfig(object $config): bool
     {
         $validator = new Validator();
-        $schema = Schema::fromJsonString((string) file_get_contents(__DIR__ . '/../../../schema.json'));
+        $schema = Schema::fromJsonString(
+            (string) file_get_contents(
+                (string) realpath(__DIR__ . '/../../../schema.json'),
+            ),
+        );
         $result = $validator->schemaValidation($config, $schema);
 
         if ($result->hasErrors() && $result->getFirstError() !== null) {

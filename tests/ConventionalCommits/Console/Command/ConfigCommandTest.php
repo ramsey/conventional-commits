@@ -14,6 +14,8 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function file_get_contents;
+use function realpath;
+use function str_replace;
 use function trim;
 
 class ConfigCommandTest extends TestCase
@@ -36,8 +38,12 @@ class ConfigCommandTest extends TestCase
             'factory' => $style,
         ]);
 
-        $configFile = __DIR__ . '/../../../configs/default.json';
-        $input = new StringInput("--config {$configFile}");
+        $configFile = (string) realpath(__DIR__ . '/../../../configs/default.json');
+
+        // Windows-proof the file path.
+        $configFile = str_replace('\\', '\\\\', $configFile);
+
+        $input = new StringInput("--config=\"{$configFile}\"");
         $output = new NullOutput();
 
         $command = new ConfigCommand($styleFactory);
@@ -47,7 +53,7 @@ class ConfigCommandTest extends TestCase
 
     public function testRunWritesConfigToConsoleWithDump(): void
     {
-        $configFile = __DIR__ . '/../../../configs/default.json';
+        $configFile = (string) realpath(__DIR__ . '/../../../configs/default.json');
         $configFileContents = trim((string) file_get_contents($configFile));
 
         /** @var SymfonyStyle & MockInterface $style */
@@ -61,7 +67,10 @@ class ConfigCommandTest extends TestCase
             'factory' => $style,
         ]);
 
-        $input = new StringInput("--config {$configFile} --dump");
+        // Windows-proof the file path.
+        $configFile = str_replace('\\', '\\\\', $configFile);
+
+        $input = new StringInput("--config=\"{$configFile}\" --dump");
         $output = new NullOutput();
 
         $command = new ConfigCommand($styleFactory);

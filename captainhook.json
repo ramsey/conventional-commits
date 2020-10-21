@@ -8,7 +8,7 @@
             {
                 "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit",
                 "options": {
-                    "configFile": "./conventional-commits.json"
+                    "configFile": "conventional-commits.json"
                 }
             }
         ]
@@ -45,7 +45,7 @@
             {
                 "action": "\\Ramsey\\CaptainHook\\PrepareConventionalCommit",
                 "options": {
-                    "configFile": "./conventional-commits.json"
+                    "configFile": "conventional-commits.json"
                 }
             }
         ]

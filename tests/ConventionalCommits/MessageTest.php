@@ -15,16 +15,18 @@ use Ramsey\ConventionalCommits\Message\Type;
 use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Dev\Tools\TestCase;
 use Ramsey\Test\ConventionalCommits\Message\BodyTest;
-use Spatie\Snapshots\MatchesSnapshots;
+use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\WindowsSafeTextDriver;
 
 use function file_get_contents;
 use function preg_replace;
+use function realpath;
 
 use const PHP_EOL;
 
 class MessageTest extends TestCase
 {
-    use MatchesSnapshots;
+    use SnapshotsTool;
 
     public function testBasicCommit(): void
     {
@@ -168,7 +170,7 @@ class MessageTest extends TestCase
             'requiredFooters' => ['Signed-off-by'],
         ]);
 
-        $raw = (string) file_get_contents(__DIR__ . '/commit-messages/commit-message-01.txt');
+        $raw = (string) file_get_contents((string) realpath(__DIR__ . '/commit-messages/commit-message-01.txt'));
 
         $parser = new Parser($config);
         $message = $parser->parse($raw);
@@ -214,7 +216,7 @@ class MessageTest extends TestCase
             'bodyWrapWidth' => 72,
         ]);
 
-        $raw = (string) file_get_contents(__DIR__ . '/commit-messages/commit-message-07.txt');
+        $raw = (string) file_get_contents((string) realpath(__DIR__ . '/commit-messages/commit-message-07.txt'));
 
         // Fix line endings in case running tests on Windows.
         $raw = (string) preg_replace('/(?<!\r)\n/', PHP_EOL, $raw);
@@ -222,6 +224,6 @@ class MessageTest extends TestCase
         $parser = new Parser($config);
         $message = $parser->parse($raw);
 
-        $this->assertMatchesTextSnapshot($message->toString());
+        $this->assertMatchesSnapshot($message->toString(), new WindowsSafeTextDriver());
     }
 }

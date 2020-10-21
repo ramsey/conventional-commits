@@ -13,17 +13,20 @@ use Ramsey\ConventionalCommits\Exception\ComposerNotFound;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\Dev\Tools\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
+use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\WindowsSafeTextDriver;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-use function dirname;
 use function json_encode;
+use function realpath;
+
+use const DIRECTORY_SEPARATOR;
 
 class FinderToolTest extends TestCase
 {
-    use MatchesSnapshots;
+    use SnapshotsTool;
 
     /**
      * @var InputInterface & MockInterface
@@ -57,10 +60,13 @@ class FinderToolTest extends TestCase
      */
     public function testFindConfigurationReturnsConfigurationForPassedArray(array $options): void
     {
-        $this->assertMatchesJsonSnapshot(json_encode(
-            // @phpstan-ignore-next-line
-            $this->finderTool->findConfiguration($this->input, $this->output, $options),
-        ));
+        $this->assertMatchesSnapshot(
+            json_encode(
+                // @phpstan-ignore-next-line
+                $this->finderTool->findConfiguration($this->input, $this->output, $options),
+            ),
+            new WindowsSafeTextDriver(),
+        );
     }
 
     /**
@@ -83,29 +89,29 @@ class FinderToolTest extends TestCase
             ],
             [
                 'options' => [
-                    'configFile' => dirname(dirname(__DIR__)) . '/configs/default.json',
+                    'configFile' => (string) realpath(__DIR__ . '/../../configs/default.json'),
                 ],
             ],
             [
                 'options' => [
-                    'configFile' => dirname(dirname(__DIR__)) . '/configs/config-01.json',
+                    'configFile' => (string) realpath(__DIR__ . '/../../configs/config-01.json'),
                 ],
             ],
             [
                 'options' => [
-                    'configFile' => dirname(dirname(__DIR__)) . '/configs/config-02.json',
+                    'configFile' => (string) realpath(__DIR__ . '/../../configs/config-02.json'),
                 ],
             ],
             [
                 'options' => [
-                    'configFile' => dirname(dirname(__DIR__)) . '/configs/config-03.json',
+                    'configFile' => (string) realpath(__DIR__ . '/../../configs/config-03.json'),
                 ],
             ],
             [
                 // The FinderTool should use `config` from this set of options,
                 // rather than the `configFile`.
                 'options' => [
-                    'configFile' => dirname(dirname(__DIR__)) . '/configs/config-03.json',
+                    'configFile' => (string) realpath(__DIR__ . '/configs/config-03.json'),
                     'config' => [
                         'typeCase' => 'kebab',
                         'types' => ['tests', 'docs'],
@@ -126,7 +132,8 @@ class FinderToolTest extends TestCase
 
     public function testFindConfigurationThrowsExceptionWhenConfigFileDoesNotExist(): void
     {
-        $configFile = dirname(dirname(__DIR__)) . '/configs/config-file-not-exists.json';
+        $configFile = (string) realpath(__DIR__ . '/../../configs')
+            . DIRECTORY_SEPARATOR . 'config-file-not-exists.json';
 
         $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage("Could not find config file '{$configFile}'");
@@ -139,7 +146,7 @@ class FinderToolTest extends TestCase
 
     public function testFindConfigurationThrowsExceptionWhenConfigFileHasInvalidValue(): void
     {
-        $configFile = dirname(dirname(__DIR__)) . '/configs/config-04.json';
+        $configFile = (string) realpath(__DIR__ . '/../../configs/config-04.json');
 
         $this->expectException(InvalidValue::class);
         $this->expectExceptionMessage(
@@ -154,7 +161,7 @@ class FinderToolTest extends TestCase
 
     public function testFindConfigurationThrowsExceptionWhenConfigIsInvalid(): void
     {
-        $configFile = dirname(dirname(__DIR__)) . '/configs/config-05.json';
+        $configFile = (string) realpath(__DIR__ . '/../../configs/config-05.json');
 
         $this->expectException(InvalidValue::class);
         $this->expectExceptionMessage(
@@ -253,7 +260,7 @@ class FinderToolTest extends TestCase
         $composer = $this->mockery(Composer::class, [
             'getPackage->getExtra' => [
                 'ramsey/conventional-commits' => [
-                    'configFile' => __DIR__ . '/../../configs/config-03.json',
+                    'configFile' => (string) realpath(__DIR__ . '/../../configs/config-03.json'),
                     'config' => [
                         'typeCase' => 'pascal',
                     ],
@@ -280,7 +287,7 @@ class FinderToolTest extends TestCase
         /** @var Configuration $configuration */
         $configuration = $finderTool->findConfiguration($this->input, $this->output);
 
-        $this->assertMatchesJsonSnapshot(json_encode($configuration));
+        $this->assertMatchesSnapshot(json_encode($configuration), new WindowsSafeTextDriver());
     }
 
     public function testFindConfigurationReturnsConfigurationUsingComposerConfigFile(): void
@@ -289,7 +296,7 @@ class FinderToolTest extends TestCase
         $composer = $this->mockery(Composer::class, [
             'getPackage->getExtra' => [
                 'ramsey/conventional-commits' => [
-                    'configFile' => __DIR__ . '/../../configs/config-03.json',
+                    'configFile' => (string) realpath(__DIR__ . '/../../configs/config-03.json'),
                 ],
             ],
         ]);
@@ -313,7 +320,7 @@ class FinderToolTest extends TestCase
         /** @var Configuration $configuration */
         $configuration = $finderTool->findConfiguration($this->input, $this->output);
 
-        $this->assertMatchesJsonSnapshot(json_encode($configuration));
+        $this->assertMatchesSnapshot(json_encode($configuration), new WindowsSafeTextDriver());
     }
 
     public function testFindConfigurationReturnsDefaultConfigurationWhenComposerHasNone(): void
@@ -342,6 +349,6 @@ class FinderToolTest extends TestCase
         /** @var Configuration $configuration */
         $configuration = $finderTool->findConfiguration($this->input, $this->output);
 
-        $this->assertMatchesJsonSnapshot(json_encode($configuration));
+        $this->assertMatchesSnapshot(json_encode($configuration), new WindowsSafeTextDriver());
     }
 }

@@ -47,7 +47,7 @@
             "dev-main": "1.x-dev"
         },
         "ramsey/conventional-commits": {
-            "configFile": "./conventional-commits.json"
+            "configFile": "conventional-commits.json"
         },
         "ramsey/devtools": {
             "command-prefix": "dev"

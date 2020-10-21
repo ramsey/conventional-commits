@@ -33,6 +33,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function anInstanceOf;
 use function preg_replace;
+use function realpath;
+use function str_replace;
 
 use const PHP_EOL;
 
@@ -175,8 +177,12 @@ class PrepareCommandTest extends TestCase
         // Fix line endings in case running tests on Windows.
         $expectedMessage = preg_replace('/(?<!\r)\n/', PHP_EOL, $expectedMessage);
 
-        $configFile = __DIR__ . '/../../../configs/default.json';
-        $input = new StringInput("--config {$configFile}");
+        $configFile = (string) realpath(__DIR__ . '/../../../configs/default.json');
+
+        // Windows-proof the file path.
+        $configFile = str_replace('\\', '\\\\', $configFile);
+
+        $input = new StringInput("--config=\"{$configFile}\"");
         $output = new NullOutput();
 
         $console = $this->mockery(SymfonyStyle::class);
