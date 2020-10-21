@@ -97,6 +97,11 @@ class InputTest extends TestCase
         $this->input->validate();
     }
 
+    public function testGetOptionReturnsNull(): void
+    {
+        $this->assertNull($this->input->getOption('foo'));
+    }
+
     /**
      * @param mixed[] $params
      *
@@ -122,7 +127,6 @@ class InputTest extends TestCase
             ['methodName' => 'getParameterOption', 'params' => ['foo', true, true]],
             ['methodName' => 'setArgument', 'params' => ['foo', 'bar']],
             ['methodName' => 'getOptions', 'params' => []],
-            ['methodName' => 'getOption', 'params' => ['foo']],
             ['methodName' => 'setOption', 'params' => ['foo', 'bar']],
             ['methodName' => 'hasOption', 'params' => ['foo']],
             ['methodName' => 'setInteractive', 'params' => [true]],

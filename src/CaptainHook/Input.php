@@ -124,9 +124,12 @@ class Input implements InputInterface
         throw $this->unsupportedMethod(__METHOD__);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOption(string $name)
     {
-        throw $this->unsupportedMethod(__METHOD__);
+        return null;
     }
 
     /**
