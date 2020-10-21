@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "192695728e8d5009c6b715c8e63f8d94",
+    "content-hash": "b3854ad207d02e94df26d819766ec13c",
     "packages": [
         {
             "name": "captainhook/captainhook",
-            "version": "5.4.1",
+            "version": "5.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CaptainHookPhp/captainhook.git",
-                "reference": "5e3762fe39b2144ad0941dbd2281e5c828dc49d2"
+                "reference": "eadbac000f056aae72be9729a8149f4691ad4c69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CaptainHookPhp/captainhook/zipball/5e3762fe39b2144ad0941dbd2281e5c828dc49d2",
-                "reference": "5e3762fe39b2144ad0941dbd2281e5c828dc49d2",
+                "url": "https://api.github.com/repos/CaptainHookPhp/captainhook/zipball/eadbac000f056aae72be9729a8149f4691ad4c69",
+                "reference": "eadbac000f056aae72be9729a8149f4691ad4c69",
                 "shasum": ""
             },
             "require": {
@@ -78,7 +78,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhookphp/captainhook/issues",
-                "source": "https://github.com/CaptainHookPhp/captainhook/tree/5.4.1"
+                "source": "https://github.com/CaptainHookPhp/captainhook/tree/5.4.2"
             },
             "funding": [
                 {
@@ -86,7 +86,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-15T14:41:17+00:00"
+            "time": "2020-10-21T20:44:00+00:00"
         },
         {
             "name": "jawira/case-converter",
