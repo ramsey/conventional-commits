@@ -11,8 +11,10 @@ use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 
 use function realpath;
+use function strpos;
 
 use const PHP_EOL;
+use const PHP_OS;
 
 class PrepareCommandFunctionalTest extends TestCase
 {
@@ -25,6 +27,12 @@ class PrepareCommandFunctionalTest extends TestCase
      */
     public function testPrepareCommand(array $input, string $configFile): void
     {
+        if (strpos(PHP_OS, 'WIN') === 0) {
+            $this->markTestSkipped(
+                'Windows console wrapping and line endings are inconsistent; skipping for now.',
+            );
+        }
+
         $cli = realpath(__DIR__ . '/../../../../../bin/conventional-commits');
 
         $inputStream = new InputStream();
