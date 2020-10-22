@@ -23,6 +23,7 @@ namespace Ramsey\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
@@ -38,8 +39,7 @@ class IssueTypeQuestion extends Question
     public function __construct()
     {
         parent::__construct(
-            'What is the issue reference type? (e.g., fix, re) '
-            . '<comment>(press enter to continue)</comment>',
+            'What is the issue reference type? (e.g., fix, re)',
         );
     }
 
@@ -52,8 +52,8 @@ class IssueTypeQuestion extends Question
 
             try {
                 $validFooter = new Footer((string) $answer, 'validation');
-            } catch (InvalidArgument $exception) {
-                throw new InvalidConsoleInput('Invalid issue reference type. Please try again.');
+            } catch (InvalidArgument | InvalidValue $exception) {
+                throw new InvalidConsoleInput('Invalid issue reference type. ' . $exception->getMessage());
             }
 
             return $validFooter->getToken();

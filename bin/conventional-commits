@@ -20,9 +20,11 @@
 
 declare(strict_types=1);
 
+use Ramsey\ConventionalCommits\Console\Command\ConfigCommand;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputOption;
 
 (static function (array $argv): void {
     $composerAutoloadLocations = [
@@ -53,6 +55,16 @@ use Symfony\Component\Console\Input\ArgvInput;
     require $composerAutoloader;
 
     $application = new Application('Conventional Commits');
+
+    $inputDefinition = $application->getDefinition();
+    $inputDefinition->addOption(new InputOption(
+        'config',
+        null,
+        InputOption::VALUE_REQUIRED,
+        'Path to a file containing Conventional Commits configuration',
+    ));
+
+    $application->add(new ConfigCommand());
     $application->add(new PrepareCommand());
     $application->run(new ArgvInput($argv));
 })($argv);

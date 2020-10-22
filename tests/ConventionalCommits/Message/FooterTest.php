@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
+use Ramsey\ConventionalCommits\String\LetterCase;
+use Ramsey\ConventionalCommits\Validator\LetterCaseValidator;
 use Ramsey\Dev\Tools\TestCase;
 
 use function trim;
@@ -165,7 +168,12 @@ class FooterTest extends TestCase
     public function testThrowsExceptionForInvalidValue(string $invalidValue): void
     {
         $this->expectException(InvalidArgument::class);
-        $this->expectExceptionMessage('Value is invalid');
+
+        if ($invalidValue === '') {
+            $this->expectExceptionMessage('Footer values may not be empty.');
+        } else {
+            $this->expectExceptionMessage('Footer values may not contain other footers.');
+        }
 
         new Footer('aToken', $invalidValue);
     }
@@ -235,5 +243,32 @@ class FooterTest extends TestCase
         $footer = new Footer($breakingChangeToken, 'a value');
 
         $this->assertSame('BREAKING CHANGE', $footer->getToken());
+    }
+
+    /**
+     * @dataProvider provideTokensForValidation
+     */
+    public function testValidatorsWithFooter(string $token, bool $expectFailure): void
+    {
+        $footer = new Footer($token, 'a value');
+
+        $footer->addValidator(new LetterCaseValidator(LetterCase::CASE_TRAIN));
+
+        if ($expectFailure === true) {
+            $this->expectException(InvalidValue::class);
+        }
+
+        $this->assertTrue($footer->validate());
+    }
+
+    /**
+     * @return array<array{token: string, expectFailure: bool}>
+     */
+    public function provideTokensForValidation(): array
+    {
+        return [
+            ['token' => 'Footer-Test', 'expectFailure' => false],
+            ['token' => 'footer-test', 'expectFailure' => true],
+        ];
     }
 }

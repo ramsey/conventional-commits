@@ -1,4 +1,4 @@
-feat(my-scope): this is a description
+feat(my-scope): This is a description.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pharetra quis massa ut elementum. Pellentesque dapibus ultricies pharetra. In in finibus massa. Donec cursus nec ligula nec eleifend. Ut eleifend ut nisl sit amet laoreet. Mauris tristique nibh urna, vestibulum dictum ante tincidunt a. Curabitur ultricies dignissim neque eget rutrum. Maecenas nulla diam, dictum et pellentesque tristique, vestibulum ut dolor. Nam ac lobortis turpis. Nulla faucibus eu ex tempus tempus. Mauris tincidunt pellentesque velit quis ullamcorper. Nam massa mauris, porta vel varius id, sollicitudin vitae dolor. Aliquam at mi sem. Sed rhoncus urna sapien, vel vehicula urna sagittis eget.
 

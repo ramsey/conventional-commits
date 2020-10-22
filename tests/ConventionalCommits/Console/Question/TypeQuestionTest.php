@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
+use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Question\TypeQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Type;
@@ -40,7 +41,9 @@ class TypeQuestionTest extends TestCase
         $validator = $question->getValidator();
 
         $this->expectException(InvalidConsoleInput::class);
-        $this->expectExceptionMessage('Invalid type. Please try again.');
+        $this->expectExceptionMessage(
+            'Invalid type. Types must contain only alphanumeric characters, underscores, and dashes',
+        );
 
         $validator('type name');
     }
@@ -50,5 +53,14 @@ class TypeQuestionTest extends TestCase
         $question = new TypeQuestion();
 
         $this->assertSame(['feat', 'fix'], $question->getAutocompleterValues());
+    }
+
+    public function testAutocompleterCallbackWithConfiguredTypes(): void
+    {
+        $question = new TypeQuestion(new DefaultConfiguration([
+            'types' => ['foo', 'bar', 'baz'],
+        ]));
+
+        $this->assertSame(['feat', 'fix', 'foo', 'bar', 'baz'], $question->getAutocompleterValues());
     }
 }

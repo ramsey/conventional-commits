@@ -42,7 +42,7 @@ class IssueIdentifierQuestionTest extends TestCase
         $validator = $question->getValidator();
 
         $this->expectException(InvalidConsoleInput::class);
-        $this->expectExceptionMessage('Invalid identifier value. Please try again.');
+        $this->expectExceptionMessage('Invalid identifier value. Footer values may not contain other footers.');
 
         $validator("1234; this is invalid because\ntoken-name: it contains another footer");
     }

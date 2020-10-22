@@ -23,6 +23,7 @@ namespace Ramsey\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
@@ -35,7 +36,7 @@ class FooterValueQuestion extends Question
 
     public function __construct(string $token)
     {
-        parent::__construct('Provide a description for ' . $token);
+        parent::__construct('Provide a value for the footer ' . $token);
 
         $this->token = $token;
     }
@@ -45,8 +46,8 @@ class FooterValueQuestion extends Question
         return function (?string $answer): Footer {
             try {
                 return new Footer($this->token, (string) $answer);
-            } catch (InvalidArgument $exception) {
-                throw new InvalidConsoleInput('Invalid footer value. Please try again.');
+            } catch (InvalidArgument | InvalidValue $exception) {
+                throw new InvalidConsoleInput('Invalid footer value. ' . $exception->getMessage());
             }
         };
     }

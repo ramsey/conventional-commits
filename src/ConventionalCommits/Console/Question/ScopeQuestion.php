@@ -21,39 +21,58 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Console\Question;
 
+use Ramsey\ConventionalCommits\Configuration\Configurable;
+use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
+use Ramsey\ConventionalCommits\Configuration\Configuration;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Symfony\Component\Console\Question\Question;
 
-use function strlen;
+use function count;
 use function trim;
 
 /**
  * A prompt asking the user the scope of this change within the overall project
  */
-class ScopeQuestion extends Question
+class ScopeQuestion extends Question implements Configurable
 {
-    public function __construct()
+    use ConfigurableTool;
+
+    public function __construct(?Configuration $configuration = null)
     {
         parent::__construct(
-            'What is the scope of this change (e.g., component or file name)? '
-            . '<comment>(press enter to skip)</comment>',
+            'What is the scope of this change (e.g., component or file name)?',
         );
+
+        $this->configuration = $configuration;
     }
 
     public function getValidator(): callable
     {
         return function (?string $answer): ?Scope {
-            if ($answer === null || strlen(trim($answer)) === 0) {
-                return null;
+            if (trim((string) $answer) === '') {
+                $answer = null;
             }
 
             try {
-                return new Scope($answer);
-            } catch (InvalidArgument $exception) {
-                throw new InvalidConsoleInput('Invalid scope. Please try again.');
+                $scope = $answer === null ? null : new Scope($answer);
+                $this->getConfiguration()->getMessageValidator()->validateScope($scope);
+            } catch (InvalidArgument | InvalidValue $exception) {
+                throw new InvalidConsoleInput('Invalid scope. ' . $exception->getMessage());
             }
+
+            return $scope;
         };
+    }
+
+    public function getAutocompleterCallback(): ?callable
+    {
+        if (count($this->getConfiguration()->getScopes()) === 0) {
+            return null;
+        }
+
+        return fn (): iterable => $this->getConfiguration()->getScopes();
     }
 }

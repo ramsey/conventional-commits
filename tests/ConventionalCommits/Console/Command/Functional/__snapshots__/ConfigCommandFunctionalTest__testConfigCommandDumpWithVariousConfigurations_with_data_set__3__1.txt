@@ -1,0 +1,21 @@
+{
+    "typeCase": "lower",
+    "types": [
+        "foo",
+        "bar"
+    ],
+    "scopeCase": "snake",
+    "scopeRequired": true,
+    "scopes": [
+        "baz",
+        "qux"
+    ],
+    "descriptionCase": "sentence",
+    "descriptionEndMark": ".",
+    "bodyRequired": true,
+    "bodyWrapWidth": 72,
+    "requiredFooters": [
+        "See-also",
+        "Signed-off-by"
+    ]
+}

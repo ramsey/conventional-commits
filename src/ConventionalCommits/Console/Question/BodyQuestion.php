@@ -21,33 +21,54 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Console\Question;
 
+use Ramsey\ConventionalCommits\Configuration\Configurable;
+use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
+use Ramsey\ConventionalCommits\Configuration\Configuration;
+use Ramsey\ConventionalCommits\Exception\InvalidArgument;
+use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Body;
 use Symfony\Component\Console\Question\Question;
 
-use function strlen;
+use function method_exists;
 use function trim;
 
 /**
  * A prompt that accepts long-form body content for the commit message
  */
-class BodyQuestion extends Question
+class BodyQuestion extends Question implements Configurable
 {
-    public function __construct()
+    use ConfigurableTool;
+
+    public function __construct(?Configuration $configuration = null)
     {
+        if (method_exists($this, 'setMultiline')) {
+            $this->setMultiline(true); // @codeCoverageIgnore
+        }
+
+        $this->configuration = $configuration;
+        $mayOrMust = $this->getConfiguration()->isBodyRequired() ? 'must' : 'may';
+
         parent::__construct(
-            'You may provide a longer description of the change '
-            . '<comment>(press enter to skip)</comment>',
+            "You {$mayOrMust} provide a longer description of the change",
         );
     }
 
     public function getValidator(): callable
     {
         return function (?string $answer): ?Body {
-            if ($answer === null || strlen(trim($answer)) === 0) {
+            try {
+                $body = new Body(trim((string) $answer));
+                $this->getConfiguration()->getMessageValidator()->validateBody($body);
+            } catch (InvalidArgument | InvalidValue $exception) {
+                throw new InvalidConsoleInput('Invalid body. ' . $exception->getMessage());
+            }
+
+            if ($body->toString() === '') {
                 return null;
             }
 
-            return new Body($answer);
+            return $body;
         };
     }
 }

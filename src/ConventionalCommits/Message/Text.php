@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Message;
 
+use Ramsey\ConventionalCommits\Validator\ValidatableTool;
+
 use function trim;
 
 /**
@@ -28,6 +30,8 @@ use function trim;
  */
 abstract class Text implements Unit
 {
+    use ValidatableTool;
+
     private string $text;
 
     public function __construct(string $text)

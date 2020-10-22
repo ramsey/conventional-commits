@@ -35,25 +35,29 @@ use Ramsey\ConventionalCommits\Console\Question\IssueTypeQuestion;
 use Ramsey\ConventionalCommits\Console\Question\ScopeQuestion;
 use Ramsey\ConventionalCommits\Console\Question\TypeQuestion;
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
+use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message;
 use Ramsey\ConventionalCommits\Message\Body;
 use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
+use Ramsey\ConventionalCommits\Validator\RequiredFootersValidator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_merge;
+use function count;
 
 /**
  * A console command that prompts a user for input to build a valid
  * Conventional Commits commit message
  */
-class PrepareCommand extends Command
+class PrepareCommand extends BaseCommand
 {
     private ?Message $message = null;
     private SymfonyStyleFactory $styleFactory;
@@ -82,10 +86,16 @@ class PrepareCommand extends Command
                 'This command interactively helps prepare a commit message '
                 . 'according to the Conventional Commits specification. For more '
                 . 'information, see https://www.conventionalcommits.org.',
+            )
+            ->addOption(
+                'config',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to a file containing Conventional Commits configuration',
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $console = $this->styleFactory->factory($input, $output);
         $console->title('Prepare Commit Message');
@@ -109,21 +119,23 @@ class PrepareCommand extends Command
     private function askQuestions(SymfonyStyle $console): Message
     {
         /** @var Type $type */
-        $type = $console->askQuestion(new TypeQuestion());
+        $type = $console->askQuestion(new TypeQuestion($this->getConfiguration()));
 
         /** @var Scope|null $scope */
-        $scope = $console->askQuestion(new ScopeQuestion());
+        $scope = $console->askQuestion(new ScopeQuestion($this->getConfiguration()));
 
         /** @var Description $description */
-        $description = $console->askQuestion(new DescriptionQuestion());
+        $description = $console->askQuestion(new DescriptionQuestion($this->getConfiguration()));
 
         /** @var Body|null $body */
-        $body = $console->askQuestion(new BodyQuestion());
+        $body = $console->askQuestion(new BodyQuestion($this->getConfiguration()));
 
         /** @var Footer[] $footers */
         $footers = $this->askFooterQuestions($console);
+        $footers = $this->checkRequiredFooters($console, $footers);
 
         $message = new Message($type, $description);
+        $message->setConfiguration($this->getConfiguration());
 
         if ($scope !== null) {
             $message->setScope($scope);
@@ -165,8 +177,9 @@ class PrepareCommand extends Command
         $footers = array_merge($footers, $this->askFooterQuestionSection(
             $console,
             new AddFootersQuestion(),
-            new FooterTokenQuestion(),
+            new FooterTokenQuestion($this->getConfiguration()),
             fn (string $token): Question => new FooterValueQuestion($token),
+            count($this->getConfiguration()->getRequiredFooters()) > 0,
         ));
 
         return $footers;
@@ -181,9 +194,10 @@ class PrepareCommand extends Command
         SymfonyStyle $console,
         Question $decisionPathQuestion,
         Question $tokenQuestion,
-        Closure $valueQuestionCallback
+        Closure $valueQuestionCallback,
+        bool $isRequired = false
     ): array {
-        if (!$console->askQuestion($decisionPathQuestion)) {
+        if (!$isRequired && !$console->askQuestion($decisionPathQuestion)) {
             return [];
         }
 
@@ -220,5 +234,34 @@ class PrepareCommand extends Command
         $footer = $console->askQuestion($valueQuestionCallback($token));
 
         return $footer;
+    }
+
+    /**
+     * @param Footer[] $footers
+     *
+     * @return Footer[]
+     */
+    private function checkRequiredFooters(SymfonyStyle $console, array $footers): array
+    {
+        $validator = new RequiredFootersValidator();
+        $validator->setConfiguration($this->getConfiguration());
+
+        try {
+            $validator->isValidOrException($footers);
+        } catch (InvalidValue $exception) {
+            $console->error($exception->getMessage());
+
+            $footers = array_merge($footers, $this->askFooterQuestionSection(
+                $console,
+                new AddFootersQuestion(),
+                new FooterTokenQuestion($this->getConfiguration()),
+                fn (string $token): Question => new FooterValueQuestion($token),
+                count($this->getConfiguration()->getRequiredFooters()) > 0,
+            ));
+
+            $footers = $this->checkRequiredFooters($console, $footers);
+        }
+
+        return $footers;
     }
 }

@@ -94,7 +94,7 @@ class Input implements InputInterface
     public function getArgument(string $name)
     {
         if (!$this->hasArgument($name)) {
-            throw new InvalidArgumentException("Argument '{$name}' does not exist");
+            throw new InvalidArgumentException("Argument '{$name}' does not exist.");
         }
 
         /** @var string|string[]|null $value */
@@ -124,9 +124,12 @@ class Input implements InputInterface
         throw $this->unsupportedMethod(__METHOD__);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOption(string $name)
     {
-        throw $this->unsupportedMethod(__METHOD__);
+        return null;
     }
 
     /**

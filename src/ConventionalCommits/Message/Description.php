@@ -46,7 +46,7 @@ class Description extends Text
     {
         if (!preg_match(self::DESCRIPTION_PATTERN, $text)) {
             throw new InvalidArgument(
-                'Description may not contain any control characters',
+                'Description may not contain any control characters.',
             );
         }
 

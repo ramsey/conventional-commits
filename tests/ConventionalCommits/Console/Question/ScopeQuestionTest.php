@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
+use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Question\ScopeQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Scope;
@@ -16,8 +17,7 @@ class ScopeQuestionTest extends TestCase
         $question = new ScopeQuestion();
 
         $this->assertSame(
-            'What is the scope of this change (e.g., component or file name)? '
-            . '<comment>(press enter to skip)</comment>',
+            'What is the scope of this change (e.g., component or file name)?',
             $question->getQuestion(),
         );
         $this->assertNull($question->getDefault());
@@ -57,8 +57,42 @@ class ScopeQuestionTest extends TestCase
         $validator = $question->getValidator();
 
         $this->expectException(InvalidConsoleInput::class);
-        $this->expectExceptionMessage('Invalid scope. Please try again.');
+        $this->expectExceptionMessage(
+            'Invalid scope. Scopes must contain only alphanumeric characters, underscores, and dashes',
+        );
 
         $validator('component name');
+    }
+
+    public function testValidatorThrowsExceptionForInvalidValueWithDefaultMessageValidator(): void
+    {
+        $question = new ScopeQuestion(new DefaultConfiguration([
+            'scopeRequired' => true,
+        ]));
+
+        $validator = $question->getValidator();
+
+        $this->expectException(InvalidConsoleInput::class);
+        $this->expectExceptionMessage(
+            'Invalid scope. You must provide a scope.',
+        );
+
+        $validator(null);
+    }
+
+    public function testAutocompleterCallbackWithNoConfiguredScopes(): void
+    {
+        $question = new ScopeQuestion();
+
+        $this->assertNull($question->getAutocompleterValues());
+    }
+
+    public function testAutocompleterCallbackWithConfiguredScopes(): void
+    {
+        $question = new ScopeQuestion(new DefaultConfiguration([
+            'scopes' => ['foo', 'bar', 'baz'],
+        ]));
+
+        $this->assertSame(['foo', 'bar', 'baz'], $question->getAutocompleterValues());
     }
 }

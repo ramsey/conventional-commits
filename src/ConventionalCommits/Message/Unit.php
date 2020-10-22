@@ -21,12 +21,13 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Message;
 
+use Ramsey\ConventionalCommits\Validator\Validatable;
 use Stringable;
 
 /**
  * A Conventional Commits unit of information
  */
-interface Unit extends Stringable
+interface Unit extends Stringable, Validatable
 {
     public function toString(): string;
 }

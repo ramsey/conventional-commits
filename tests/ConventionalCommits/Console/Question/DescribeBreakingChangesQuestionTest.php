@@ -41,7 +41,7 @@ class DescribeBreakingChangesQuestionTest extends TestCase
         $validator = $question->getValidator();
 
         $this->expectException(InvalidConsoleInput::class);
-        $this->expectExceptionMessage('Invalid description. Please try again.');
+        $this->expectExceptionMessage('Invalid breaking changes value. Footer values may not be empty.');
 
         $validator(null);
     }

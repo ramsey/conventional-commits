@@ -7,69 +7,63 @@ namespace Ramsey\Test\ConventionalCommits;
 use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
 use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\WindowsSafeTextDriver;
 
 use function file_get_contents;
 use function preg_replace;
+use function realpath;
 
 use const PHP_EOL;
 
 class ParserTest extends TestCase
 {
+    use SnapshotsTool;
+
     /**
-     * @return array<array{rawMessageFile: string, expectedMessageFile: string}>
+     * @return array<array{rawMessageFile: string}>
      */
-    public function provideRawAndExpectedCommitMessage(): array
+    public function provideRawCommitMessage(): array
     {
         return [
             'a basic commit' => [
-                'rawMessageFile' => __DIR__ . '/../mocks/commit-message-00-raw.txt',
-                'expectedMessageFile' => __DIR__ . '/../mocks/commit-message-00-expected.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-00.txt'),
             ],
             'a full commit' => [
-                'rawMessageFile' => __DIR__ . '/../mocks/commit-message-01-raw.txt',
-                'expectedMessageFile' => __DIR__ . '/../mocks/commit-message-01-expected.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-01.txt'),
             ],
             'with body and no footers' => [
-                'rawMessageFile' => __DIR__ . '/../mocks/commit-message-02-raw.txt',
-                'expectedMessageFile' => __DIR__ . '/../mocks/commit-message-02-expected.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-02.txt'),
             ],
             'with footers and no body' => [
-                'rawMessageFile' => __DIR__ . '/../mocks/commit-message-03-raw.txt',
-                'expectedMessageFile' => __DIR__ . '/../mocks/commit-message-03-expected.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-03.txt'),
             ],
             'with simple body and single footer' => [
-                'rawMessageFile' => __DIR__ . '/../mocks/commit-message-04-raw.txt',
-                'expectedMessageFile' => __DIR__ . '/../mocks/commit-message-04-expected.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-04.txt'),
             ],
             'with breaking change and no body adds bang' => [
-                'rawMessageFile' => __DIR__ . '/../mocks/commit-message-05-raw.txt',
-                'expectedMessageFile' => __DIR__ . '/../mocks/commit-message-05-expected.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-05.txt'),
             ],
             'with breaking change and body adds bang' => [
-                'rawMessageFile' => __DIR__ . '/../mocks/commit-message-06-raw.txt',
-                'expectedMessageFile' => __DIR__ . '/../mocks/commit-message-06-expected.txt',
+                'rawMessageFile' => (string) realpath(__DIR__ . '/commit-messages/commit-message-06.txt'),
             ],
         ];
     }
 
     /**
-     * @dataProvider provideRawAndExpectedCommitMessage
+     * @dataProvider provideRawCommitMessage
      */
-    public function testParserAccuratelyParsesCommitMessages(
-        string $rawMessageFile,
-        string $expectedMessageFile
-    ): void {
+    public function testParserAccuratelyParsesCommitMessages(string $rawMessageFile): void
+    {
         $rawMessage = (string) file_get_contents($rawMessageFile);
-        $expectedMessage = (string) file_get_contents($expectedMessageFile);
 
         // Fix line endings in case running tests on Windows.
         $rawMessage = (string) preg_replace('/(?<!\r)\n/', PHP_EOL, $rawMessage);
-        $expectedMessage = (string) preg_replace('/(?<!\r)\n/', PHP_EOL, $expectedMessage);
 
         $parser = new Parser();
         $commit = $parser->parse($rawMessage);
 
-        $this->assertSame($expectedMessage, $commit->toString());
+        $this->assertMatchesSnapshot($commit->toString(), new WindowsSafeTextDriver());
     }
 
     /**
@@ -78,15 +72,15 @@ class ParserTest extends TestCase
     public function provideInvalidCommitMessage(): array
     {
         return [
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-00.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-01.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-02.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-03.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-04.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-05.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-06.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-07.txt'],
-            ['invalidMessageFile' => __DIR__ . '/../mocks/invalid-commit-message-08.txt'],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-00.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-01.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-02.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-03.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-04.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-05.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-06.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-07.txt')],
+            ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-08.txt')],
         ];
     }
 
