@@ -32,7 +32,7 @@
         "symfony/polyfill-php80": "^1.15"
     },
     "require-dev": {
-        "composer/composer": "^1.1 || ^2.0.0@dev",
+        "composer/composer": "^1.1 || ^2.0",
         "ramsey/devtools": "^1.4",
         "sebastianfeldmann/cli": "^3.3",
         "sebastianfeldmann/git": "^3.3",
