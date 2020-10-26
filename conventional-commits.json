@@ -1,6 +1,7 @@
 {
     "typeCase": "kebab",
     "types": [
+        "chore",
         "ci",
         "deps",
         "docs",
