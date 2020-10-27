@@ -107,7 +107,7 @@ Now, you are ready to develop!
 This project uses [CaptainHook](https://github.com/CaptainHookPhp/captainhook)
 to validate all staged changes prior to commit.
 
-#### Commands
+### Commands
 
 To see all the commands available for contributing to this project:
 
@@ -115,7 +115,7 @@ To see all the commands available for contributing to this project:
 composer list
 ```
 
-#### Coding Standards
+### Coding Standards
 
 This project follows a superset of [PSR-12](https://www.php-fig.org/psr/psr-12/)
 coding standards, enforced by [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
@@ -135,7 +135,7 @@ composer dev:lint
 composer dev:lint:fix
 ```
 
-#### Static Analysis
+### Static Analysis
 
 This project uses a combination of [PHPStan](https://github.com/phpstan/phpstan)
 and [Psalm](https://github.com/vimeo/psalm) to provide static analysis of PHP
@@ -153,12 +153,12 @@ following command:
 composer dev:analyze
 ```
 
-#### Project Structure
+### Project Structure
 
 This project uses [pds/skeleton](https://github.com/php-pds/skeleton) as its
 base folder structure and layout.
 
-## Running Tests
+### Running Tests
 
 The following must pass before we will accept a pull request. If this does not
 pass, it will result in a complete build failure. Before you can run this, be
