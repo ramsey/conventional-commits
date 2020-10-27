@@ -24,7 +24,7 @@
 - [ ] My code follows the code style of this project.
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
-- [ ] I have read the **CONTRIBUTING** document.
+- [ ] I have read the **CONTRIBUTING.md** document.
 - [ ] I have added tests to cover my changes.
-- [ ] All new and existing tests passed.
+- [ ] All new and existing tests pass.
 - [ ] I have run `composer test` locally, and there were no failures or errors.
