@@ -20,10 +20,9 @@ jobs:
       - uses: "actions/checkout@v2"
       - uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "7.4"
+          php-version: "8.0"
           coverage: "none"
           ini-values: "memory_limit=-1"
-          tools: "composer:v2"
       - uses: "ramsey/composer-install@v1"
       - name: "Check coding standards"
         run: "composer dev:lint"
@@ -35,10 +34,9 @@ jobs:
       - uses: "actions/checkout@v2"
       - uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "7.4"
+          php-version: "8.0"
           coverage: "none"
           ini-values: "memory_limit=-1"
-          tools: "composer:v2"
       - uses: "ramsey/composer-install@v1"
       - name: "Run PHPStan"
         run: "composer dev:analyze:phpstan"
@@ -48,26 +46,18 @@ jobs:
   unit-tests:
     name: "Unit Tests"
     runs-on: ${{ matrix.operating-system }}
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         php-version:
           - "7.4"
+          - "8.0"
         operating-system:
           - "ubuntu-latest"
           - "windows-latest"
         dependencies:
           - "lowest"
           - "highest"
-        experimental:
-          - false
-        include:
-          - php-version: "8.0"
-            operating-system: "ubuntu-latest"
-            dependencies: "highest"
-            experimental: true
-            composer-options: "--ignore-platform-reqs"
     steps:
       - name: "Configure Git"
         if: ${{ matrix.operating-system == 'windows-latest' }}
@@ -80,7 +70,6 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           coverage: "pcov"
           ini-values: "memory_limit=-1"
-          tools: "composer:v2"
       - uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
