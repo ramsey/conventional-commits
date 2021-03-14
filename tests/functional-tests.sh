@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-stty cols 120
+[ -t 0 ] && stty cols 120
 
 __DIR__="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
