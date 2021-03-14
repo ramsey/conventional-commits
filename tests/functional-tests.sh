@@ -4,6 +4,8 @@ stty cols 120
 
 __DIR__="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+test_output="$(mktemp)"
+
 # Create arguments based on the expect filenames, so that we can have
 # a nicer display of test names printed to the screen.
 args=""
@@ -22,6 +24,17 @@ echo "${args}" >> "${data_provider_for_test_expect}"
 cd "${__DIR__}/expect" || exit 1
 
 _test_expect() {
-    "./${1}.exp" >/dev/null 2>&1
-    test $? -eq 0
+    "./${1}.exp" 2> /dev/null 1> "${test_output}"
+    result=$?
+
+    if (( result != 0 )); then
+        echo
+        echo
+        echo -e "\033[1;37;41m[FAILURE] Output for failed test ${1}:\033[0m"
+        echo
+        cat "${test_output}"
+        echo
+    fi
+
+    test $result -eq 0
 }
