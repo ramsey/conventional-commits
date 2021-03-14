@@ -77,7 +77,7 @@ jobs:
       - name: "Run unit tests"
         run: "composer dev:test:coverage:ci -- --coverage-text"
       - name: "Run functional tests"
-        if: ${{ matrix.operating-system != 'window-latest' }}
+        if: ${{ matrix.operating-system != 'windows-latest' }}
         run: "composer test-functional"
       - name: "Publish coverage report to Codecov"
         uses: "codecov/codecov-action@v1"
