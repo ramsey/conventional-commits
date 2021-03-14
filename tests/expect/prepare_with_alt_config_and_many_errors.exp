@@ -1,0 +1,271 @@
+#!/usr/bin/env -S expect -f
+
+set force_conservative 0
+
+if {$force_conservative} {
+	set send_slow {1 .1}
+	proc send {ignore arg} {
+		sleep .1
+		exp_send -s -- $arg
+	}
+}
+
+set timeout 3
+spawn ../../bin/conventional-commits prepare --config ../configs/config-03.json
+match_max 100000
+
+expect -exact "\r
+\[33mPrepare Commit Message\[39m\r
+\[33m======================\[39m\r
+\r
+ The following prompts will help you create a commit message that\r
+ follows the Conventional Commits specification.\r
+\r
+ \[32mWhat is the type of change you're committing? (e.g., feat, fix, etc.)\[39m \[\[33mfeat\[39m\]:\r
+ > "
+send -- "q"
+expect -exact "q\[K"
+send -- "u"
+expect -exact "u\[K"
+send -- "x"
+expect -exact "x\[K"
+send -- "\r"
+expect -exact "\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid type. 'qux' is not one of the valid types 'feat, fix, foo, bar'.                                       \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mWhat is the type of change you're committing? (e.g., feat, fix, etc.)\[39m \[\[33mfeat\[39m\]:\r
+ > "
+send -- "f"
+expect -exact "f\[K7\[30;47meat\[39;49m8"
+send -- "o"
+expect -exact "o\[K7\[30;47mo\[39;49m8"
+send -- "o"
+expect -exact "o\[K78"
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mWhat is the scope of this change (e.g., component or file name)?\[39m:\r
+ > "
+send -- "q"
+expect -exact "q\[K7\[30;47mux\[39;49m8"
+send -- "u"
+expect -exact "u\[K7\[30;47mx\[39;49m8"
+send -- "u"
+expect -exact "u\[K"
+send -- "x"
+expect -exact "x\[K"
+send -- "\r"
+expect -exact "\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid scope. 'quux' is not one of the valid scopes 'baz, qux'.                                               \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mWhat is the scope of this change (e.g., component or file name)?\[39m:\r
+ > "
+send -- "B"
+expect -exact "B\[K"
+send -- "A"
+expect -exact "A\[K"
+send -- "Z"
+expect -exact "Z\[K"
+send -- "\r"
+expect -exact "\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid scope. 'BAZ' is not formatted in snake case.                                                           \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mWhat is the scope of this change (e.g., component or file name)?\[39m:\r
+ > "
+send -- "b"
+expect -exact "b\[K7\[30;47maz\[39;49m8"
+send -- "a"
+expect -exact "a\[K7\[30;47mz\[39;49m8"
+send -- "z"
+expect -exact "z\[K78"
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mWrite a short description of the change\[39m:\r
+ > "
+send -- "a short description\r"
+expect -exact "a short description\r
+\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid description. 'a short description' is not formatted in sentence case.                                  \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mWrite a short description of the change\[39m:\r
+ > "
+send -- "A short descrit"
+expect -exact " "
+send -- "ption\r"
+expect -exact "ption\r
+\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid description. 'A short description' does not end with the expected end mark '.'.                        \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mWrite a short description of the change\[39m:\r
+ > "
+send -- "A short description.\r"
+expect -exact "A short description.\r
+\r
+ \[32mYou must provide a longer description of the change (press \[39m\[33mCtrl+D\[39m\[32m to continue)\[39m:\r
+ > "
+send -- "\r"
+expect -exact "\r
+\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid body. You must provide a body.                                                                         \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mYou must provide a longer description of the change (press \[39m\[33mCtrl+D\[39m\[32m to continue)\[39m:\r
+ > "
+send -- "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget ullamcorper velit. Mauris ornare vulputate leo. Ut tempus molestie egestas. Donec metus ligula, gravida sit amet eros nec, sollicitudin tristique eros. Nunc vestibulum lacinia mi, quis cursus orci tempor in."
+expect -exact "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget ullamcorper velit. Mauris ornare vulputate leo. Ut tempus molestie egestas. Donec metus ligula, gravida sit amet eros nec, sollicitudin tristique eros. Nunc vestibulum lacinia mi, quis cursus orci tempor in."
+send -- "\r"
+expect -exact "\r
+"
+send -- "\r"
+expect -exact "\r
+"
+send -- "Aliquam felis ex, pretium at elit dapibus, vehicula congue justo. Maecenas nulla dui, dignissim ac blandit sed, vulputate in tortor. Fusce sed libero eros. Aliquam velit metus, pellentesque non enim sit amet, fermentum blandit tellus. Donec nibh augue, feugiat at cursus a, convallis id massa. Sed egestas leo a vulputate rhoncus."
+expect -exact "Aliquam felis ex, pretium at elit dapibus, vehicula congue justo. Maecenas nulla dui, dignissim ac blandit sed, vulputate in tortor. Fusce sed libero eros. Aliquam velit metus, pellentesque non enim sit amet, fermentum blandit tellus. Donec nibh augue, feugiat at cursus a, convallis id massa. Sed egestas leo a vulputate rhoncus."
+send -- "\r"
+expect -exact "\r
+"
+send -- ""
+expect -exact "^D\r
+ \[32mAre there any breaking changes? (yes/no)\[39m \[\[33mno\[39m\]:\r
+ > "
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mDoes this change affect any open issues? (yes/no)\[39m \[\[33mno\[39m\]:\r
+ > "
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mTo add a footer, provide a footer name, or press ENTER to skip (e.g., Signed-off-by)\[39m:\r
+ > "
+send -- "\r"
+expect -exact "\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Please provide the following required footers: see-also, signed-off-by.                                        \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mTo add a footer, provide a footer name, or press ENTER to skip (e.g., Signed-off-by)\[39m:\r
+ > "
+send -- "S"
+expect -exact "S\[K7\[30;47mee-also\[39;49m8"
+send -- "i"
+expect -exact "i\[K7\[30;47mgned-off-by\[39;49m8"
+send -- "	"
+expect -exact "gned-off-by"
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mProvide a value for the footer Signed-off-by\[39m:\r
+ > "
+send -- "\r"
+expect -exact "\r
+\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid footer value. Footer values may not be empty.                                                          \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mProvide a value for the footer Signed-off-by\[39m:\r
+ > "
+send -- "Jane Doe <jane@example.com>"
+expect -exact "Jane Doe <jane@example.com>"
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mTo add a footer, provide a footer name, or press ENTER to skip (e.g., Signed-off-by)\[39m:\r
+ > "
+send -- "f"
+expect -exact "f\[K"
+send -- "o"
+expect -exact "o\[K"
+send -- "o"
+expect -exact "o\[K"
+send -- " "
+expect -exact " \[K"
+send -- "b"
+expect -exact "b\[K"
+send -- "a"
+expect -exact "a\[K"
+send -- "r"
+expect -exact "r\[K"
+send -- " "
+expect -exact " \[K"
+send -- "b"
+expect -exact "b\[K"
+send -- "a"
+expect -exact "a\[K"
+send -- "z"
+expect -exact "z\[K"
+send -- "\r"
+expect -exact "\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid footer name. Token 'foo bar baz' is invalid.                                                           \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mTo add a footer, provide a footer name, or press ENTER to skip (e.g., Signed-off-by)\[39m:\r
+ > "
+send -- "S"
+expect -exact "S\[K7\[30;47mee-also\[39;49m8"
+send -- "	"
+expect -exact "ee-also"
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mProvide a value for the footer See-also\[39m:\r
+ > "
+send -- "Foo: Bar\r"
+expect -exact "Foo: Bar\r
+\r
+\r
+\[37;41m                                                                                                                        \[39;49m\r
+\[37;41m \[ERROR\] Invalid footer value. Footer values may not contain other footers.                                             \[39;49m\r
+\[37;41m                                                                                                                        \[39;49m\r
+\r
+ \[32mProvide a value for the footer See-also\[39m:\r
+ > "
+send -- "https://example.com/foo"
+expect -exact "https://example.com/foo"
+send -- "\r"
+expect -exact "\r
+\r
+ \[32mTo add a footer, provide a footer name, or press ENTER to skip (e.g., Signed-off-by)\[39m:\r
+ > "
+send -- "\r"
+expect -exact "\r
+\[33mCommit Message\[39m\r
+\[33m--------------\[39m\r
+\r
+ foo(baz): A short description.                                                                                         \r
+                                                                                                                        \r
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget                                                      \r
+ ullamcorper velit. Mauris ornare vulputate leo. Ut tempus molestie                                                     \r
+ egestas. Donec metus ligula, gravida sit amet eros nec, sollicitudin                                                   \r
+ tristique eros. Nunc vestibulum lacinia mi, quis cursus orci tempor in.                                                \r
+                                                                                                                        \r
+ Aliquam felis ex, pretium at elit dapibus, vehicula congue justo.                                                      \r
+ Maecenas nulla dui, dignissim ac blandit sed, vulputate in tortor. Fusce                                               \r
+ sed libero eros. Aliquam velit metus, pellentesque non enim sit amet,                                                  \r
+ fermentum blandit tellus. Donec nibh augue, feugiat at cursus a,                                                       \r
+ convallis id massa. Sed egestas leo a vulputate rhoncus.                                                               \r
+                                                                                                                        \r
+ Signed-off-by: Jane Doe <jane@example.com>                                                                             \r
+ See-also: https://example.com/foo"
+expect eof

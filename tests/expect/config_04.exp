@@ -1,0 +1,24 @@
+#!/usr/bin/env -S expect -f
+
+set force_conservative 0
+
+if {$force_conservative} {
+	set send_slow {1 .1}
+	proc send {ignore arg} {
+		sleep .1
+		exp_send -s -- $arg
+	}
+}
+
+set timeout 3
+spawn ../../bin/conventional-commits config --config ../configs/config-04.json --dump
+match_max 100000
+
+expect -exact "\r
+\[33mIn FinderTool.php line 123:\[39m\r
+\[37;41m                                                                                         \[39;49m\r
+\[37;41m  Expected a configuration array in ../configs/config-04.json; received string instead.  \[39;49m\r
+\[37;41m                                                                                         \[39;49m\r
+\r
+\[32mconfig \[--config CONFIG\] \[--dump\]\[39m"
+expect eof
