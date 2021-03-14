@@ -58,7 +58,7 @@ class FooterTokenQuestion extends Question implements Configurable
             }
 
             try {
-                $validFooter = new Footer((string) $answer, 'validation');
+                $validFooter = new Footer($answer, 'validation');
             } catch (InvalidArgument | InvalidValue $exception) {
                 throw new InvalidConsoleInput('Invalid footer name. ' . $exception->getMessage());
             }

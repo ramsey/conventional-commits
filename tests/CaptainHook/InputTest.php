@@ -18,7 +18,7 @@ class InputTest extends TestCase
 
     public function setUp(): void
     {
-        /** @var IO & MockInterface $captainHookIo  */
+        /** @var IO & MockInterface $captainHookIo */
         $captainHookIo = $this->mockery(IO::class, [
             'isInteractive' => true,
             'getArguments' => [
@@ -74,7 +74,7 @@ class InputTest extends TestCase
 
     public function testGetFirstArgumentReturnsNullWhenThereAreNoArguments(): void
     {
-        /** @var IO & MockInterface $captainHookIo  */
+        /** @var IO & MockInterface $captainHookIo */
         $captainHookIo = $this->mockery(IO::class, [
             'isInteractive' => true,
             'getArguments' => [],

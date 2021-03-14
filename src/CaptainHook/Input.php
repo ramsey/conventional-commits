@@ -51,7 +51,7 @@ class Input implements InputInterface
         /** @var string|false $firstArgument */
         $firstArgument = reset($arguments);
 
-        return $firstArgument === false ? null : (string) $firstArgument;
+        return $firstArgument === false ? null : $firstArgument;
     }
 
     /**

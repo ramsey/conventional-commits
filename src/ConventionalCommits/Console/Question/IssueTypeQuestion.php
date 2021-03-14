@@ -51,7 +51,7 @@ class IssueTypeQuestion extends Question
             }
 
             try {
-                $validFooter = new Footer((string) $answer, 'validation');
+                $validFooter = new Footer($answer, 'validation');
             } catch (InvalidArgument | InvalidValue $exception) {
                 throw new InvalidConsoleInput('Invalid issue reference type. ' . $exception->getMessage());
             }
