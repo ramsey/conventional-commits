@@ -15,7 +15,7 @@ jobs:
 
   coding-standards:
     name: "Coding Standards"
-    runs-on: "ubuntu-latest"
+    runs-on: "ubuntu-20.04"
     steps:
       - uses: "actions/checkout@v2"
       - uses: "shivammathur/setup-php@v2"
@@ -29,7 +29,7 @@ jobs:
 
   static-analysis:
     name: "Static Analysis"
-    runs-on: "ubuntu-latest"
+    runs-on: "ubuntu-20.04"
     steps:
       - uses: "actions/checkout@v2"
       - uses: "shivammathur/setup-php@v2"
@@ -53,7 +53,7 @@ jobs:
           - "7.4"
           - "8.0"
         operating-system:
-          - "ubuntu-latest"
+          - "ubuntu-20.04"
           - "windows-latest"
         dependencies:
           - "lowest"
@@ -77,8 +77,11 @@ jobs:
       - name: "Run unit tests"
         run: "composer dev:test:coverage:ci -- --coverage-text"
       - name: "Run functional tests"
-        if: ${{ matrix.operating-system == 'ubuntu-latest' }}
+        if: ${{ matrix.operating-system == 'ubuntu-20.04' }}
         shell: 'script -q -e -c "bash {0}"'
-        run: "composer test-functional"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y expect
+          composer test-functional
       - name: "Publish coverage report to Codecov"
         uses: "codecov/codecov-action@v1"
