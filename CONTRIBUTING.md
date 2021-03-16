@@ -171,6 +171,35 @@ command line, while in the project root directory:
 composer test
 ```
 
+### Functional Tests
+
+This project includes a suite of functional tests located in `tests/expect/`.
+These tests use the [Expect](https://en.wikipedia.org/wiki/Expect) tool to
+automate CLI interactions. The tests will run automatically as part of
+`composer test`, or you may run them separately with:
+
+```
+./tests/bash-test tests/functional-tests.sh
+```
+
+To run the tests, you must have an up-to-date version of coreutils (8.30 or
+later).
+
+To generate a new functional test:
+
+```
+cd tests/expect/
+autoexpect ../../bin/conventional-commits prepare --config ../configs/default.json
+```
+
+Follow the prompts to enter the data you wish to test. When finished,
+`autoexpect` will save the test to `script.exp`. Rename it with a more
+descriptive name, and run it to ensure it does what you expect: `./script.exp`.
+You may need to edit the test file or add to it, according to your needs.
+
+When done, `cd ../..` and run ` ./tests/bash-test tests/functional-tests.sh`.
+Your new test should run along with the other functional tests.
+
 [github]: https://github.com/ramsey/conventional-commits
 [issues]: https://github.com/ramsey/conventional-commits/issues
 [pull requests]: https://github.com/ramsey/conventional-commits/pulls
