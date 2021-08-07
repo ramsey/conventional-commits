@@ -28,12 +28,12 @@
         "composer/composer": "^1.10.22 || ^2.0.13",
         "jawira/case-converter": "^3.3",
         "opis/json-schema": "^1.0.8",
-        "symfony/console": "^5.2",
+        "symfony/console": "^5.3.4",
         "symfony/filesystem": "^5.1",
         "symfony/polyfill-php80": "^1.15"
     },
     "require-dev": {
-        "ramsey/devtools": "^1.4",
+        "ramsey/devtools": "^1.7",
         "sebastianfeldmann/cli": "^3.3",
         "sebastianfeldmann/git": "^3.3",
         "spatie/phpunit-snapshot-assertions": "^4.2",

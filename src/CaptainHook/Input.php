@@ -91,8 +91,10 @@ class Input implements InputInterface
      */
     public function getArguments()
     {
-        /** @var array<string|bool|int|float|array|null> */
-        return $this->captainHookIO->getArguments();
+        /** @var array<string|bool|int|float|array|null> $arguments */
+        $arguments = $this->captainHookIO->getArguments();
+
+        return $arguments;
     }
 
     /**
