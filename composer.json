@@ -25,7 +25,7 @@
         "ext-json": "*",
         "composer-runtime-api": "^1.1 || ^2",
         "captainhook/captainhook": "^5.3.3",
-        "composer/composer": "^1.1 || ^2.0",
+        "composer/composer": "^1.10.22 || ^2.0.13",
         "jawira/case-converter": "^3.3",
         "opis/json-schema": "^1.0.8",
         "symfony/console": "^5.2",
