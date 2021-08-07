@@ -15,7 +15,7 @@ spawn ../../bin/conventional-commits config --config ../configs/config-05.json -
 match_max 100000
 
 expect -exact "\r
-\[33mIn FinderTool.php line 191:\[39m\r
+\[33mIn FinderTool.php line 188:\[39m\r
 \[37;41m                                                                            \[39;49m\r
 \[37;41m  Invalid types value found in configuration; expected array, used string.  \[39;49m\r
 \[37;41m                                                                            \[39;49m\r
