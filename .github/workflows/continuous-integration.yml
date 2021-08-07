@@ -171,6 +171,4 @@ jobs:
         uses: "ramsey/composer-install@v1"
 
       - name: "Run functional tests"
-        run: |
-          stty columns 120
-          composer test-functional
+        run: "composer test-functional"
