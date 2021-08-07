@@ -70,12 +70,18 @@ class Input implements InputInterface
         throw $this->unsupportedMethod(__METHOD__);
     }
 
-    public function bind(InputDefinition $definition): void
+    /**
+     * @return void
+     */
+    public function bind(InputDefinition $definition)
     {
         // Do nothing. CaptainHook IO is already bound.
     }
 
-    public function validate(): void
+    /**
+     * @return void
+     */
+    public function validate()
     {
         // Do nothing. CaptainHook IO is already validated.
     }
@@ -105,14 +111,21 @@ class Input implements InputInterface
     }
 
     /**
+     * @param mixed $value
+     *
+     * @return void
+     *
      * @inheritDoc
      */
-    public function setArgument(string $name, $value): void
+    public function setArgument(string $name, $value)
     {
         throw $this->unsupportedMethod(__METHOD__);
     }
 
-    public function hasArgument(string $name): bool
+    /**
+     * @inheritDoc
+     */
+    public function hasArgument(string $name)
     {
         return isset($this->getArguments()[$name]);
     }
@@ -131,9 +144,13 @@ class Input implements InputInterface
     }
 
     /**
+     * @param mixed $value
+     *
+     * @return void
+     *
      * @inheritDoc
      */
-    public function setOption(string $name, $value): void
+    public function setOption(string $name, $value)
     {
         throw $this->unsupportedMethod(__METHOD__);
     }
@@ -143,12 +160,18 @@ class Input implements InputInterface
         throw $this->unsupportedMethod(__METHOD__);
     }
 
-    public function isInteractive(): bool
+    /**
+     * @inheritDoc
+     */
+    public function isInteractive()
     {
         return $this->captainHookIO->isInteractive();
     }
 
-    public function setInteractive(bool $interactive): void
+    /**
+     * @return void
+     */
+    public function setInteractive(bool $interactive)
     {
         throw $this->unsupportedMethod(__METHOD__);
     }
