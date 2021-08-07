@@ -1,7 +1,10 @@
 parameters:
     tmpDir: ./build/cache/phpstan
     level: max
-    checkMissingIterableValueType: false
     paths:
         - ./src
         - ./tests
+    ignoreErrors:
+        -
+            message: '#has parameter \$(values|default) with no value type specified in iterable type array#'
+            path: src/CaptainHook/Input.php

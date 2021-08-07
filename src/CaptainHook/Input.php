@@ -85,6 +85,7 @@ class Input implements InputInterface
      */
     public function getArguments()
     {
+        /** @var array<string|bool|int|float|array|null> */
         return $this->captainHookIO->getArguments();
     }
 
@@ -111,10 +112,7 @@ class Input implements InputInterface
         throw $this->unsupportedMethod(__METHOD__);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function hasArgument($name): bool
+    public function hasArgument(string $name): bool
     {
         return isset($this->getArguments()[$name]);
     }

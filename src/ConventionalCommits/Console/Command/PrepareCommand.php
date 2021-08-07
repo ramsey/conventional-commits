@@ -130,7 +130,6 @@ class PrepareCommand extends BaseCommand
         /** @var Body|null $body */
         $body = $console->askQuestion(new BodyQuestion($this->getConfiguration()));
 
-        /** @var Footer[] $footers */
         $footers = $this->askFooterQuestions($console);
         $footers = $this->checkRequiredFooters($console, $footers);
 
@@ -204,7 +203,6 @@ class PrepareCommand extends BaseCommand
         $footers = [];
 
         do {
-            /** @var Footer|null $footer */
             $footer = $this->askFooterQuestion($console, $tokenQuestion, $valueQuestionCallback);
 
             if ($footer !== null) {

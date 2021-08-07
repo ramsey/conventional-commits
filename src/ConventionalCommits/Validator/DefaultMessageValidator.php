@@ -82,6 +82,7 @@ class DefaultMessageValidator implements Configurable, MessageValidator
     public function isValidOrException($value): bool
     {
         if (!$value instanceof Message) {
+            // phpcs:ignore SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall
             $type = is_object($value) ? get_class($value) : gettype($value);
 
             throw new InvalidValue(sprintf(

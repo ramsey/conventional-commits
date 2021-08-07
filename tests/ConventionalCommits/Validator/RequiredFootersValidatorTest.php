@@ -134,6 +134,8 @@ class RequiredFootersValidatorTest extends TestCase
      * @param mixed $testValue
      *
      * @dataProvider provideInvalidValues
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function testThrowsWhenValueIsInvalid($testValue): void
     {

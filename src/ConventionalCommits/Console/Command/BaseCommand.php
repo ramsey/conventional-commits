@@ -44,6 +44,8 @@ abstract class BaseCommand extends Command implements Configurable
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = null;
+
+        /** @var string|null $configFile */
         $configFile = $input->getOption('config');
 
         if ($configFile !== null) {

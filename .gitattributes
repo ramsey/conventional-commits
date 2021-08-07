@@ -1,3 +1,4 @@
+/.allowed-licenses          export-ignore
 /.editorconfig              export-ignore
 /.gitattributes             export-ignore
 /.github/                   export-ignore
@@ -7,7 +8,6 @@
 /CHANGELOG.md               export-ignore
 /codecov.yml                export-ignore
 /CODE_OF_CONDUCT.md         export-ignore
-/composer.lock              export-ignore
 /CONTRIBUTING.md            export-ignore
 /conventional-commits.json  export-ignore
 /docs/                      export-ignore

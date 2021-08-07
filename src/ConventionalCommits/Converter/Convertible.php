@@ -31,6 +31,8 @@ interface Convertible
      * @param mixed $value
      *
      * @return mixed
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function convert($value);
 }

@@ -46,16 +46,14 @@
         "branch-alias": {
             "dev-main": "1.x-dev"
         },
+        "captainhook": {
+            "force-install": true
+        },
         "ramsey/conventional-commits": {
             "configFile": "conventional-commits.json"
         },
         "ramsey/devtools": {
-            "command-prefix": "dev",
-            "commands": {
-                "test:all": {
-                    "script": "@test-functional"
-                }
-            }
+            "command-prefix": "dev"
         }
     },
     "autoload": {
@@ -67,10 +65,7 @@
     "autoload-dev": {
         "psr-4": {
             "Ramsey\\Test\\": "tests/"
-        },
-        "files": [
-            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
-        ]
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

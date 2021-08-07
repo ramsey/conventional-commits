@@ -112,7 +112,7 @@ to validate all staged changes prior to commit.
 To see all the commands available for contributing to this project:
 
 ``` bash
-composer list
+composer list dev
 ```
 
 ### Coding Standards
@@ -120,18 +120,15 @@ composer list
 This project follows a superset of [PSR-12](https://www.php-fig.org/psr/psr-12/)
 coding standards, enforced by [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
-CaptainHook will run PHP_CodeSniffer before committing. It will attempt to fix
-any errors it can, and it will reject the commit if there are any un-fixable
-issues. Many issues can be fixed automatically and will be done so pre-commit.
+CaptainHook will run coding standards checks before committing.
 
-You may lint the entire codebase using PHP_CodeSniffer with the following
-commands:
+You may lint the codebase manually using the following commands:
 
 ``` bash
 # Lint
 composer dev:lint
 
-# Lint and autofix
+# Attempt to auto-fix coding standards issues
 composer dev:lint:fix
 ```
 
@@ -141,9 +138,7 @@ This project uses a combination of [PHPStan](https://github.com/phpstan/phpstan)
 and [Psalm](https://github.com/vimeo/psalm) to provide static analysis of PHP
 code.
 
-CaptainHook will run PHPStan and Psalm before committing. The pre-commit hook
-does not attempt to fix any static analysis errors. Instead, the commit will
-fail, and you must fix the errors manually.
+CaptainHook will run static analysis checks before committing.
 
 You may run static analysis manually across the whole codebase with the
 following command:
@@ -171,15 +166,18 @@ command line, while in the project root directory:
 composer test
 ```
 
+CaptainHook will automatically run all tests before pushing to the remote
+repository.
+
 ### Functional Tests
 
 This project includes a suite of functional tests located in `tests/expect/`.
 These tests use the [Expect](https://en.wikipedia.org/wiki/Expect) tool to
 automate CLI interactions. The tests will run automatically as part of
-`composer test`, or you may run them separately with:
+continuous integration, or you may run them locally with:
 
 ```
-./tests/bash-test tests/functional-tests.sh
+composer test-functional
 ```
 
 To run the tests, you must have an up-to-date version of coreutils (8.30 or
@@ -197,7 +195,7 @@ Follow the prompts to enter the data you wish to test. When finished,
 descriptive name, and run it to ensure it does what you expect: `./script.exp`.
 You may need to edit the test file or add to it, according to your needs.
 
-When done, `cd ../..` and run ` ./tests/bash-test tests/functional-tests.sh`.
+When done, `cd ../..` and run `composer test-functional`.
 Your new test should run along with the other functional tests.
 
 [github]: https://github.com/ramsey/conventional-commits

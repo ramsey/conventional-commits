@@ -140,11 +140,7 @@ trait FinderTool
     private function loadConfigFromComposer(InputInterface $input, OutputInterface $output): array
     {
         $composer = $this->getComposer($input, $output, new Filesystem());
-
-        /** @var mixed|null $config */
         $config = $composer->getPackage()->getExtra()['ramsey/conventional-commits']['config'] ?? null;
-
-        /** @var mixed|null $configFile */
         $configFile = $composer->getPackage()->getExtra()['ramsey/conventional-commits']['configFile'] ?? null;
 
         if ($config !== null && !is_array($config)) {
@@ -188,6 +184,7 @@ trait FinderTool
                 $v = "{$k} {$v}";
             });
 
+            /** @psalm-suppress MixedArgumentTypeCoercion */
             throw new InvalidValue(ucfirst(sprintf(
                 '%s value found in configuration; %s.',
                 (string) $error->data(),

@@ -33,7 +33,6 @@ use Ramsey\ConventionalCommits\Configuration\FinderTool;
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
 use Ramsey\ConventionalCommits\Exception\ConventionalException;
 use Ramsey\ConventionalCommits\Parser;
-use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 
 /**
@@ -73,13 +72,13 @@ class ValidateConventionalCommit implements Action, Constrained
         try {
             $parser->parse($message->getContent());
         } catch (ConventionalException $exception) {
-            $this->writeErrorMessage($io, $message);
+            $this->writeErrorMessage($io);
 
             throw new ActionFailed('Validation failed.');
         }
     }
 
-    private function writeErrorMessage(IO $io, CommitMessage $message): void
+    private function writeErrorMessage(IO $io): void
     {
         $console = $this->styleFactory->factory(new Input($io), new Output($io));
 

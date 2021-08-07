@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- require composer/composer as a standard (non-dev) dependency, since commit hooks do not call CaptainHook in the context of Composer
+- Require composer/composer as a standard (non-dev) dependency, since commit hooks do not call CaptainHook in the context of Composer
 
 ## 1.1.0 - 2020-10-26
 
@@ -69,7 +69,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- adds ramsey/devtools to the project and refactor accordingly.
+- Add ramsey/devtools to the project and refactor accordingly.
 
 ## 1.0.0 - 2020-08-12
 
