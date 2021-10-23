@@ -30,6 +30,7 @@ use Ramsey\ConventionalCommits\Message\Type;
 use Ramsey\ConventionalCommits\String\LetterCase;
 use Ramsey\ConventionalCommits\Validator\DefaultMessageValidator;
 use Ramsey\ConventionalCommits\Validator\MessageValidator;
+use ReturnTypeWillChange;
 
 use function array_key_exists;
 use function in_array;
@@ -107,7 +108,10 @@ class DefaultConfiguration implements Configuration
 
     /**
      * @return mixed
+     *
+     * @psalm-suppress UndefinedAttributeClass
      */
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
