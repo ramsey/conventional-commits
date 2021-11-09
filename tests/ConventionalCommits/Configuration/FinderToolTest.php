@@ -165,7 +165,7 @@ class FinderToolTest extends TestCase
 
         $this->expectException(InvalidValue::class);
         $this->expectExceptionMessage(
-            'Invalid types value found in configuration; expected array, used string.',
+            'Invalid /types value found in configuration: The data (string) must match the type: array',
         );
 
         // @phpstan-ignore-next-line

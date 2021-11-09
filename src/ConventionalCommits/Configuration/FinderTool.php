@@ -25,8 +25,8 @@ use Composer\Composer;
 use Composer\Factory;
 use Composer\IO\ConsoleIO;
 use JsonException;
-use Opis\JsonSchema\Schema;
-use Opis\JsonSchema\ValidationError;
+use Opis\JsonSchema\Errors\ErrorFormatter;
+use Opis\JsonSchema\Errors\ValidationError;
 use Opis\JsonSchema\Validator;
 use Ramsey\ConventionalCommits\Exception\ComposerNotFound;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
@@ -36,7 +36,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-use function array_walk;
 use function dirname;
 use function file_get_contents;
 use function gettype;
@@ -45,7 +44,6 @@ use function is_array;
 use function json_decode;
 use function realpath;
 use function sprintf;
-use function ucfirst;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -168,28 +166,33 @@ trait FinderTool
     private function validateConfig(object $config): bool
     {
         $validator = new Validator();
-        $schema = Schema::fromJsonString(
-            (string) file_get_contents(
-                (string) realpath(__DIR__ . '/../../../schema.json'),
-            ),
+        $schema = $validator->loader()->loadObjectSchema(
+            (object) json_decode((string) file_get_contents((string) realpath(__DIR__ . '/../../../schema.json'))),
         );
-        $result = $validator->schemaValidation($config, $schema);
+        $result = $validator->validate($config, $schema);
 
-        if ($result->hasErrors() && $result->getFirstError() !== null) {
+        if ($result->hasError() && $result->error() !== null) {
             /** @var ValidationError $error */
-            $error = $result->getFirstError();
+            $error = $result->error();
 
-            $issues = $error->keywordArgs();
-            array_walk($issues, function (string &$v, string $k): void {
-                $v = "{$k} {$v}";
-            });
+            $formatter = new ErrorFormatter();
+            $errors = $formatter->formatKeyed($error);
+            $messages = '';
+
+            /**
+             * @var string $key
+             * @var string[] $subErrors
+             */
+            foreach ($errors as $key => $subErrors) {
+                $messages .= sprintf(
+                    'Invalid %s value found in configuration: %s',
+                    $key,
+                    implode('; ', $subErrors),
+                );
+            }
 
             /** @psalm-suppress MixedArgumentTypeCoercion */
-            throw new InvalidValue(ucfirst(sprintf(
-                '%s value found in configuration; %s.',
-                (string) $error->data(),
-                implode(', ', $issues),
-            )));
+            throw new InvalidValue($messages);
         }
 
         return true;
