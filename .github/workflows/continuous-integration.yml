@@ -2,7 +2,21 @@
 
 name: "build"
 
-on: ["pull_request", "push"]
+on:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "*"
+  pull_request:
+    branches:
+      - "main"
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   COMPOSER_ROOT_VERSION: "1.99.99"
@@ -22,12 +36,14 @@ jobs:
           coverage: "none"
 
       - name: "Install dependencies (Composer)"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
 
       - name: "Check syntax (php-parallel-lint)"
+        shell: "bash"
         run: "composer dev:lint:syntax"
 
       - name: "Check coding standards (PHP_CodeSniffer)"
+        shell: "bash"
         run: "composer dev:lint:style"
 
   static-analysis:
@@ -44,16 +60,19 @@ jobs:
           coverage: "none"
 
       - name: "Install dependencies (Composer)"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
 
       - name: "Statically analyze code (PHPStan)"
+        shell: "bash"
         run: "composer dev:analyze:phpstan"
 
       - name: "Statically analyze code (Psalm)"
+        shell: "bash"
         run: "composer dev:analyze:psalm -- --shepherd"
 
   security-analysis:
     name: "Security analysis"
+    needs: ["coding-standards", "static-analysis"]
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout repository"
@@ -66,9 +85,10 @@ jobs:
           coverage: "none"
 
       - name: "Install dependencies (Composer)"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
 
       - name: "Analyze security of code (Psalm)"
+        shell: "bash"
         run: "./vendor/bin/psalm --taint-analysis --report=build/logs/psalm.sarif"
 
       - name: "Upload security analysis results to GitHub"
@@ -78,6 +98,7 @@ jobs:
 
   code-coverage:
     name: "Code coverage"
+    needs: ["coding-standards", "static-analysis"]
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout repository"
@@ -91,9 +112,10 @@ jobs:
           ini-values: "memory_limit=-1"
 
       - name: "Install dependencies (Composer)"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
 
       - name: "Run unit tests (PHPUnit)"
+        shell: "bash"
         run: "composer dev:test:coverage:ci"
 
       - name: "Publish coverage report to Codecov"
@@ -101,8 +123,8 @@ jobs:
 
   unit-tests:
     name: "Unit tests"
+    needs: ["code-coverage", "security-analysis"]
     runs-on: ${{ matrix.operating-system }}
-    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: false
@@ -110,6 +132,7 @@ jobs:
         php-version:
           - "7.4"
           - "8.0"
+          - "8.1"
         operating-system:
           - "macos-latest"
           - "ubuntu-latest"
@@ -117,18 +140,11 @@ jobs:
         dependencies:
           - "lowest"
           - "highest"
-        experimental:
-          - false
-        include:
-          - php-version: "8.1"
-            operating-system: "ubuntu-latest"
-            dependencies: "highest"
-            experimental: true
-            composer-options: "--ignore-platform-req=php"
 
     steps:
       - name: "Configure Git (for Windows)"
         if: ${{ matrix.operating-system == 'windows-latest' }}
+        shell: "bash"
         run: |
           git config --system core.autocrlf false
           git config --system core.eol lf
@@ -143,18 +159,18 @@ jobs:
           coverage: "none"
 
       - name: "Install dependencies (Composer)"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ matrix.composer-options }}"
 
       - name: "Run unit tests (PHPUnit)"
+        shell: "bash"
         run: "composer dev:test:unit"
 
   functional-tests:
     name: "Functional tests"
+    needs: ["code-coverage", "security-analysis"]
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: false
@@ -162,18 +178,14 @@ jobs:
         php-version:
           - "7.4"
           - "8.0"
-        experimental:
-          - false
-        include:
-          - php-version: "8.1"
-            experimental: true
-            composer-options: "--ignore-platform-req=php"
+          - "8.1"
 
     steps:
       - name: "Checkout repository"
         uses: "actions/checkout@v2"
 
       - name: "Install expect"
+        shell: "bash"
         run: |
           sudo apt-get update
           sudo apt-get -y install expect
@@ -185,9 +197,8 @@ jobs:
           coverage: "none"
 
       - name: "Install dependencies (Composer)"
-        uses: "ramsey/composer-install@v1"
-        with:
-          composer-options: "${{ matrix.composer-options }}"
+        uses: "ramsey/composer-install@v2"
 
       - name: "Run functional tests"
+        shell: "bash"
         run: "composer test-functional"
