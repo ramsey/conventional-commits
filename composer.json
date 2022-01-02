@@ -1,7 +1,8 @@
 {
     "name": "ramsey/conventional-commits",
-    "type": "library",
     "description": "A PHP library for creating and validating commit messages according to the Conventional Commits specification. Includes a CaptainHook plugin!",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "captainhook",
         "commit",
@@ -12,7 +13,6 @@
         "hook",
         "plugin"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Ben Ramsey",
@@ -39,7 +39,32 @@
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "symfony/process": "^5.1"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Ramsey\\CaptainHook\\": "src/CaptainHook/",
+            "Ramsey\\ConventionalCommits\\": "src/ConventionalCommits/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ramsey\\Test\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/conventional-commits"
+    ],
     "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "captainhook/plugin-composer": true,
+            "ramsey/devtools": true,
+            "ramsey/composer-repl": true
+        },
         "sort-packages": true
     },
     "extra": {
@@ -56,22 +81,6 @@
             "command-prefix": "dev"
         }
     },
-    "autoload": {
-        "psr-4": {
-            "Ramsey\\CaptainHook\\": "src/CaptainHook/",
-            "Ramsey\\ConventionalCommits\\": "src/ConventionalCommits/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Ramsey\\Test\\": "tests/"
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "bin": [
-        "bin/conventional-commits"
-    ],
     "scripts": {
         "test-functional": "./tests/bash-test tests/functional-tests.sh"
     }
