@@ -1,6 +1,6 @@
 {
     "name": "ramsey/conventional-commits",
-    "description": "A PHP library for creating and validating commit messages according to the Conventional Commits specification. Includes a CaptainHook plugin!",
+    "description": "A PHP library for creating and validating commit messages according to the Conventional Commits specification. Includes a CaptainHook action!",
     "license": "MIT",
     "type": "library",
     "keywords": [
