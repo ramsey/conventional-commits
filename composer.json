@@ -24,7 +24,6 @@
         "php": "^7.4 || ^8",
         "ext-json": "*",
         "composer-runtime-api": "^1.1 || ^2",
-        "captainhook/captainhook": "^5.3.3",
         "composer/composer": "^1.10.23 || ^2.1.9",
         "jawira/case-converter": "^3.3",
         "opis/json-schema": "^2.0",
@@ -33,11 +32,15 @@
         "symfony/polyfill-php80": "^1.15"
     },
     "require-dev": {
+        "captainhook/captainhook": "^5.3.3",
         "ramsey/devtools": "^1.7",
         "sebastianfeldmann/cli": "^3.3",
         "sebastianfeldmann/git": "^3.3",
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "symfony/process": "^5.1 || ^6.0"
+    },
+    "suggest": {
+        "captainhook/captainhook": "Manage your project's Git hooks with CaptainHook, and use ramsey/conventional-commits in your commit-msg and prepare-commit-msg hooks."
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
