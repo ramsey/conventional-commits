@@ -40,6 +40,8 @@ use function preg_match;
 
 /**
  * Default configuration for Conventional Commits commit messages
+ *
+ * @psalm-import-type ConfigurationOptionsType from Configuration
  */
 class DefaultConfiguration implements Configuration
 {
@@ -68,22 +70,22 @@ class DefaultConfiguration implements Configuration
     private ?MessageValidator $messageValidator = null;
 
     /**
-     * @param mixed[] $options
+     * @psalm-param ConfigurationOptionsType $options
      */
     public function __construct(array $options = [])
     {
         $this->typeCase = $this->caseIfValid($options, 'typeCase');
         $this->types = $this->typesIfValid($options['types'] ?? []);
         $this->scopeCase = $this->caseIfValid($options, 'scopeCase');
-        $this->scopeRequired = (bool) ($options['scopeRequired'] ?? false);
+        $this->scopeRequired = $options['scopeRequired'] ?? false;
         $this->scopes = $this->scopesIfValid($options['scopes'] ?? []);
         $this->descriptionCase = $this->caseIfValid($options, 'descriptionCase');
         $this->descriptionEndMark = $this->endMarkIfValid($options['descriptionEndMark'] ?? null);
-        $this->bodyRequired = (bool) ($options['bodyRequired'] ?? false);
+        $this->bodyRequired = $options['bodyRequired'] ?? false;
         $this->requiredFooters = $this->requiredFootersIfValid($options['requiredFooters'] ?? []);
 
         if (is_int($options['bodyWrapWidth'] ?? null)) {
-            $this->bodyWrapWidth = (int) $options['bodyWrapWidth'];
+            $this->bodyWrapWidth = $options['bodyWrapWidth'] ?? null;
         }
     }
 
@@ -107,8 +109,7 @@ class DefaultConfiguration implements Configuration
     }
 
     /**
-     * @return mixed
-     *
+     * @psalm-return ConfigurationOptionsType
      * @psalm-suppress UndefinedAttributeClass
      */
     #[ReturnTypeWillChange]
@@ -212,7 +213,7 @@ class DefaultConfiguration implements Configuration
     }
 
     /**
-     * @param mixed[] $options
+     * @psalm-param ConfigurationOptionsType $options
      */
     private function caseIfValid(array $options, string $parameter): ?string
     {
@@ -220,14 +221,14 @@ class DefaultConfiguration implements Configuration
         $value = $options[$parameter] ?? null;
 
         if ($value !== null && !in_array($value, LetterCase::CASES)) {
-            throw new InvalidArgument("'{$value}' is not a valid case for {$parameter}.");
+            throw new InvalidArgument("'$value' is not a valid case for $parameter.");
         }
 
         return $value;
     }
 
     /**
-     * @param mixed $types
+     * @param scalar[] | scalar $types
      *
      * @return string[]
      *
@@ -241,13 +242,12 @@ class DefaultConfiguration implements Configuration
             $types = [$types];
         }
 
-        /** @var mixed $type */
         foreach ($types as $type) {
             try {
                 $validTypes[] = (new Type((string) $type))->toString();
             } catch (InvalidArgument $exception) {
                 throw new InvalidArgument(
-                    "'{$type}' is not a valid type; types may contain only "
+                    "'$type' is not a valid type; types may contain only "
                     . 'alphanumeric characters, underscores, and dashes.',
                 );
             }
@@ -257,7 +257,7 @@ class DefaultConfiguration implements Configuration
     }
 
     /**
-     * @param mixed $scopes
+     * @param scalar[] | scalar $scopes
      *
      * @return string[]
      *
@@ -271,13 +271,12 @@ class DefaultConfiguration implements Configuration
             $scopes = [$scopes];
         }
 
-        /** @var mixed $scope */
         foreach ($scopes as $scope) {
             try {
                 $validScopes[] = (new Scope((string) $scope))->toString();
             } catch (InvalidArgument $exception) {
                 throw new InvalidArgument(
-                    "'{$scope}' is not a valid scope; scopes may contain only "
+                    "'$scope' is not a valid scope; scopes may contain only "
                     . 'alphanumeric characters, underscores, and dashes.',
                 );
             }
@@ -287,7 +286,7 @@ class DefaultConfiguration implements Configuration
     }
 
     /**
-     * @param mixed $requiredFooters
+     * @param scalar[] | scalar $requiredFooters
      *
      * @return string[]
      *
@@ -301,13 +300,12 @@ class DefaultConfiguration implements Configuration
             $requiredFooters = [$requiredFooters];
         }
 
-        /** @var mixed $footer */
         foreach ($requiredFooters as $footer) {
             try {
                 $validFooters[] = (new Footer((string) $footer, 'placeholder'))->getToken();
             } catch (InvalidArgument $exception) {
                 throw new InvalidArgument(
-                    "'{$footer}' is not a valid footer token; footer tokens may contain only "
+                    "'$footer' is not a valid footer token; footer tokens may contain only "
                     . "alphanumeric characters and dashes or the phrase 'BREAKING CHANGE'.",
                 );
             }
@@ -317,7 +315,7 @@ class DefaultConfiguration implements Configuration
     }
 
     /**
-     * @param mixed $endMark
+     * @param scalar | null $endMark
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
@@ -330,7 +328,7 @@ class DefaultConfiguration implements Configuration
         $endMark = (string) $endMark;
 
         if (!preg_match('/^[[:punct:]]?$/u', $endMark)) {
-            throw new InvalidArgument("'{$endMark}' is not a valid punctuation character.");
+            throw new InvalidArgument("'$endMark' is not a valid punctuation character.");
         }
 
         return $endMark;

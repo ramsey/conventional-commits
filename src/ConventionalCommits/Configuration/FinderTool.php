@@ -56,7 +56,7 @@ trait FinderTool
     /**
      * Returns a Configuration instance after looking for configuration in various locations
      *
-     * @param mixed[]|null $options
+     * @param array{config?: array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}, configFile?: string} | null $options
      *
      * @throws JsonException
      */
@@ -65,10 +65,7 @@ trait FinderTool
         OutputInterface $output,
         ?array $options = null
     ): Configuration {
-        /** @var mixed[] | null $config */
         $config = $options['config'] ?? null;
-
-        /** @var string | null $configFile */
         $configFile = $options['configFile'] ?? null;
 
         // If provided config, it takes precedence.
@@ -102,7 +99,7 @@ trait FinderTool
     }
 
     /**
-     * @return mixed[]
+     * @return array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}
      *
      * @throws InvalidArgument if unable to read the file
      * @throws JsonException if an error occurs while decoding the config file JSON
@@ -114,7 +111,7 @@ trait FinderTool
             throw new InvalidArgument(sprintf('Could not find config file \'%s\'', $file));
         }
 
-        /** @var mixed $value */
+        /** @var array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} | null $value */
         $value = json_decode($contents, true, 4, JSON_THROW_ON_ERROR);
 
         if (!is_array($value)) {
@@ -131,15 +128,19 @@ trait FinderTool
     }
 
     /**
-     * @return mixed[]
+     * @return array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}
      *
      * @throws JsonException
      */
     private function loadConfigFromComposer(InputInterface $input, OutputInterface $output): array
     {
         $composer = $this->getComposer($input, $output, new Filesystem());
-        $config = $composer->getPackage()->getExtra()['ramsey/conventional-commits']['config'] ?? null;
-        $configFile = $composer->getPackage()->getExtra()['ramsey/conventional-commits']['configFile'] ?? null;
+
+        /** @var array{"ramsey/conventional-commits"?: array{config?: scalar | array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}, configFile?: scalar}} | null $extra */
+        $extra = $composer->getPackage()->getExtra();
+
+        $config = $extra['ramsey/conventional-commits']['config'] ?? null;
+        $configFile = $extra['ramsey/conventional-commits']['configFile'] ?? null;
 
         if ($config !== null && !is_array($config)) {
             throw new InvalidValue(sprintf(
@@ -217,6 +218,9 @@ trait FinderTool
             __DIR__ . '/../../../vendor/autoload.php',
         ];
 
+        $path = '';
+        $composerJson = '';
+
         foreach ($composerAutoloadLocations as $file) {
             if ($filesystem->exists($file)) {
                 $path = dirname((string) realpath($file));
@@ -225,25 +229,25 @@ trait FinderTool
             }
         }
 
-        if (!isset($path)) {
+        if ($path === '') {
             throw new ComposerNotFound(
                 'Could not find the autoloader. Did you run composer install or composer update?',
             );
         }
 
         do {
-            if ($filesystem->exists((string) $path . '/composer.json')) {
-                $composerJson = (string) realpath((string) $path . '/composer.json');
+            if ($filesystem->exists($path . '/composer.json')) {
+                $composerJson = (string) realpath($path . '/composer.json');
             }
 
             // We have reached the root directory.
-            if (dirname((string) $path) === $path) {
+            if (dirname($path) === $path) {
                 throw new ComposerNotFound('Could not find composer.json.');
             }
 
-            $path = dirname((string) $path);
-        } while (!isset($composerJson));
+            $path = dirname($path);
+        } while ($composerJson === '');
 
-        return (string) $composerJson;
+        return $composerJson;
     }
 }

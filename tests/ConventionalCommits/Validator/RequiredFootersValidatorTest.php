@@ -15,7 +15,7 @@ class RequiredFootersValidatorTest extends TestCase
 {
     /**
      * @param mixed[] $testValue
-     * @param mixed[] $options
+     * @param array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} $options
      *
      * @dataProvider provideTestValues
      */
@@ -32,7 +32,7 @@ class RequiredFootersValidatorTest extends TestCase
 
     /**
      * @param mixed[] $testValue
-     * @param mixed[] $options
+     * @param array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} $options
      *
      * @dataProvider provideTestValues
      */

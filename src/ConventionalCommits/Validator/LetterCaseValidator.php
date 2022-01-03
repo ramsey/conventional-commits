@@ -60,9 +60,12 @@ class LetterCaseValidator implements Configurable, Validator
             return true;
         }
 
+        /** @var string $guaranteedStringValue */
+        $guaranteedStringValue = $value;
+
         throw new InvalidValue(sprintf(
             "'%s' is not formatted in %s case.",
-            (string) $value,
+            $guaranteedStringValue,
             (string) $this->case,
         ));
     }

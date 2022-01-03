@@ -25,7 +25,10 @@ use Jawira\CaseConverter\CaseConverterInterface;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\String\LetterCase;
 
+use function gettype;
 use function in_array;
+use function is_string;
+use function sprintf;
 use function ucfirst;
 
 /**
@@ -39,7 +42,7 @@ class LetterCaseConverter implements Convertible
     public function __construct(CaseConverterInterface $caseConverter, ?string $case)
     {
         if ($case !== null && !in_array($case, LetterCase::CASES)) {
-            throw new InvalidArgument("'{$case}' is not a valid letter case.");
+            throw new InvalidArgument("'$case' is not a valid letter case.");
         }
 
         $this->case = $case;
@@ -60,8 +63,15 @@ class LetterCaseConverter implements Convertible
             return $value;
         }
 
+        if (!is_string($value)) {
+            throw new InvalidArgument(sprintf(
+                "The value must be a string; received '%s'",
+                gettype($value),
+            ));
+        }
+
         $convertToMethod = 'to' . ucfirst($this->case);
 
-        return $this->caseConverter->convert((string) $value)->{$convertToMethod}();
+        return $this->caseConverter->convert($value)->{$convertToMethod}();
     }
 }
