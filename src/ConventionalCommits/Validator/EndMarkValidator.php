@@ -22,8 +22,11 @@ declare(strict_types=1);
 namespace Ramsey\ConventionalCommits\Validator;
 
 use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
+use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
 
+use function gettype;
+use function is_string;
 use function mb_strlen;
 use function mb_substr;
 use function preg_match;
@@ -48,17 +51,24 @@ class EndMarkValidator implements Validator
      */
     public function isValid($value): bool
     {
+        if (!is_string($value)) {
+            throw new InvalidArgument(sprintf(
+                "The value must be a string; received '%s'",
+                gettype($value),
+            ));
+        }
+
         if ($this->endMark === null) {
             return true;
         }
 
         if ($this->endMark === '') {
-            return (bool) preg_match('/^[^[:punct:]]$/u', mb_substr((string) $value, -1));
+            return (bool) preg_match('/^[^[:punct:]]$/u', mb_substr($value, -1));
         }
 
         $length = mb_strlen($this->endMark) * -1;
 
-        return mb_substr((string) $value, $length) === $this->endMark;
+        return mb_substr($value, $length) === $this->endMark;
     }
 
     /**
@@ -70,9 +80,12 @@ class EndMarkValidator implements Validator
             return true;
         }
 
+        /** @var string $guaranteedStringValue */
+        $guaranteedStringValue = $value;
+
         throw new InvalidValue(sprintf(
             "'%s' does not end with the expected end mark '%s'.",
-            (string) $value,
+            $guaranteedStringValue,
             (string) $this->endMark,
         ));
     }

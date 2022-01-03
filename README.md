@@ -18,7 +18,7 @@
 
 ramsey/conventional-commits is a PHP library for creating and validating commit
 messages according to the [Conventional Commits specification][]. It also
-includes a [CaptainHook][] plugin!
+includes a [CaptainHook][] action!
 
 This project adheres to a [code of conduct](CODE_OF_CONDUCT.md).
 By participating in this project and its community, you are expected to
@@ -48,9 +48,18 @@ To see all the features of the console command, enter:
 ./vendor/bin/conventional-commits
 ```
 
-### Validating Commit Messages
+### CaptainHook Plugin
 
-To use the CaptainHook plugin to validate commit messages according to the
+To use ramsey/conventional-commits with CaptainHook as part of your `commit-msg`
+and/or `prepare-commit-msg` Git hooks, be sure to require CaptainHook as a
+development dependency.
+
+Check out the [CaptainHook documentation](https://github.com/captainhookphp/captainhook)
+for more information on installing and configuring CaptainHook.
+
+#### Validating Commit Messages
+
+To use the CaptainHook action to validate commit messages according to the
 Conventional Commits specification, add the following to the `commit-msg`
 property in your `captainhook.json` file:
 
@@ -67,12 +76,12 @@ property in your `captainhook.json` file:
 }
 ```
 
-### Preparing Commit Messages
+#### Preparing Commit Messages
 
 You can set up this library to prompt you to prepare commit messages when you
 use `git commit`!
 
-To use the CaptainHook plugin to prepare commit messages according to the
+To use the CaptainHook action to prepare commit messages according to the
 Conventional Commits specification, add the following to the `prepare-commit-msg`
 property in your `captainhook.json` file:
 
@@ -109,39 +118,39 @@ We look for configuration in one of two places:
 Configuration for ramsey/conventional-commits consists of the following
 properties:
 
-| Property             | Description |
-| -------------------- | ----------- |
-| `typeCase`           | The letter case to require for the type. By default, any letter case is acceptable.
-| `types`              | An array of accepted types (in addition to "feat" and "fix"). By default, any type is acceptable.
-| `scopeCase`          | The letter case to require for the scope. By default, any letter case is acceptable.
-| `scopeRequired`      | Whether a scope is required. By default, scope is not required.
-| `scopes`             | An array of accepted scopes. By default, any scope is acceptable.
-| `descriptionCase`    | The letter case to require for the description. By default, any letter case is acceptable.
-| `descriptionEndMark` | A character to require at the end of the description. By default, any character is allowed. Use an empty string to indicate a punctuation character is not allowed at the end of the description.
-| `bodyRequired`       | Whether a body is required. By default, a body is not required.
-| `bodyWrapWidth`      | An integer indicating the character width to auto-wrap the body of the commit message. By default, the commit body does not auto-wrap.
-| `requiredFooters`    | An array of footers that must be provided. By default, footers are not required.
+| Property             | Description                                                                                                                                                                                       |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `typeCase`           | The letter case to require for the type. By default, any letter case is acceptable.                                                                                                               |
+| `types`              | An array of accepted types (in addition to "feat" and "fix"). By default, any type is acceptable.                                                                                                 |
+| `scopeCase`          | The letter case to require for the scope. By default, any letter case is acceptable.                                                                                                              |
+| `scopeRequired`      | Whether a scope is required. By default, scope is not required.                                                                                                                                   |
+| `scopes`             | An array of accepted scopes. By default, any scope is acceptable.                                                                                                                                 |
+| `descriptionCase`    | The letter case to require for the description. By default, any letter case is acceptable.                                                                                                        |
+| `descriptionEndMark` | A character to require at the end of the description. By default, any character is allowed. Use an empty string to indicate a punctuation character is not allowed at the end of the description. |
+| `bodyRequired`       | Whether a body is required. By default, a body is not required.                                                                                                                                   |
+| `bodyWrapWidth`      | An integer indicating the character width to auto-wrap the body of the commit message. By default, the commit body does not auto-wrap.                                                            |
+| `requiredFooters`    | An array of footers that must be provided. By default, footers are not required.                                                                                                                  |
 
 When specifying configuration, if you wish to use the default behavior for a
 property, it is not necessary to list the property in your configuration.
 
 Recognized letter cases are:
 
-| Identifier | Name          | Example |
-| ---------- | ------------- | ------- |
-| `ada`      | Ada case      | `The_Quick_Brown_Fox`
-| `camel`    | Camel case    | `theQuickBrownFox`
-| `cobol`    | COBOL case    | `THE-QUICK-BROWN-FOX`
-| `dot`      | Dot notation  | `the.quick.brown.fox`
-| `kebab`    | Kebab case    | `the-quick-brown-fox`
-| `lower`    | Lower case    | `the quick brown fox`
-| `macro`    | Macro case    | `THE_QUICK_BROWN_FOX`
-| `pascal`   | Pascal case   | `TheQuickBrownFox`
-| `sentence` | Sentence case | `The quick brown fox`
-| `snake`    | Snake case    | `the_quick_brown_fox`
-| `title`    | Title case    | `The Quick Brown Fox`
-| `train`    | Train case    | `The-Quick-Brown-Fox`
-| `upper`    | Upper case    | `THE QUICK BROWN FOX`
+| Identifier | Name          | Example               |
+|------------|---------------|-----------------------|
+| `ada`      | Ada case      | `The_Quick_Brown_Fox` |
+| `camel`    | Camel case    | `theQuickBrownFox`    |
+| `cobol`    | COBOL case    | `THE-QUICK-BROWN-FOX` |
+| `dot`      | Dot notation  | `the.quick.brown.fox` |
+| `kebab`    | Kebab case    | `the-quick-brown-fox` |
+| `lower`    | Lower case    | `the quick brown fox` |
+| `macro`    | Macro case    | `THE_QUICK_BROWN_FOX` |
+| `pascal`   | Pascal case   | `TheQuickBrownFox`    |
+| `sentence` | Sentence case | `The quick brown fox` |
+| `snake`    | Snake case    | `the_quick_brown_fox` |
+| `title`    | Title case    | `The Quick Brown Fox` |
+| `train`    | Train case    | `The-Quick-Brown-Fox` |
+| `upper`    | Upper case    | `THE QUICK BROWN FOX` |
 
 #### Configuration in composer.json
 

@@ -28,6 +28,7 @@ use CaptainHook\App\Hook\Action;
 use CaptainHook\App\Hook\Constrained;
 use CaptainHook\App\Hook\Restriction;
 use CaptainHook\App\Hooks;
+use Ramsey\ConventionalCommits\Configuration\Configuration;
 use Ramsey\ConventionalCommits\Configuration\FinderTool;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use SebastianFeldmann\Git\CommitMessage;
@@ -38,6 +39,8 @@ use function trim;
 /**
  * During the prepare-commit-msg Git hook, this prompts the user for input and
  * builds a valid Conventional Commits commit message
+ *
+ * @psalm-import-type ConfigurationOptionsType from Configuration
  */
 class PrepareConventionalCommit implements Action, Constrained
 {
@@ -75,12 +78,10 @@ class PrepareConventionalCommit implements Action, Constrained
         $input = new Input($io);
         $output = new Output($io);
 
-        $this->prepareCommand->setConfiguration($this->findConfiguration(
-            $input,
-            $output,
-            $action->getOptions()->getAll(),
-        ));
+        /** @var array{config?: ConfigurationOptionsType, configFile?: string} | null $options */
+        $options = $action->getOptions()->getAll();
 
+        $this->prepareCommand->setConfiguration($this->findConfiguration($input, $output, $options));
         $this->prepareCommand->run($input, $output);
 
         $message = $this->prepareCommand->getMessage();

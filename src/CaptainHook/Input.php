@@ -55,6 +55,8 @@ class Input implements InputInterface
     }
 
     /**
+     * @param string | mixed[] $values
+     *
      * @inheritDoc
      */
     public function hasParameterOption($values, bool $onlyParams = false)
@@ -63,6 +65,9 @@ class Input implements InputInterface
     }
 
     /**
+     * @param string | mixed[] $values
+     * @param string | bool | int | float | mixed[] | null $default
+     *
      * @inheritDoc
      */
     public function getParameterOption($values, $default = false, bool $onlyParams = false)
@@ -87,14 +92,12 @@ class Input implements InputInterface
     }
 
     /**
-     * @inheritDoc
+     * @return array<string | bool | int | float | mixed[] | null>
      */
     public function getArguments()
     {
-        /** @var array<string|bool|int|float|array|null> $arguments */
-        $arguments = $this->captainHookIO->getArguments();
-
-        return $arguments;
+        /** @var array<string | bool | int | float | mixed[] | null> */
+        return $this->captainHookIO->getArguments();
     }
 
     /**
@@ -103,13 +106,11 @@ class Input implements InputInterface
     public function getArgument(string $name)
     {
         if (!$this->hasArgument($name)) {
-            throw new InvalidArgumentException("Argument '{$name}' does not exist.");
+            throw new InvalidArgumentException("Argument '$name' does not exist.");
         }
 
-        /** @var string|string[]|null $value */
-        $value = $this->getArguments()[$name];
-
-        return $value;
+        /** @var string | string[] | null */
+        return $this->getArguments()[$name];
     }
 
     /**
@@ -132,6 +133,9 @@ class Input implements InputInterface
         return isset($this->getArguments()[$name]);
     }
 
+    /**
+     * @return array<string | bool | int | float | mixed[] | null>
+     */
     public function getOptions()
     {
         throw $this->unsupportedMethod(__METHOD__);
@@ -181,7 +185,7 @@ class Input implements InputInterface
     private function unsupportedMethod(string $methodName): RuntimeException
     {
         return new RuntimeException(
-            "{$methodName} is not supported in this implementation",
+            "$methodName is not supported in this implementation",
         );
     }
 }

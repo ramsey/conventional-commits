@@ -20,10 +20,11 @@ class WindowsSafeTextDriver implements Driver
      */
     public function serialize($data): string
     {
-        // Save snapshot only with lf line endings.
-        $data = (string) preg_replace('/\r\n/', "\n", $data);
+        /** @var string $stringData */
+        $stringData = $data;
 
-        return $data;
+        // Save snapshot only with lf line endings.
+        return (string) preg_replace('/\r\n/', "\n", $stringData);
     }
 
     public function extension(): string
@@ -36,9 +37,12 @@ class WindowsSafeTextDriver implements Driver
      */
     public function match($expected, $actual): void
     {
+        /** @var string $stringExpected */
+        $stringExpected = $expected;
+
         // Make sure the expected string has lf line endings, so we can
         // compare accurately.
-        $expected = (string) preg_replace('/\r\n/', "\n", $expected);
+        $expected = (string) preg_replace('/\r\n/', "\n", $stringExpected);
 
         Assert::assertEquals($expected, $this->serialize($actual));
     }

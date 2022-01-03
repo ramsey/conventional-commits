@@ -30,8 +30,10 @@ use Ramsey\ConventionalCommits\Message\Type;
 use function array_map;
 use function array_merge;
 use function count;
+use function gettype;
 use function implode;
 use function in_array;
+use function is_string;
 use function sprintf;
 use function strtolower;
 
@@ -47,12 +49,19 @@ class TypeValidator implements Configurable, Validator
      */
     public function isValid($value): bool
     {
-        if (!$this->isInConfiguredTypes((string) $value)) {
+        if (!is_string($value)) {
+            throw new InvalidArgument(sprintf(
+                "The value must be a string; received '%s'",
+                gettype($value),
+            ));
+        }
+
+        if (!$this->isInConfiguredTypes($value)) {
             return false;
         }
 
         try {
-            new Type((string) $value);
+            new Type($value);
         } catch (InvalidArgument $exception) {
             return false;
         }
@@ -69,17 +78,20 @@ class TypeValidator implements Configurable, Validator
             return true;
         }
 
+        /** @var string $guaranteedStringValue */
+        $guaranteedStringValue = $value;
+
         if ($this->getConfiguredTypes()) {
             throw new InvalidValue(sprintf(
                 "'%s' is not one of the valid types '%s'.",
-                (string) $value,
+                $guaranteedStringValue,
                 implode(', ', $this->getConfiguredTypes()),
             ));
         }
 
         throw new InvalidValue(sprintf(
             "'%s' is not a valid type value.",
-            (string) $value,
+            $guaranteedStringValue,
         ));
     }
 

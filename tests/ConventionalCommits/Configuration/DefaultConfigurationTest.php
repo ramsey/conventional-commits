@@ -105,7 +105,7 @@ class DefaultConfigurationTest extends TestCase
     }
 
     /**
-     * @param mixed[] $options
+     * @param array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} $options
      *
      * @dataProvider provideInvalidData
      */
@@ -179,6 +179,7 @@ class DefaultConfigurationTest extends TestCase
 
     public function testTypesWithNonArray(): void
     {
+        // @phpstan-ignore-next-line
         $config = new DefaultConfiguration([
             'types' => 'foo',
         ]);
@@ -188,6 +189,7 @@ class DefaultConfigurationTest extends TestCase
 
     public function testScopesWithNonArray(): void
     {
+        // @phpstan-ignore-next-line
         $config = new DefaultConfiguration([
             'scopes' => 'bar',
         ]);
@@ -197,6 +199,7 @@ class DefaultConfigurationTest extends TestCase
 
     public function testRequiredFootersWithNonArray(): void
     {
+        // @phpstan-ignore-next-line
         $config = new DefaultConfiguration([
             'requiredFooters' => 'baz',
         ]);

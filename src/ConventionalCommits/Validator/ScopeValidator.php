@@ -29,8 +29,10 @@ use Ramsey\ConventionalCommits\Message\Scope;
 
 use function array_map;
 use function count;
+use function gettype;
 use function implode;
 use function in_array;
+use function is_string;
 use function sprintf;
 use function strtolower;
 
@@ -46,12 +48,19 @@ class ScopeValidator implements Configurable, Validator
      */
     public function isValid($value): bool
     {
-        if (!$this->isInConfiguredScopes((string) $value)) {
+        if (!is_string($value)) {
+            throw new InvalidArgument(sprintf(
+                "The value must be a string; received '%s'",
+                gettype($value),
+            ));
+        }
+
+        if (!$this->isInConfiguredScopes($value)) {
             return false;
         }
 
         try {
-            new Scope((string) $value);
+            new Scope($value);
         } catch (InvalidArgument $exception) {
             return false;
         }
@@ -68,17 +77,20 @@ class ScopeValidator implements Configurable, Validator
             return true;
         }
 
+        /** @var string $guaranteedStringValue */
+        $guaranteedStringValue = $value;
+
         if ($this->getConfiguredScopes()) {
             throw new InvalidValue(sprintf(
                 "'%s' is not one of the valid scopes '%s'.",
-                (string) $value,
+                $guaranteedStringValue,
                 implode(', ', $this->getConfiguredScopes()),
             ));
         }
 
         throw new InvalidValue(sprintf(
             "'%s' is not a valid scope value.",
-            (string) $value,
+            $guaranteedStringValue,
         ));
     }
 

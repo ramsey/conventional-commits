@@ -29,6 +29,7 @@ use CaptainHook\App\Hook\Action;
 use CaptainHook\App\Hook\Constrained;
 use CaptainHook\App\Hook\Restriction;
 use CaptainHook\App\Hooks;
+use Ramsey\ConventionalCommits\Configuration\Configuration;
 use Ramsey\ConventionalCommits\Configuration\FinderTool;
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
 use Ramsey\ConventionalCommits\Exception\ConventionalException;
@@ -38,6 +39,8 @@ use SebastianFeldmann\Git\Repository;
 /**
  * During the commit-msg Git hook, this validates the commit message according
  * to the Conventional Commits specification
+ *
+ * @psalm-import-type ConfigurationOptionsType from Configuration
  */
 class ValidateConventionalCommit implements Action, Constrained
 {
@@ -61,15 +64,13 @@ class ValidateConventionalCommit implements Action, Constrained
         Repository $repository,
         ActionConfig $action
     ): void {
-        $parser = new Parser($this->findConfiguration(
-            new Input($io),
-            new Output($io),
-            $action->getOptions()->getAll(),
-        ));
+        /** @var array{config?: ConfigurationOptionsType, configFile?: string} | null $options */
+        $options = $action->getOptions()->getAll();
 
         $message = $repository->getCommitMsg();
 
         try {
+            $parser = new Parser($this->findConfiguration(new Input($io), new Output($io), $options));
             $parser->parse($message->getContent());
         } catch (ConventionalException $exception) {
             $this->writeErrorMessage($io);

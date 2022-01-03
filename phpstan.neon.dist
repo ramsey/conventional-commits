@@ -4,7 +4,3 @@ parameters:
     paths:
         - ./src
         - ./tests
-    ignoreErrors:
-        -
-            message: '#has parameter \$(values|default) with no value type specified in iterable type array#'
-            path: src/CaptainHook/Input.php

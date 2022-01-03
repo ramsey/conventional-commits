@@ -12,7 +12,7 @@ use Ramsey\Dev\Tools\TestCase;
 class TypeValidatorTest extends TestCase
 {
     /**
-     * @param mixed[] $options
+     * @param array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} $options
      *
      * @dataProvider provideTypeTestValues
      */
@@ -28,7 +28,7 @@ class TypeValidatorTest extends TestCase
     }
 
     /**
-     * @param mixed[] $options
+     * @param array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} $options
      *
      * @dataProvider provideTypeTestValues
      */

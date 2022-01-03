@@ -12,7 +12,7 @@ use Ramsey\Dev\Tools\TestCase;
 class ScopeValidatorTest extends TestCase
 {
     /**
-     * @param mixed[] $options
+     * @param array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} $options
      *
      * @dataProvider provideScopeTestValues
      */
@@ -28,7 +28,7 @@ class ScopeValidatorTest extends TestCase
     }
 
     /**
-     * @param mixed[] $options
+     * @param array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]} $options
      *
      * @dataProvider provideScopeTestValues
      */
