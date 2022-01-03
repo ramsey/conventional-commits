@@ -222,7 +222,7 @@ trait FinderTool
             $path = dirname((string) $path);
         } while ($composerJson === '');
 
-        return (string) $composerJson;
+        return $composerJson;
     }
 
     /**
