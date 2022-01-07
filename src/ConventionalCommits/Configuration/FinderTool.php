@@ -170,7 +170,7 @@ trait FinderTool
     {
         $validator = new Validator();
         $schema = $validator->loader()->loadObjectSchema(
-            (object) json_decode((string) file_get_contents((string) realpath(__DIR__ . '/../../../schema.json'))),
+            (object) json_decode((string) file_get_contents(dirname(dirname(dirname(__DIR__))) . '/schema.json')),
         );
         $result = $validator->validate($config, $schema);
 
