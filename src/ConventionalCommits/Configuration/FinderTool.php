@@ -28,6 +28,7 @@ use JsonException;
 use Opis\JsonSchema\Errors\ErrorFormatter;
 use Opis\JsonSchema\Errors\ValidationError;
 use Opis\JsonSchema\Validator;
+use Phar;
 use Ramsey\ConventionalCommits\Exception\ComposerNotFound;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
@@ -38,6 +39,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use function dirname;
 use function file_get_contents;
+use function getcwd;
 use function gettype;
 use function implode;
 use function is_array;
@@ -168,7 +170,7 @@ trait FinderTool
     {
         $validator = new Validator();
         $schema = $validator->loader()->loadObjectSchema(
-            (object) json_decode((string) file_get_contents((string) realpath(__DIR__ . '/../../../schema.json'))),
+            (object) json_decode((string) file_get_contents(dirname(dirname(dirname(__DIR__))) . '/schema.json')),
         );
         $result = $validator->validate($config, $schema);
 
@@ -204,6 +206,30 @@ trait FinderTool
      */
     private function findComposerJson(Filesystem $filesystem): string
     {
+        $path = Phar::running() ? getcwd() : $this->getAutoloaderPath($filesystem);
+        $composerJson = '';
+
+        do {
+            if ($filesystem->exists((string) $path . '/composer.json')) {
+                $composerJson = (string) realpath((string) $path . '/composer.json');
+            }
+
+            // We have reached the root directory.
+            if (dirname((string) $path) === $path) {
+                throw new ComposerNotFound('Could not find composer.json.');
+            }
+
+            $path = dirname((string) $path);
+        } while ($composerJson === '');
+
+        return $composerJson;
+    }
+
+    /**
+     * @throws ComposerNotFound when unable to find the autoload.php file
+     */
+    private function getAutoloaderPath(Filesystem $filesystem): string
+    {
         // We do this as a way to determine where the package is installed, so
         // we can determine which composer.json to use. This isn't fool-proof,
         // since we can't detect when config.vendor-dir puts the vendor
@@ -219,7 +245,6 @@ trait FinderTool
         ];
 
         $path = '';
-        $composerJson = '';
 
         foreach ($composerAutoloadLocations as $file) {
             if ($filesystem->exists($file)) {
@@ -235,19 +260,6 @@ trait FinderTool
             );
         }
 
-        do {
-            if ($filesystem->exists($path . '/composer.json')) {
-                $composerJson = (string) realpath($path . '/composer.json');
-            }
-
-            // We have reached the root directory.
-            if (dirname($path) === $path) {
-                throw new ComposerNotFound('Could not find composer.json.');
-            }
-
-            $path = dirname($path);
-        } while ($composerJson === '');
-
-        return $composerJson;
+        return $path;
     }
 }
