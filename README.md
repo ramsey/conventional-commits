@@ -48,7 +48,7 @@ To see all the features of the console command, enter:
 ./vendor/bin/conventional-commits
 ```
 
-### CaptainHook Plugin
+### CaptainHook Action
 
 To use ramsey/conventional-commits with CaptainHook as part of your `commit-msg`
 and/or `prepare-commit-msg` Git hooks, be sure to require CaptainHook as a

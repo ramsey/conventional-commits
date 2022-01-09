@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.3.0 - 2022-01-09
+
+### Added
+
+- Support finding `composer.json` when ramsey/conventional-commits is bundled within a Phar (see [#29](https://github.com/ramsey/conventional-commits/pull/29)).
+- Allow use of version 6.x of required Symfony packages.
+
+### Changed
+
+- Move captainhook/captainhook to `require-dev` and suggest it as a dependency.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.2.0 - 2021-11-09
 
 ### Added
