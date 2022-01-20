@@ -44,7 +44,7 @@ class Input implements InputInterface
     /**
      * @inheritDoc
      */
-    public function getFirstArgument()
+    public function getFirstArgument(): ?string
     {
         $arguments = $this->getArguments();
 
@@ -59,7 +59,7 @@ class Input implements InputInterface
      *
      * @inheritDoc
      */
-    public function hasParameterOption($values, bool $onlyParams = false)
+    public function hasParameterOption($values, bool $onlyParams = false): bool
     {
         throw $this->unsupportedMethod(__METHOD__);
     }
@@ -70,7 +70,7 @@ class Input implements InputInterface
      *
      * @inheritDoc
      */
-    public function getParameterOption($values, $default = false, bool $onlyParams = false)
+    public function getParameterOption(string|array $values, string|bool|int|float|array|null $default = false, bool $onlyParams = false)
     {
         throw $this->unsupportedMethod(__METHOD__);
     }
@@ -94,7 +94,7 @@ class Input implements InputInterface
     /**
      * @return array<string | bool | int | float | mixed[] | null>
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         /** @var array<string | bool | int | float | mixed[] | null> */
         return $this->captainHookIO->getArguments();
@@ -128,7 +128,7 @@ class Input implements InputInterface
     /**
      * @inheritDoc
      */
-    public function hasArgument(string $name)
+    public function hasArgument(string $name): bool
     {
         return isset($this->getArguments()[$name]);
     }
@@ -136,7 +136,7 @@ class Input implements InputInterface
     /**
      * @return array<string | bool | int | float | mixed[] | null>
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         throw $this->unsupportedMethod(__METHOD__);
     }
@@ -161,7 +161,7 @@ class Input implements InputInterface
         throw $this->unsupportedMethod(__METHOD__);
     }
 
-    public function hasOption(string $name)
+    public function hasOption(string $name): bool
     {
         throw $this->unsupportedMethod(__METHOD__);
     }
@@ -169,7 +169,7 @@ class Input implements InputInterface
     /**
      * @inheritDoc
      */
-    public function isInteractive()
+    public function isInteractive(): bool
     {
         return $this->captainHookIO->isInteractive();
     }
