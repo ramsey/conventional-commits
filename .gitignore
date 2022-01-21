@@ -4,3 +4,5 @@
 /phpcs.xml
 /phpunit.xml
 /vendor/
+/.box_dump/
+/bin/conventional-commits.phar

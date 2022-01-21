@@ -195,10 +195,32 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           coverage: "none"
+          tools: "phive"
 
       - name: "Install dependencies (Composer)"
         uses: "ramsey/composer-install@v2"
 
       - name: "Run functional tests"
+        shell: "bash"
+        run: "composer test-functional"
+
+      - name: "Cleanup to prepare for PHAR tests"
+        shell: "bash"
+        run: |
+          rm -rf vendor/
+          phive install humbug/box --force-accept-unsigned
+          sed -i .bak 's#\.\./\.\./bin/conventional-commits #../../bin/conventional-commits.phar #g' tests/expect/*.exp
+
+      - name: "Install dependencies (Composer)"
+        uses: "ramsey/composer-install@v2"
+        with:
+          composer-options: "--no-dev"
+
+      - name: "Build PHAR file"
+        shell: "bash"
+        run: |
+          box build
+
+      - name: "Run functional tests on the phar file"
         shell: "bash"
         run: "composer test-functional"
