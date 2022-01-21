@@ -209,7 +209,7 @@ jobs:
         run: |
           rm -rf vendor/
           phive install humbug/box --force-accept-unsigned
-          sed -i .bak 's#\.\./\.\./bin/conventional-commits #../../bin/conventional-commits.phar #g' tests/expect/*.exp
+          sed -i 's#\.\./\.\./bin/conventional-commits #../../bin/conventional-commits.phar #g' tests/expect/*.exp
 
       - name: "Install dependencies (Composer)"
         uses: "ramsey/composer-install@v2"
