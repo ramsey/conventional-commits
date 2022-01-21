@@ -208,8 +208,6 @@ jobs:
         shell: "bash"
         run: |
           rm -rf vendor/
-          phive install humbug/box --force-accept-unsigned
-          sed -i 's#\.\./\.\./bin/conventional-commits #../../bin/conventional-commits.phar #g' tests/expect/*.exp
 
       - name: "Install dependencies (Composer)"
         uses: "ramsey/composer-install@v2"
@@ -219,8 +217,11 @@ jobs:
       - name: "Build PHAR file"
         shell: "bash"
         run: |
-          box build
+          phive install humbug/box --force-accept-unsigned
+          ./tools/box build
 
       - name: "Run functional tests on the phar file"
         shell: "bash"
-        run: "composer test-functional"
+        run: |
+          sed -i 's#\.\./\.\./bin/conventional-commits #../../bin/conventional-commits.phar #g' tests/expect/*.exp
+          composer test-functional
