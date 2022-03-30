@@ -176,6 +176,7 @@ class FinderToolTest extends TestCase
 
     public function testGetComposerFindsComposerJsonForCurrentProject(): void
     {
+        $this->output->shouldReceive('isDebug');
         $this->output->allows()->getVerbosity()->andReturn(OutputInterface::VERBOSITY_QUIET);
         $filesystem = new Filesystem();
 
