@@ -6,7 +6,7 @@ namespace Ramsey\Test\ConventionalCommits\Validator;
 
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Validator\EndMarkValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 use function sprintf;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Console\Question\AddFootersQuestion;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class AddFootersQuestionTest extends TestCase
 {

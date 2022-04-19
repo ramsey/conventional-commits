@@ -8,7 +8,7 @@ use CaptainHook\App\Console\IO;
 use InvalidArgumentException;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\Input;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputDefinition;
 

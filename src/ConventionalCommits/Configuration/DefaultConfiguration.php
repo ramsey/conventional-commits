@@ -231,8 +231,6 @@ class DefaultConfiguration implements Configuration
      * @param scalar[] | scalar $types
      *
      * @return string[]
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     private function typesIfValid($types): array
     {
@@ -260,8 +258,6 @@ class DefaultConfiguration implements Configuration
      * @param scalar[] | scalar $scopes
      *
      * @return string[]
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     private function scopesIfValid($scopes): array
     {
@@ -289,8 +285,6 @@ class DefaultConfiguration implements Configuration
      * @param scalar[] | scalar $requiredFooters
      *
      * @return string[]
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     private function requiredFootersIfValid($requiredFooters): array
     {
@@ -316,8 +310,6 @@ class DefaultConfiguration implements Configuration
 
     /**
      * @param scalar | null $endMark
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     private function endMarkIfValid($endMark): ?string
     {

@@ -12,8 +12,8 @@ use Ramsey\ConventionalCommits\Configuration\FinderTool;
 use Ramsey\ConventionalCommits\Exception\ComposerNotFound;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
-use Ramsey\Dev\Tools\TestCase;
 use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\TestCase;
 use Ramsey\Test\WindowsSafeTextDriver;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -178,6 +178,8 @@ class FinderToolTest extends TestCase
     {
         $this->output->shouldReceive('isDebug');
         $this->output->allows()->getVerbosity()->andReturn(OutputInterface::VERBOSITY_QUIET);
+        $this->output->allows()->isDebug()->andReturnFalse();
+
         $filesystem = new Filesystem();
 
         // @phpstan-ignore-next-line

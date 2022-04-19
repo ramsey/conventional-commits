@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Console\Question\AffectsOpenIssuesQuestion;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class AffectsOpenIssuesQuestionTest extends TestCase
 {

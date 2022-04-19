@@ -6,8 +6,8 @@ namespace Ramsey\Test\ConventionalCommits;
 
 use Ramsey\ConventionalCommits\Exception\InvalidCommitMessage;
 use Ramsey\ConventionalCommits\Parser;
-use Ramsey\Dev\Tools\TestCase;
 use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\TestCase;
 use Ramsey\Test\WindowsSafeTextDriver;
 
 use function file_get_contents;

@@ -14,7 +14,7 @@ use Ramsey\ConventionalCommits\String\LetterCase;
 use Ramsey\ConventionalCommits\Validator\LetterCaseValidator;
 use Ramsey\ConventionalCommits\Validator\ScopeValidator;
 use Ramsey\ConventionalCommits\Validator\TypeValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 use function array_pop;
 use function explode;

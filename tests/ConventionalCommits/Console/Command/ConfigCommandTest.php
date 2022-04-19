@@ -7,7 +7,7 @@ namespace Ramsey\Test\ConventionalCommits\Console\Command;
 use Mockery\MockInterface;
 use Ramsey\ConventionalCommits\Console\Command\ConfigCommand;
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;

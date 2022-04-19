@@ -7,7 +7,7 @@ namespace Ramsey\Test\ConventionalCommits\Console\Question;
 use Ramsey\ConventionalCommits\Console\Question\IssueIdentifierQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Ramsey\ConventionalCommits\Message\Footer;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class IssueIdentifierQuestionTest extends TestCase
 {

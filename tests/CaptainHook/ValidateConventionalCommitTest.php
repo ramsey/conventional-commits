@@ -10,7 +10,7 @@ use CaptainHook\App\Console\IO;
 use CaptainHook\App\Exception\ActionFailed;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\ValidateConventionalCommit;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
 use Throwable;

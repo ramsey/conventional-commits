@@ -11,7 +11,7 @@ use Ramsey\ConventionalCommits\Message\Body;
 use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\ConventionalCommits\Message\Type;
 use Ramsey\ConventionalCommits\Validator\DefaultMessageValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use stdClass;
 
 class DefaultMessageValidatorTest extends TestCase

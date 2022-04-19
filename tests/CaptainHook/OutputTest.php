@@ -7,7 +7,7 @@ namespace Ramsey\Test\CaptainHook;
 use CaptainHook\App\Console\IO;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\Output;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class OutputTest extends TestCase
