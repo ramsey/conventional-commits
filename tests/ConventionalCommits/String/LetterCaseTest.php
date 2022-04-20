@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\String;
 
 use Ramsey\ConventionalCommits\String\LetterCase;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class LetterCaseTest extends TestCase
 {

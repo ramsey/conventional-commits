@@ -7,7 +7,7 @@ namespace Ramsey\Test\ConventionalCommits\Validator;
 use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Validator\ScopeValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class ScopeValidatorTest extends TestCase
 {

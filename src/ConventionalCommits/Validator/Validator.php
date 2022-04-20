@@ -33,8 +33,6 @@ interface Validator
      * Returns boolean true if $value is valid
      *
      * @param mixed $value
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function isValid($value): bool;
 
@@ -44,8 +42,6 @@ interface Validator
      * @param mixed $value
      *
      * @throws InvalidValue
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function isValidOrException($value): bool;
 }

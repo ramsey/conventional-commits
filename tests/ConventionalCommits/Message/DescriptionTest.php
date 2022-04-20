@@ -10,7 +10,7 @@ use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\ConventionalCommits\String\LetterCase;
 use Ramsey\ConventionalCommits\Validator\EndMarkValidator;
 use Ramsey\ConventionalCommits\Validator\LetterCaseValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 use function trim;
 

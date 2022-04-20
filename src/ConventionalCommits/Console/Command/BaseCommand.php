@@ -36,6 +36,9 @@ abstract class BaseCommand extends Command implements Configurable
     use ConfigurableTool;
     use FinderTool;
 
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
+
     /**
      * Children should implement doExecute() to provide command functionality
      */

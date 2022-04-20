@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Command;
 
 use Mockery\MockInterface;
+use Ramsey\ConventionalCommits\Console\Command\BaseCommand;
 use Ramsey\ConventionalCommits\Console\Command\ConfigCommand;
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
-use Ramsey\Dev\Tools\TestCase;
-use Symfony\Component\Console\Command\Command;
+use Ramsey\Test\TestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -48,7 +48,7 @@ class ConfigCommandTest extends TestCase
 
         $command = new ConfigCommand($styleFactory);
 
-        $this->assertSame(Command::SUCCESS, $command->run($input, $output));
+        $this->assertSame(BaseCommand::SUCCESS, $command->run($input, $output));
     }
 
     public function testRunWritesConfigToConsoleWithDump(): void
@@ -75,6 +75,6 @@ class ConfigCommandTest extends TestCase
 
         $command = new ConfigCommand($styleFactory);
 
-        $this->assertSame(Command::SUCCESS, $command->run($input, $output));
+        $this->assertSame(BaseCommand::SUCCESS, $command->run($input, $output));
     }
 }

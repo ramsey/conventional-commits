@@ -25,21 +25,13 @@ use CaptainHook\App\Console\IO;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
- * Wraps CaptainHook console IO for use with symfony/console
+ * Uses symfony/console with CaptainHook IO verbosity
  */
 class Output extends ConsoleOutput
 {
-    private IO $captainHookIO;
-
     public function __construct(IO $captainHookIO)
     {
         parent::__construct($this->translateCaptainHookVerbosity($captainHookIO));
-        $this->captainHookIO = $captainHookIO;
-    }
-
-    protected function doWrite(string $message, bool $newline): void
-    {
-        $this->captainHookIO->write($message, $newline);
     }
 
     private function translateCaptainHookVerbosity(IO $captainHookIO): int

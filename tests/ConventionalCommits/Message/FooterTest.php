@@ -9,7 +9,7 @@ use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\String\LetterCase;
 use Ramsey\ConventionalCommits\Validator\LetterCaseValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 use function trim;
 

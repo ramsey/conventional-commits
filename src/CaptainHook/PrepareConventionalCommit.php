@@ -33,6 +33,7 @@ use Ramsey\ConventionalCommits\Configuration\FinderTool;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
+use Symfony\Component\Console\Input\ArrayInput;
 
 use function trim;
 
@@ -75,7 +76,7 @@ class PrepareConventionalCommit implements Action, Constrained
             return;
         }
 
-        $input = new Input($io);
+        $input = new ArrayInput([]);
         $output = new Output($io);
 
         /** @var array{config?: ConfigurationOptionsType, configFile?: string} | null $options */

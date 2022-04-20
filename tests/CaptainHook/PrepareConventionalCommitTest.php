@@ -8,18 +8,17 @@ use CaptainHook\App\Config;
 use CaptainHook\App\Config\Action as ActionConfig;
 use CaptainHook\App\Console\IO;
 use CaptainHook\App\Hooks;
+use Hamcrest\Core\IsInstanceOf;
 use Mockery\MockInterface;
-use Ramsey\CaptainHook\Input;
 use Ramsey\CaptainHook\Output;
 use Ramsey\CaptainHook\PrepareConventionalCommit;
 use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
 use Ramsey\ConventionalCommits\Message;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
-
-use function anInstanceOf;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class PrepareConventionalCommitTest extends TestCase
 {
@@ -88,11 +87,11 @@ class PrepareConventionalCommitTest extends TestCase
         $prepareCommand
             ->expects()
             ->run(
-                anInstanceOf(Input::class),
-                anInstanceOf(Output::class),
+                new IsInstanceOf(ArrayInput::class),
+                new IsInstanceOf(Output::class),
             );
 
-        $prepareCommand->expects()->setConfiguration(anInstanceOf(DefaultConfiguration::class));
+        $prepareCommand->expects()->setConfiguration(new IsInstanceOf(DefaultConfiguration::class));
         $prepareCommand->expects()->getMessage()->andReturnNull();
 
         /** @var Config & MockInterface $config */
@@ -134,11 +133,11 @@ class PrepareConventionalCommitTest extends TestCase
         $prepareCommand
             ->expects()
             ->run(
-                anInstanceOf(Input::class),
-                anInstanceOf(Output::class),
+                new IsInstanceOf(ArrayInput::class),
+                new IsInstanceOf(Output::class),
             );
 
-        $prepareCommand->expects()->setConfiguration(anInstanceOf(DefaultConfiguration::class));
+        $prepareCommand->expects()->setConfiguration(new IsInstanceOf(DefaultConfiguration::class));
         $prepareCommand->expects()->getMessage()->andReturn($message);
 
         /** @var Config & MockInterface $config */
@@ -159,7 +158,7 @@ class PrepareConventionalCommitTest extends TestCase
 
         $repository
             ->expects()
-            ->setCommitMsg(anInstanceOf(CommitMessage::class))
+            ->setCommitMsg(new IsInstanceOf(CommitMessage::class))
             ->andReturnUsing(function (CommitMessage $commitMessage): void {
                 $this->assertSame(
                     'this is a commit message',

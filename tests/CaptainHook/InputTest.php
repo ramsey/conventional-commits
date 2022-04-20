@@ -8,9 +8,7 @@ use CaptainHook\App\Console\IO;
 use InvalidArgumentException;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\Input;
-use Ramsey\Dev\Tools\TestCase;
-use RuntimeException;
-use Symfony\Component\Console\Input\InputDefinition;
+use Ramsey\Test\TestCase;
 
 class InputTest extends TestCase
 {
@@ -50,7 +48,7 @@ class InputTest extends TestCase
     public function testGetArgumentThrowsExceptionForUnknownArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Argument 'foobar' does not exist");
+        $this->expectExceptionMessage('The "foobar" argument does not exist.');
 
         $this->input->getArgument('foobar');
     }
@@ -85,51 +83,11 @@ class InputTest extends TestCase
         $this->assertNull($input->getFirstArgument());
     }
 
-    public function testAssertBindDoesNothing(): void
+    public function testGetOptionThrowsExceptionForUnknownOption(): void
     {
-        $definition = new InputDefinition();
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The "foo" option does not exist.');
 
-        $this->input->bind($definition);
-    }
-
-    public function testAssertValidateDoesNothing(): void
-    {
-        $this->input->validate();
-    }
-
-    public function testGetOptionReturnsNull(): void
-    {
         $this->assertNull($this->input->getOption('foo'));
-    }
-
-    /**
-     * @param mixed[] $params
-     *
-     * @dataProvider provideUnsupportedMethods
-     */
-    public function testExceptionThrownForUnsupportedMethod(string $methodName, array $params): void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage(
-            "{$methodName} is not supported in this implementation",
-        );
-
-        $this->input->{$methodName}(...$params);
-    }
-
-    /**
-     * @return array<array{methodName: string, params: mixed[]}>
-     */
-    public function provideUnsupportedMethods(): array
-    {
-        return [
-            ['methodName' => 'hasParameterOption', 'params' => ['foo', true]],
-            ['methodName' => 'getParameterOption', 'params' => ['foo', true, true]],
-            ['methodName' => 'setArgument', 'params' => ['foo', 'bar']],
-            ['methodName' => 'getOptions', 'params' => []],
-            ['methodName' => 'setOption', 'params' => ['foo', 'bar']],
-            ['methodName' => 'hasOption', 'params' => ['foo']],
-            ['methodName' => 'setInteractive', 'params' => [true]],
-        ];
     }
 }

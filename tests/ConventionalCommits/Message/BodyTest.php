@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Message;
 
 use Ramsey\ConventionalCommits\Message\Body;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 use const PHP_EOL;
 

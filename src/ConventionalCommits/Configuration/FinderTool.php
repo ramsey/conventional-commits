@@ -97,7 +97,8 @@ trait FinderTool
         $composerIO = new ConsoleIO($input, $output, new HelperSet());
         $composerFactory = new Factory();
 
-        return $composerFactory->createComposer($composerIO, $composerJson, true, null, false);
+        /** @var Composer */
+        return $composerFactory->createComposer($composerIO, $composerJson, true, null, true);
     }
 
     /**

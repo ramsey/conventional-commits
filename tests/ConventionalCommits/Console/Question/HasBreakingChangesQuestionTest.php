@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ramsey\Test\ConventionalCommits\Console\Question;
 
 use Ramsey\ConventionalCommits\Console\Question\HasBreakingChangesQuestion;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class HasBreakingChangesQuestionTest extends TestCase
 {

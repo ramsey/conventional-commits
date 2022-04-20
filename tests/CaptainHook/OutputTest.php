@@ -7,7 +7,7 @@ namespace Ramsey\Test\CaptainHook;
 use CaptainHook\App\Console\IO;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\Output;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class OutputTest extends TestCase
@@ -63,23 +63,5 @@ class OutputTest extends TestCase
         $output = new Output($captainHookIO);
 
         $this->assertSame(OutputInterface::VERBOSITY_NORMAL, $output->getVerbosity());
-    }
-
-    public function testWrite(): void
-    {
-        /** @var IO | MockInterface $captainHookIO */
-        $captainHookIO = $this->mockery(IO::class, [
-            'isDebug' => false,
-            'isVeryVerbose' => false,
-            'isVerbose' => false,
-        ]);
-
-        $captainHookIO
-            ->expects()
-            ->write('this is a test', true);
-
-        $output = new Output($captainHookIO);
-
-        $output->write('this is a test', true);
     }
 }

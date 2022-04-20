@@ -13,9 +13,9 @@ use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
 use Ramsey\ConventionalCommits\Parser;
-use Ramsey\Dev\Tools\TestCase;
 use Ramsey\Test\ConventionalCommits\Message\BodyTest;
 use Ramsey\Test\SnapshotsTool;
+use Ramsey\Test\TestCase;
 use Ramsey\Test\WindowsSafeTextDriver;
 
 use function file_get_contents;

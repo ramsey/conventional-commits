@@ -7,7 +7,7 @@ namespace Ramsey\Test\ConventionalCommits\Converter;
 use Jawira\CaseConverter\CaseConverter;
 use Ramsey\ConventionalCommits\Converter\LetterCaseConverter;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class LetterCaseConverterTest extends TestCase
 {

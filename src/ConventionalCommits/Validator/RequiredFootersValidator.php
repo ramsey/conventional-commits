@@ -119,8 +119,6 @@ class RequiredFootersValidator implements Configurable, Validator
 
     /**
      * @param mixed $value
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     private function checkValue($value): void
     {

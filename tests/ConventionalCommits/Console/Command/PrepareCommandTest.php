@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\ConventionalCommits\Console\Command;
 
+use Hamcrest\Core\IsInstanceOf;
 use Mockery\MockInterface;
 use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
@@ -26,12 +27,11 @@ use Ramsey\ConventionalCommits\Message\Description;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-use function anInstanceOf;
 use function preg_replace;
 use function realpath;
 use function str_replace;
@@ -85,48 +85,48 @@ class PrepareCommandTest extends TestCase
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(TypeQuestion::class))
+            ->askQuestion(new IsInstanceOf(TypeQuestion::class))
             ->andReturn(new Type('feat'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(ScopeQuestion::class))
+            ->askQuestion(new IsInstanceOf(ScopeQuestion::class))
             ->andReturn(new Scope('component'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(DescriptionQuestion::class))
+            ->askQuestion(new IsInstanceOf(DescriptionQuestion::class))
             ->andReturn(new Description('this is a commit summary'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(BodyQuestion::class))
+            ->askQuestion(new IsInstanceOf(BodyQuestion::class))
             ->andReturn(new Body('this is a commit body'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(HasBreakingChangesQuestion::class))
+            ->askQuestion(new IsInstanceOf(HasBreakingChangesQuestion::class))
             ->andReturnTrue();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(DescribeBreakingChangesQuestion::class))
+            ->askQuestion(new IsInstanceOf(DescribeBreakingChangesQuestion::class))
             ->andReturn(new Footer('BREAKING CHANGE', 'something broke'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(AffectsOpenIssuesQuestion::class))
+            ->askQuestion(new IsInstanceOf(AffectsOpenIssuesQuestion::class))
             ->andReturnTrue();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(IssueTypeQuestion::class))
+            ->askQuestion(new IsInstanceOf(IssueTypeQuestion::class))
             ->times(3)
             ->andReturn('fix', 're', null);
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(IssueIdentifierQuestion::class))
+            ->askQuestion(new IsInstanceOf(IssueIdentifierQuestion::class))
             ->twice()
             ->andReturn(
                 new Footer('fix', '1234', ' #'),
@@ -135,18 +135,18 @@ class PrepareCommandTest extends TestCase
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(AddFootersQuestion::class))
+            ->askQuestion(new IsInstanceOf(AddFootersQuestion::class))
             ->andReturnTrue();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(FooterTokenQuestion::class))
+            ->askQuestion(new IsInstanceOf(FooterTokenQuestion::class))
             ->times(3)
             ->andReturn('Signed-off-by', 'See-also', null);
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(FooterValueQuestion::class))
+            ->askQuestion(new IsInstanceOf(FooterValueQuestion::class))
             ->twice()
             ->andReturn(
                 new Footer('Signed-off-by', 'Janet Doe <jdoe@example.com>'),
@@ -195,37 +195,37 @@ class PrepareCommandTest extends TestCase
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(TypeQuestion::class))
+            ->askQuestion(new IsInstanceOf(TypeQuestion::class))
             ->andReturn(new Type('feat'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(ScopeQuestion::class))
+            ->askQuestion(new IsInstanceOf(ScopeQuestion::class))
             ->andReturnNull();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(DescriptionQuestion::class))
+            ->askQuestion(new IsInstanceOf(DescriptionQuestion::class))
             ->andReturn(new Description('this is a commit summary'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(BodyQuestion::class))
+            ->askQuestion(new IsInstanceOf(BodyQuestion::class))
             ->andReturnNull();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(HasBreakingChangesQuestion::class))
+            ->askQuestion(new IsInstanceOf(HasBreakingChangesQuestion::class))
             ->andReturnFalse();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(AffectsOpenIssuesQuestion::class))
+            ->askQuestion(new IsInstanceOf(AffectsOpenIssuesQuestion::class))
             ->andReturnFalse();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(AddFootersQuestion::class))
+            ->askQuestion(new IsInstanceOf(AddFootersQuestion::class))
             ->andReturnFalse();
 
         $console->expects()->section('Commit Message');
@@ -269,37 +269,37 @@ class PrepareCommandTest extends TestCase
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(TypeQuestion::class))
+            ->askQuestion(new IsInstanceOf(TypeQuestion::class))
             ->andReturn(new Type('fix'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(ScopeQuestion::class))
+            ->askQuestion(new IsInstanceOf(ScopeQuestion::class))
             ->andReturnNull();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(DescriptionQuestion::class))
+            ->askQuestion(new IsInstanceOf(DescriptionQuestion::class))
             ->andReturn(new Description('this is a commit message'));
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(BodyQuestion::class))
+            ->askQuestion(new IsInstanceOf(BodyQuestion::class))
             ->andReturnNull();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(HasBreakingChangesQuestion::class))
+            ->askQuestion(new IsInstanceOf(HasBreakingChangesQuestion::class))
             ->andReturnFalse();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(AffectsOpenIssuesQuestion::class))
+            ->askQuestion(new IsInstanceOf(AffectsOpenIssuesQuestion::class))
             ->andReturnFalse();
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(AddFootersQuestion::class))
+            ->askQuestion(new IsInstanceOf(AddFootersQuestion::class))
             ->never();
 
         $console
@@ -312,13 +312,13 @@ class PrepareCommandTest extends TestCase
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(FooterTokenQuestion::class))
+            ->askQuestion(new IsInstanceOf(FooterTokenQuestion::class))
             ->times(6)
             ->andReturn(null, 'Signed-off-by', null, 'See-also', 'Foo-bar', null);
 
         $console
             ->expects()
-            ->askQuestion(anInstanceOf(FooterValueQuestion::class))
+            ->askQuestion(new IsInstanceOf(FooterValueQuestion::class))
             ->times(3)
             ->andReturn(
                 new Footer('Signed-off-by', 'Janet Doe <jdoe@example.com>'),
