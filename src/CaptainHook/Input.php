@@ -37,6 +37,11 @@ class Input extends ArrayInput
     public function __construct(IO $captainHookIO)
     {
         $definition = new InputDefinition();
+
+        /**
+         * @psalm-suppress UnnecessaryVarAnnotation
+         * @var string $key
+         */
         foreach (array_keys($captainHookIO->getArguments()) as $key) {
             $definition->addArgument(new InputArgument($key));
         }

@@ -64,22 +64,4 @@ class OutputTest extends TestCase
 
         $this->assertSame(OutputInterface::VERBOSITY_NORMAL, $output->getVerbosity());
     }
-
-    public function testWrite(): void
-    {
-        /** @var IO | MockInterface $captainHookIO */
-        $captainHookIO = $this->mockery(IO::class, [
-            'isDebug' => false,
-            'isVeryVerbose' => false,
-            'isVerbose' => false,
-        ]);
-
-        $captainHookIO
-            ->expects()
-            ->write('this is a test', true);
-
-        $output = new Output($captainHookIO);
-
-        $output->write('this is a test', true);
-    }
 }

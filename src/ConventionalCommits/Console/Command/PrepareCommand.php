@@ -43,7 +43,6 @@ use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Message\Scope;
 use Ramsey\ConventionalCommits\Message\Type;
 use Ramsey\ConventionalCommits\Validator\RequiredFootersValidator;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -109,7 +108,7 @@ class PrepareCommand extends BaseCommand
         $console->section('Commit Message');
         $console->block($this->message->toString());
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     /**
