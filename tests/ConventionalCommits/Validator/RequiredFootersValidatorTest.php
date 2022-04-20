@@ -9,7 +9,7 @@ use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Ramsey\ConventionalCommits\Validator\RequiredFootersValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class RequiredFootersValidatorTest extends TestCase
 {
@@ -134,8 +134,6 @@ class RequiredFootersValidatorTest extends TestCase
      * @param mixed $testValue
      *
      * @dataProvider provideInvalidValues
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function testThrowsWhenValueIsInvalid($testValue): void
     {

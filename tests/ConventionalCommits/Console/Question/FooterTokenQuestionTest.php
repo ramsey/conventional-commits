@@ -7,7 +7,7 @@ namespace Ramsey\Test\ConventionalCommits\Console\Question;
 use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Console\Question\FooterTokenQuestion;
 use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 class FooterTokenQuestionTest extends TestCase
 {

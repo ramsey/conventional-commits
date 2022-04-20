@@ -10,10 +10,9 @@ use CaptainHook\App\Console\IO;
 use CaptainHook\App\Exception\ActionFailed;
 use Mockery\MockInterface;
 use Ramsey\CaptainHook\ValidateConventionalCommit;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
-use Throwable;
 
 use function trim;
 
@@ -106,24 +105,9 @@ class ValidateConventionalCommitTest extends TestCase
 
         $action = new ValidateConventionalCommit();
 
-        $exception = null;
+        $this->expectException(ActionFailed::class);
+        $this->expectExceptionMessage('Validation failed.');
 
-        try {
-            $action->execute($config, $io, $repository, $configAction);
-        } catch (Throwable $exception) {
-            // Do nothing.
-        }
-
-        // We do not use the expectException() or expectExceptionMessage()
-        // assertions here because we want to assert the content of $output.
-        $this->assertInstanceOf(ActionFailed::class, $exception);
-        $this->assertSame('Validation failed.', $exception->getMessage());
-        $this->assertSame(
-            '[ERROR] Invalid Commit Message The commit message is '
-            . 'not properly formatted according to the Conventional '
-            . 'Commits specification. For more details, see '
-            . 'https://www.conventionalcommits.org/en/v1.0.0/',
-            trim($output),
-        );
+        $action->execute($config, $io, $repository, $configAction);
     }
 }

@@ -22,7 +22,6 @@ declare(strict_types=1);
 namespace Ramsey\ConventionalCommits\Console\Command;
 
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -83,6 +82,6 @@ class ConfigCommand extends BaseCommand
             ));
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

@@ -11,7 +11,7 @@ use Ramsey\ConventionalCommits\Converter\LetterCaseConverter;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Validator\DefaultMessageValidator;
 use Ramsey\ConventionalCommits\Validator\MessageValidator;
-use Ramsey\Dev\Tools\TestCase;
+use Ramsey\Test\TestCase;
 
 use function json_encode;
 
