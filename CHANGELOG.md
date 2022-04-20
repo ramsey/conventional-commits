@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.3.1 - 2022-04-20
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Update how ramsey/conventional-commits uses input and output so this library will work properly (without interface errors) with symfony/console `^4.4.30`, `^5.3.7`, and `^6.0`.
+
 ## 1.3.0 - 2022-01-09
 
 ### Added
