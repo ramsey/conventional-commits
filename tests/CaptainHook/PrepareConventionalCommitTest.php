@@ -10,7 +10,6 @@ use CaptainHook\App\Console\IO;
 use CaptainHook\App\Hooks;
 use Hamcrest\Core\IsInstanceOf;
 use Mockery\MockInterface;
-use Ramsey\CaptainHook\Input;
 use Ramsey\CaptainHook\Output;
 use Ramsey\CaptainHook\PrepareConventionalCommit;
 use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
@@ -19,6 +18,7 @@ use Ramsey\ConventionalCommits\Message;
 use Ramsey\Test\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class PrepareConventionalCommitTest extends TestCase
 {
@@ -87,7 +87,7 @@ class PrepareConventionalCommitTest extends TestCase
         $prepareCommand
             ->expects()
             ->run(
-                new IsInstanceOf(Input::class),
+                new IsInstanceOf(ArrayInput::class),
                 new IsInstanceOf(Output::class),
             );
 
@@ -133,7 +133,7 @@ class PrepareConventionalCommitTest extends TestCase
         $prepareCommand
             ->expects()
             ->run(
-                new IsInstanceOf(Input::class),
+                new IsInstanceOf(ArrayInput::class),
                 new IsInstanceOf(Output::class),
             );
 
