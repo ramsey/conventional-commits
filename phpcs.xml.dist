@@ -8,6 +8,12 @@
     <file>./src</file>
     <file>./tests</file>
 
-    <rule ref="Ramsey"/>
+    <rule ref="Ramsey">
+        <!--
+            Excluding to allow coding standards rules to pass on PHP 7.4 and
+            PHP 8, for cases where mixed or scalar types are used.
+        -->
+        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint"/>
+    </rule>
 
 </ruleset>
