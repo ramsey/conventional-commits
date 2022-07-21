@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 use Ramsey\ConventionalCommits\Console\Command\ConfigCommand;
 use Ramsey\ConventionalCommits\Console\Command\PrepareCommand;
+use Ramsey\ConventionalCommits\Console\Command\ValidateCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputOption;
@@ -66,5 +67,6 @@ use Symfony\Component\Console\Input\InputOption;
 
     $application->add(new ConfigCommand());
     $application->add(new PrepareCommand());
+    $application->add(new ValidateCommand());
     $application->run(new ArgvInput($argv));
 })($argv);
