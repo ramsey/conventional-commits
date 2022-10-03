@@ -85,7 +85,7 @@ class DefaultConfiguration implements Configuration
         $this->requiredFooters = $this->requiredFootersIfValid($options['requiredFooters'] ?? []);
 
         if (is_int($options['bodyWrapWidth'] ?? null)) {
-            $this->bodyWrapWidth = $options['bodyWrapWidth'] ?? null;
+            $this->bodyWrapWidth = $options['bodyWrapWidth'];
         }
     }
 
