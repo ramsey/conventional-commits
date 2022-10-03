@@ -44,6 +44,6 @@ class MessageQuestionTest extends TestCase
         /** @var string $message */
         $message = $validator('this is a message');
 
-        $this->assertSame('this is a body', $message);
+        $this->assertSame('this is a message', $message);
     }
 }
