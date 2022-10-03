@@ -75,7 +75,10 @@ class ValidateCommand extends BaseCommand
         $message = $input->getArgument('message');
         if ($message === null) {
             $console->title('Validate Commit Message');
-            /** @var string|null $message */
+            /**
+             * @psalm-suppress ReservedWord
+             * @var string|null $message
+             */
             $message = $console->askQuestion(new MessageQuestion($this->getConfiguration()));
         }
 
