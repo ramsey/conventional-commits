@@ -42,6 +42,15 @@ messages according to Conventional Commits, enter the following in your console:
 ./vendor/bin/conventional-commits prepare
 ```
 
+You can also validate the commit message using the following command:
+
+``` bash
+./vendor/bin/conventional-commits validate "[commit message]"
+```
+
+If you don't provide a commit message in the command line, the command will
+prompt you for it.
+
 To see all the features of the console command, enter:
 
 ``` bash
