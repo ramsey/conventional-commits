@@ -100,7 +100,7 @@
             "@dev:analyze:phpstan",
             "@dev:analyze:psalm"
         ],
-        "dev:analyze:phpstan": "phpstan analyse --ansi",
+        "dev:analyze:phpstan": "phpstan analyse --ansi --memory-limit 256M",
         "dev:analyze:psalm": "psalm",
         "dev:build:clean": "git clean -fX build/",
         "dev:lint": [
