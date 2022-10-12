@@ -220,8 +220,8 @@ jobs:
       - name: "Build PHAR file"
         shell: "bash"
         run: |
-          phive install humbug/box --force-accept-unsigned
-          ./tools/box build
+          phive install humbug/box
+          ./tools/box compile
 
       - name: "Run functional tests on the phar file"
         shell: "bash"
