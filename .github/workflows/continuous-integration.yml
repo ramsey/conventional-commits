@@ -220,7 +220,7 @@ jobs:
       - name: "Build PHAR file"
         shell: "bash"
         run: |
-          phive install humbug/box
+          phive install humbug/box --trust-gpg-keys 0x2DF45277AEF09A2F
           ./tools/box compile
 
       - name: "Run functional tests on the phar file"
