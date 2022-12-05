@@ -53,7 +53,7 @@
         "sebastianfeldmann/git": "^3.3",
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "symfony/process": "^5.1 || ^6.0",
-        "vimeo/psalm": "^4.22"
+        "vimeo/psalm": "^5.1"
     },
     "suggest": {
         "captainhook/captainhook": "Manage your project's Git hooks with CaptainHook, and use ramsey/conventional-commits in your commit-msg and prepare-commit-msg hooks."
