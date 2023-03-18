@@ -8,11 +8,16 @@ use CaptainHook\App\Config;
 use CaptainHook\App\Config\Action as ConfigAction;
 use CaptainHook\App\Console\IO;
 use CaptainHook\App\Exception\ActionFailed;
+use Hamcrest\Core\IsInstanceOf;
 use Mockery\MockInterface;
+use Ramsey\CaptainHook\Output;
 use Ramsey\CaptainHook\ValidateConventionalCommit;
+use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
 use Ramsey\Test\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function trim;
 
@@ -103,7 +108,23 @@ class ValidateConventionalCommitTest extends TestCase
             ->getCommitMsg()
             ->andReturn($commitMessage);
 
-        $action = new ValidateConventionalCommit();
+        $console = $this->mockery(SymfonyStyle::class);
+        $console
+            ->expects('error')
+            ->with([
+                'Invalid Commit Message',
+                'The commit message is not properly formatted according to the '
+                . 'Conventional Commits specification. For more details, see '
+                . 'https://www.conventionalcommits.org/en/v1.0.0/',
+            ]);
+
+        $styleFactory = $this->mockery(SymfonyStyleFactory::class);
+        $styleFactory
+            ->expects('factory')
+            ->with(new IsInstanceOf(ArrayInput::class), new IsInstanceOf(Output::class))
+            ->andReturns($console);
+
+        $action = new ValidateConventionalCommit($styleFactory);
 
         $this->expectException(ActionFailed::class);
         $this->expectExceptionMessage('Validation failed.');

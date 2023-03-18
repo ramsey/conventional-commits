@@ -3,8 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
        errorLevel="1"
-       cacheDirectory="./build/cache/psalm"
-       errorBaseline="./psalm-baseline.xml">
+       findUnusedBaselineEntry="true"
+       findUnusedCode="false"
+       cacheDirectory="./build/cache/psalm">
 
     <projectFiles>
         <directory name="./src"/>

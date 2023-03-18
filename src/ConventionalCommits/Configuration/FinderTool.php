@@ -65,7 +65,7 @@ trait FinderTool
     public function findConfiguration(
         InputInterface $input,
         OutputInterface $output,
-        ?array $options = null
+        ?array $options = null,
     ): Configuration {
         $config = $options['config'] ?? null;
         $configFile = $options['configFile'] ?? null;
@@ -90,7 +90,7 @@ trait FinderTool
     public function getComposer(
         InputInterface $input,
         OutputInterface $output,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ): Composer {
         $composerJson = $this->findComposerJson($filesystem);
 

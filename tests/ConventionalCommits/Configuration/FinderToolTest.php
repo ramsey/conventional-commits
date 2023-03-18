@@ -28,17 +28,11 @@ class FinderToolTest extends TestCase
 {
     use SnapshotsTool;
 
-    /**
-     * @var InputInterface & MockInterface
-     */
-    private $input;
+    private InputInterface&MockInterface $input;
 
     private object $finderTool;
 
-    /**
-     * @var OutputInterface & MockInterface
-     */
-    private $output;
+    private OutputInterface&MockInterface $output;
 
     protected function setUp(): void
     {
@@ -240,7 +234,7 @@ class FinderToolTest extends TestCase
             public function getComposer(
                 InputInterface $input,
                 OutputInterface $output,
-                Filesystem $filesystem
+                Filesystem $filesystem,
             ): Composer {
                 return $this->composer;
             }
@@ -279,7 +273,7 @@ class FinderToolTest extends TestCase
             public function getComposer(
                 InputInterface $input,
                 OutputInterface $output,
-                Filesystem $filesystem
+                Filesystem $filesystem,
             ): Composer {
                 return $this->composer;
             }
@@ -312,7 +306,7 @@ class FinderToolTest extends TestCase
             public function getComposer(
                 InputInterface $input,
                 OutputInterface $output,
-                Filesystem $filesystem
+                Filesystem $filesystem,
             ): Composer {
                 return $this->composer;
             }
@@ -341,7 +335,7 @@ class FinderToolTest extends TestCase
             public function getComposer(
                 InputInterface $input,
                 OutputInterface $output,
-                Filesystem $filesystem
+                Filesystem $filesystem,
             ): Composer {
                 return $this->composer;
             }

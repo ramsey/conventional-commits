@@ -36,7 +36,7 @@ class TypeValidatorTest extends TestCase
         string $testValue,
         bool $expectedResult,
         array $options = [],
-        string $expectedError = ''
+        string $expectedError = '',
     ): void {
         $validator = new TypeValidator();
 

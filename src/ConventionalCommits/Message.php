@@ -61,7 +61,7 @@ class Message implements Configurable, Stringable, Validatable
     public function __construct(
         Type $type,
         Description $description,
-        bool $hasBreakingChanges = false
+        bool $hasBreakingChanges = false,
     ) {
         $this->type = $type;
         $this->description = $description;

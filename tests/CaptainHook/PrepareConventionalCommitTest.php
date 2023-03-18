@@ -33,6 +33,7 @@ class PrepareConventionalCommitTest extends TestCase
     {
         /** @var PrepareCommand & MockInterface $prepareCommand */
         $prepareCommand = $this->mockery(PrepareCommand::class);
+        $prepareCommand->expects('run')->never();
 
         /** @var Config & MockInterface $config */
         $config = $this->mockery(Config::class);
@@ -57,6 +58,7 @@ class PrepareConventionalCommitTest extends TestCase
     {
         /** @var PrepareCommand & MockInterface $prepareCommand */
         $prepareCommand = $this->mockery(PrepareCommand::class);
+        $prepareCommand->expects('run')->never();
 
         /** @var Config & MockInterface $config */
         $config = $this->mockery(Config::class);

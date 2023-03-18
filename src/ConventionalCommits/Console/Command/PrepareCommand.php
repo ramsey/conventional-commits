@@ -212,7 +212,7 @@ class PrepareCommand extends BaseCommand
         Question $decisionPathQuestion,
         Question $tokenQuestion,
         Closure $valueQuestionCallback,
-        bool $isRequired = false
+        bool $isRequired = false,
     ): array {
         /**
          * @psalm-suppress ReservedWord
@@ -241,7 +241,7 @@ class PrepareCommand extends BaseCommand
     private function askFooterQuestion(
         SymfonyStyle $console,
         Question $tokenQuestion,
-        Closure $valueQuestionCallback
+        Closure $valueQuestionCallback,
     ): ?Footer {
         /**
          * @psalm-suppress ReservedWord

@@ -88,7 +88,7 @@ class Footer implements Unit
     public function __construct(
         string $token,
         string $value,
-        string $separator = self::SEPARATOR_COLON
+        string $separator = self::SEPARATOR_COLON,
     ) {
         $this->token = $this->validateToken($token);
         $this->value = $this->validateValue($value);

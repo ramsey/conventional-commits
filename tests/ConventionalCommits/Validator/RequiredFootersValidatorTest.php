@@ -40,7 +40,7 @@ class RequiredFootersValidatorTest extends TestCase
         array $testValue,
         bool $expectedResult,
         array $options = [],
-        string $expectedError = ''
+        string $expectedError = '',
     ): void {
         $validator = new RequiredFootersValidator();
 

@@ -63,7 +63,7 @@ class PrepareConventionalCommit implements Action, Constrained
         Config $config,
         IO $io,
         Repository $repository,
-        ActionConfig $action
+        ActionConfig $action,
     ): void {
         if (!$io->isInteractive()) {
             return;
