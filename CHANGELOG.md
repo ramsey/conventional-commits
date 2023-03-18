@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.5.0 - 2023-03-18
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- The minimum required version of PHP is now 8.1.
+- The minimum required version of symfony/console and symfony/filesystem is now 6.0.
+- The minimum required version of the Composer runtime API is now 2.0.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.4.0 - 2023-03-18
 
 ### Added
