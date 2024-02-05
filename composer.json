@@ -27,8 +27,8 @@
         "composer/composer": "^2.4",
         "jawira/case-converter": "^3.5",
         "opis/json-schema": "^2.3",
-        "symfony/console": "^6.0",
-        "symfony/filesystem": "^6.0"
+        "symfony/console": "^6.0 || ^7.0",
+        "symfony/filesystem": "^6.0 || ^7.0"
     },
     "require-dev": {
         "captainhook/captainhook": "^5.15",
