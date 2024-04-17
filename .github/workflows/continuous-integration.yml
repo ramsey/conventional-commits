@@ -168,6 +168,7 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           coverage: "none"
+          tools: "phive"
 
       - name: "Install dependencies (Composer)"
         uses: "ramsey/composer-install@2.2.0"
@@ -175,3 +176,25 @@ jobs:
       - name: "Run functional tests"
         shell: "bash"
         run: "composer test-functional"
+
+      - name: "Cleanup to prepare for PHAR tests"
+        shell: "bash"
+        run: |
+          rm -rf vendor/
+
+      - name: "Install dependencies (Composer)"
+        uses: "ramsey/composer-install@v2"
+        with:
+          composer-options: "--no-dev"
+
+      - name: "Build PHAR file"
+        shell: "bash"
+        run: |
+          phive install humbug/box:"${{ matrix.php-version == '8.1' && '^4.1' || '^3.16' }}" --trust-gpg-keys 0x2DF45277AEF09A2F
+          ./tools/box compile
+
+      - name: "Run functional tests on the phar file"
+        shell: "bash"
+        run: |
+          sed -i 's#\.\./\.\./bin/conventional-commits #../../bin/conventional-commits.phar #g' tests/expect/*.exp
+          composer test-functional
