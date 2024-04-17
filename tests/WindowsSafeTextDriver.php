@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Ramsey\Test;
 
+use LogicException;
 use PHPUnit\Framework\Assert;
 use Spatie\Snapshots\Driver;
 
+use function is_string;
 use function preg_replace;
 
 /**
@@ -15,16 +17,14 @@ use function preg_replace;
  */
 class WindowsSafeTextDriver implements Driver
 {
-    /**
-     * @inheritDoc
-     */
-    public function serialize($data): string
+    public function serialize(mixed $data): string
     {
-        /** @var string $stringData */
-        $stringData = $data;
+        if (!is_string($data)) {
+            throw new LogicException('Data must be a string');
+        }
 
         // Save snapshot only with lf line endings.
-        return (string) preg_replace('/\r\n/', "\n", $stringData);
+        return (string) preg_replace('/\r\n/', "\n", $data);
     }
 
     public function extension(): string
@@ -32,17 +32,15 @@ class WindowsSafeTextDriver implements Driver
         return 'txt';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function match($expected, $actual): void
+    public function match(mixed $expected, mixed $actual): void
     {
-        /** @var string $stringExpected */
-        $stringExpected = $expected;
+        if (!is_string($expected)) {
+            throw new LogicException('Expected must be a string');
+        }
 
         // Make sure the expected string has lf line endings, so we can
         // compare accurately.
-        $expected = (string) preg_replace('/\r\n/', "\n", $stringExpected);
+        $expected = (string) preg_replace('/\r\n/', "\n", $expected);
 
         Assert::assertEquals($expected, $this->serialize($actual));
     }

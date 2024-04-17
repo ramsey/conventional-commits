@@ -110,21 +110,13 @@ class Parser implements Configurable
             return [];
         }
 
-        /**
-         * Psalm needs this because there's no way to define the array structure
-         * above the preg_match_all() statement where $matches is instantiated.
-         *
-         * @var array{token: list<string>, separator: list<string>, value: list<string>} $footerParams
-         */
-        $footerParams = $matches;
-
         $footers = [];
 
-        for ($i = 0; $i < count($footerParams['token']); $i++) {
+        for ($i = 0; $i < count($matches['token']); $i++) {
             $footers[] = new Footer(
-                $footerParams['token'][$i],
-                $footerParams['value'][$i],
-                $footerParams['separator'][$i],
+                $matches['token'][$i],
+                $matches['value'][$i],
+                $matches['separator'][$i],
             );
         }
 

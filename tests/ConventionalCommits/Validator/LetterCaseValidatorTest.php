@@ -44,7 +44,7 @@ class LetterCaseValidatorTest extends TestCase
     /**
      * @return array<array{case: string, testValue: string, expectedResult: bool}>
      */
-    public function provideTestValues(): array
+    public static function provideTestValues(): array
     {
         return [
             [

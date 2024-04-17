@@ -16,8 +16,12 @@ class ScopeValidatorTest extends TestCase
      *
      * @dataProvider provideScopeTestValues
      */
-    public function testIsValid(string $testValue, bool $expectedResult, array $options = []): void
-    {
+    public function testIsValid(
+        string $testValue,
+        bool $expectedResult,
+        array $options = [],
+        string $expectedError = '',
+    ): void {
         $validator = new ScopeValidator();
 
         if ($options) {
@@ -55,7 +59,7 @@ class ScopeValidatorTest extends TestCase
     /**
      * @return array<array{testValue: string, expectedResult: bool, options?: mixed[]}>
      */
-    public function provideScopeTestValues(): array
+    public static function provideScopeTestValues(): array
     {
         $options = ['scopes' => ['FoO', 'baR', 'Baz']];
 

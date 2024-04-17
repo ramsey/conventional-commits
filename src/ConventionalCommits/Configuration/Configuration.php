@@ -29,14 +29,14 @@ use Ramsey\ConventionalCommits\Validator\MessageValidator;
  * A configuration provides additional rules on top of the Conventional
  * Commits specification
  *
- * @psalm-type ConfigurationOptionsType = array{typeCase?: string | null, types?: string[], scopeCase?: string | null, scopeRequired?: bool, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}
+ * @phpstan-type ConfigurationOptionsType array{typeCase?: string | null, types?: string[], scopeCase?: string | null, scopeRequired?: bool, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}
  */
 interface Configuration extends JsonSerializable
 {
     /**
      * Returns the configuration as an array
      *
-     * @psalm-return ConfigurationOptionsType
+     * @return ConfigurationOptionsType
      */
     public function toArray(): array;
 

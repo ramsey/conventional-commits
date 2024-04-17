@@ -41,7 +41,7 @@ use function trim;
  * During the prepare-commit-msg Git hook, this prompts the user for input and
  * builds a valid Conventional Commits commit message
  *
- * @psalm-import-type ConfigurationOptionsType from Configuration
+ * @phpstan-import-type ConfigurationOptionsType from Configuration
  */
 class PrepareConventionalCommit implements Action, Constrained
 {

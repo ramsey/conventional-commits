@@ -41,7 +41,7 @@ use function preg_match;
 /**
  * Default configuration for Conventional Commits commit messages
  *
- * @psalm-import-type ConfigurationOptionsType from Configuration
+ * @phpstan-import-type ConfigurationOptionsType from Configuration
  */
 class DefaultConfiguration implements Configuration
 {
@@ -70,7 +70,7 @@ class DefaultConfiguration implements Configuration
     private ?MessageValidator $messageValidator = null;
 
     /**
-     * @psalm-param ConfigurationOptionsType $options
+     * @param ConfigurationOptionsType $options
      */
     public function __construct(array $options = [])
     {
@@ -110,8 +110,7 @@ class DefaultConfiguration implements Configuration
     }
 
     /**
-     * @psalm-return ConfigurationOptionsType
-     * @psalm-suppress UndefinedAttributeClass
+     * @return ConfigurationOptionsType
      */
     #[ReturnTypeWillChange]
     public function jsonSerialize()
@@ -214,7 +213,7 @@ class DefaultConfiguration implements Configuration
     }
 
     /**
-     * @psalm-param ConfigurationOptionsType $options
+     * @param ConfigurationOptionsType $options
      */
     private function caseIfValid(array $options, string $parameter): ?string
     {

@@ -19,7 +19,7 @@ class DescriptionTest extends TestCase
     /**
      * @return array<array{invalidDescription: string}>
      */
-    public function provideInvalidDescription(): array
+    public static function provideInvalidDescription(): array
     {
         return [
             ['invalidDescription' => "foo\tbar"],
@@ -32,7 +32,7 @@ class DescriptionTest extends TestCase
     /**
      * @return array<array{validDescription: string}>
      */
-    public function provideValidDescription(): array
+    public static function provideValidDescription(): array
     {
         return [
             ['validDescription' => 'this is a valid description'],
@@ -87,7 +87,7 @@ class DescriptionTest extends TestCase
     /**
      * @return array<array{description: string, expectFailure: bool}>
      */
-    public function provideDescriptionsForValidation(): array
+    public static function provideDescriptionsForValidation(): array
     {
         return [
             ['description' => 'this is a valid description.', 'expectFailure' => false],

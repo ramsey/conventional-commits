@@ -35,7 +35,7 @@ class LetterCaseConverterTest extends TestCase
     /**
      * @return array<array{case: string|null, testValue: string, expectedValue: string}>
      */
-    public function provideConversionTestValues(): array
+    public static function provideConversionTestValues(): array
     {
         return [
             [

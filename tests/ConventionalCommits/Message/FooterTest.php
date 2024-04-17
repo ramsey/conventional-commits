@@ -18,7 +18,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{invalidToken: string}>
      */
-    public function provideInvalidToken(): array
+    public static function provideInvalidToken(): array
     {
         return [
             ['invalidToken' => 'foo bar'],
@@ -45,7 +45,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{validToken: string}>
      */
-    public function provideValidToken(): array
+    public static function provideValidToken(): array
     {
         return [
             ['validToken' => 'foobar'],
@@ -65,7 +65,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{invalidValue: string}>
      */
-    public function provideInvalidValue(): array
+    public static function provideInvalidValue(): array
     {
         return [
             ['invalidValue' => 'BREAKING CHANGE: a footer within a value'],
@@ -83,7 +83,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{validValue: string}>
      */
-    public function provideValidValue(): array
+    public static function provideValidValue(): array
     {
         return [
             ['validValue' => 'this value is a BREAKING CHANGE: kind of value'],
@@ -100,7 +100,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{invalidSeparator: string}>
      */
-    public function provideInvalidSeparator(): array
+    public static function provideInvalidSeparator(): array
     {
         return [
             ['invalidSeparator' => ';'],
@@ -114,7 +114,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{validSeparator: string}>
      */
-    public function provideValidSeparator(): array
+    public static function provideValidSeparator(): array
     {
         return [
             ['validSeparator' => ': '],
@@ -125,7 +125,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{breakingChangeToken: string}>
      */
-    public function provideBreakingChangeToken(): array
+    public static function provideBreakingChangeToken(): array
     {
         return [
             ['breakingChangeToken' => 'BREAKING CHANGE'],
@@ -264,7 +264,7 @@ class FooterTest extends TestCase
     /**
      * @return array<array{token: string, expectFailure: bool}>
      */
-    public function provideTokensForValidation(): array
+    public static function provideTokensForValidation(): array
     {
         return [
             ['token' => 'Footer-Test', 'expectFailure' => false],

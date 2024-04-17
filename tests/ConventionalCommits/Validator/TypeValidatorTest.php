@@ -16,8 +16,12 @@ class TypeValidatorTest extends TestCase
      *
      * @dataProvider provideTypeTestValues
      */
-    public function testIsValid(string $testValue, bool $expectedResult, array $options = []): void
-    {
+    public function testIsValid(
+        string $testValue,
+        bool $expectedResult,
+        array $options = [],
+        string $expectedError = '',
+    ): void {
         $validator = new TypeValidator();
 
         if ($options) {
@@ -55,7 +59,7 @@ class TypeValidatorTest extends TestCase
     /**
      * @return array<array{testValue: string, expectedResult: bool, options?: mixed[]}>
      */
-    public function provideTypeTestValues(): array
+    public static function provideTypeTestValues(): array
     {
         $options = ['types' => ['FoO', 'baR', 'Baz']];
 

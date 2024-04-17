@@ -195,7 +195,6 @@ trait FinderTool
                 );
             }
 
-            /** @psalm-suppress MixedArgumentTypeCoercion */
             throw new InvalidValue($messages);
         }
 

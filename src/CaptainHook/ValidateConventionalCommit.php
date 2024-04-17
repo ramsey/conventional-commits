@@ -41,7 +41,7 @@ use Symfony\Component\Console\Input\ArrayInput;
  * During the commit-msg Git hook, this validates the commit message according
  * to the Conventional Commits specification
  *
- * @psalm-import-type ConfigurationOptionsType from Configuration
+ * @phpstan-import-type ConfigurationOptionsType from Configuration
  */
 class ValidateConventionalCommit implements Action, Constrained
 {

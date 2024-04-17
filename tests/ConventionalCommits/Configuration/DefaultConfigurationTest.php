@@ -120,7 +120,7 @@ class DefaultConfigurationTest extends TestCase
     /**
      * @return array<array{expectedMessage: string, options: mixed[]}>
      */
-    public function provideInvalidData(): array
+    public static function provideInvalidData(): array
     {
         return [
             [

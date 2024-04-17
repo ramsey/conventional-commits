@@ -8,7 +8,7 @@ use ReflectionClass;
 use Spatie\Snapshots\MatchesSnapshots;
 
 use function preg_replace;
-use function strpos;
+use function str_starts_with;
 
 use const PHP_OS;
 
@@ -19,13 +19,13 @@ trait SnapshotsTool
     protected function getSnapshotId(): string
     {
         $suffix = '';
-        if (strpos(PHP_OS, 'WIN') === 0) {
+        if (str_starts_with(PHP_OS, 'WIN')) {
             $suffix = '__WIN';
         }
 
         $snapshotId = (new ReflectionClass($this))->getShortName()
             . '__'
-            . $this->getName()
+            . $this->nameWithDataSet()
             . '__'
             . $this->snapshotIncrementor
             . $suffix;

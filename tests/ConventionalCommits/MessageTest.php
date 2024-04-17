@@ -63,7 +63,7 @@ class MessageTest extends TestCase
 
     public function testBody(): void
     {
-        $bodyTest = new BodyTest();
+        $bodyTest = new BodyTest(BodyTest::class);
 
         $expectedMessage = 'feat: implement awesome thing' . PHP_EOL . PHP_EOL
             . $bodyTest->getExpectedBody() . PHP_EOL;
@@ -133,7 +133,7 @@ class MessageTest extends TestCase
 
     public function testToStringIncludesEverything(): void
     {
-        $bodyTest = new BodyTest();
+        $bodyTest = new BodyTest(BodyTest::class);
 
         $expectedMessage = 'feat(my-scope)!: implement awesome thing' . PHP_EOL . PHP_EOL
             . $bodyTest->getExpectedBody() . PHP_EOL . PHP_EOL

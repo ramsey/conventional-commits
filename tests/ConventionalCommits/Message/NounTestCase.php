@@ -30,7 +30,7 @@ abstract class NounTestCase extends TestCase
     /**
      * @return array<array{invalidNoun: string}>
      */
-    public function provideInvalidNoun(): array
+    public static function provideInvalidNoun(): array
     {
         return [
             ['invalidNoun' => 'foo bar'],
@@ -55,7 +55,7 @@ abstract class NounTestCase extends TestCase
     /**
      * @return array<array{validNoun: string}>
      */
-    public function provideValidNoun(): array
+    public static function provideValidNoun(): array
     {
         return [
             ['validNoun' => 'foobar'],
@@ -146,7 +146,7 @@ abstract class NounTestCase extends TestCase
     /**
      * @return array<array{noun: string, expectFailure: bool}>
      */
-    public function provideNounsForValidation(): array
+    public static function provideNounsForValidation(): array
     {
         return [
             ['noun' => 'Foo-Bar', 'expectFailure' => true],

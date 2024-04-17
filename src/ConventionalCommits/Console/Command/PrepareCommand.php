@@ -118,25 +118,21 @@ class PrepareCommand extends BaseCommand
     private function askQuestions(SymfonyStyle $console): Message
     {
         /**
-         * @psalm-suppress ReservedWord
          * @var Type $type
          */
         $type = $console->askQuestion(new TypeQuestion($this->getConfiguration()));
 
         /**
-         * @psalm-suppress ReservedWord
          * @var Scope|null $scope
          */
         $scope = $console->askQuestion(new ScopeQuestion($this->getConfiguration()));
 
         /**
-         * @psalm-suppress ReservedWord
          * @var Description $description
          */
         $description = $console->askQuestion(new DescriptionQuestion($this->getConfiguration()));
 
         /**
-         * @psalm-suppress ReservedWord
          * @var Body|null $body
          */
         $body = $console->askQuestion(new BodyQuestion($this->getConfiguration()));
@@ -171,13 +167,8 @@ class PrepareCommand extends BaseCommand
     {
         $footers = [];
 
-        /**
-         * @psalm-suppress RedundantCondition
-         * @psalm-suppress ReservedWord
-         */
         if ($console->askQuestion(new HasBreakingChangesQuestion())) {
             /**
-             * @psalm-suppress ReservedWord
              * @var Footer $breakingChanges
              */
             $breakingChanges = $console->askQuestion(new DescribeBreakingChangesQuestion());
@@ -203,9 +194,9 @@ class PrepareCommand extends BaseCommand
     }
 
     /**
-     * @return Footer[]
+     * @param Closure(string):Question $valueQuestionCallback
      *
-     * @psalm-param Closure(string):Question $valueQuestionCallback
+     * @return Footer[]
      */
     private function askFooterQuestionSection(
         SymfonyStyle $console,
@@ -214,10 +205,6 @@ class PrepareCommand extends BaseCommand
         Closure $valueQuestionCallback,
         bool $isRequired = false,
     ): array {
-        /**
-         * @psalm-suppress ReservedWord
-         * @psalm-suppress TypeDoesNotContainType
-         */
         if (!$isRequired && !$console->askQuestion($decisionPathQuestion)) {
             return [];
         }
@@ -236,7 +223,7 @@ class PrepareCommand extends BaseCommand
     }
 
     /**
-     * @psalm-param Closure(string):Question $valueQuestionCallback
+     * @param Closure(string):Question $valueQuestionCallback
      */
     private function askFooterQuestion(
         SymfonyStyle $console,
@@ -244,7 +231,6 @@ class PrepareCommand extends BaseCommand
         Closure $valueQuestionCallback,
     ): ?Footer {
         /**
-         * @psalm-suppress ReservedWord
          * @var string|null $token
          */
         $token = $console->askQuestion($tokenQuestion);
@@ -254,7 +240,6 @@ class PrepareCommand extends BaseCommand
         }
 
         /**
-         * @psalm-suppress ReservedWord
          * @var Footer|null $footer
          */
         $footer = $console->askQuestion($valueQuestionCallback($token));

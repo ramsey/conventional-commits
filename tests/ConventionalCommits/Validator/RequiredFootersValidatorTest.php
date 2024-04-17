@@ -19,8 +19,12 @@ class RequiredFootersValidatorTest extends TestCase
      *
      * @dataProvider provideTestValues
      */
-    public function testIsValid(array $testValue, bool $expectedResult, array $options = []): void
-    {
+    public function testIsValid(
+        array $testValue,
+        bool $expectedResult,
+        array $options = [],
+        string $expectedMessage = '',
+    ): void {
         $validator = new RequiredFootersValidator();
 
         if ($options) {
@@ -41,6 +45,7 @@ class RequiredFootersValidatorTest extends TestCase
         bool $expectedResult,
         array $options = [],
         string $expectedError = '',
+        string $expectedMessage = '',
     ): void {
         $validator = new RequiredFootersValidator();
 
@@ -59,7 +64,7 @@ class RequiredFootersValidatorTest extends TestCase
     /**
      * @return array<array{testValue: mixed[], expectedResult: bool, options?: mixed[]}>
      */
-    public function provideTestValues(): array
+    public static function provideTestValues(): array
     {
         return [
             [
@@ -148,7 +153,7 @@ class RequiredFootersValidatorTest extends TestCase
     /**
      * @return array<array{testValue: mixed}>
      */
-    public function provideInvalidValues(): array
+    public static function provideInvalidValues(): array
     {
         return [
             [

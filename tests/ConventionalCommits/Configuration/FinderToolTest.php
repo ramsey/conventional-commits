@@ -66,7 +66,7 @@ class FinderToolTest extends TestCase
     /**
      * @return array<array{options: mixed[]}>
      */
-    public function provideOptions(): array
+    public static function provideOptions(): array
     {
         return [
             [

@@ -23,7 +23,7 @@ class ParserTest extends TestCase
     /**
      * @return array<array{rawMessageFile: string}>
      */
-    public function provideRawCommitMessage(): array
+    public static function provideRawCommitMessage(): array
     {
         return [
             'a basic commit' => [
@@ -69,7 +69,7 @@ class ParserTest extends TestCase
     /**
      * @return array<array{invalidMessageFile: string}>
      */
-    public function provideInvalidCommitMessage(): array
+    public static function provideInvalidCommitMessage(): array
     {
         return [
             ['invalidMessageFile' => (string) realpath(__DIR__ . '/commit-messages/invalid-commit-message-00.txt')],

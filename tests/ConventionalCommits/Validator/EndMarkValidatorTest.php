@@ -46,7 +46,7 @@ class EndMarkValidatorTest extends TestCase
     /**
      * @return array<array{endMark: string|null, testValue: string, expectedResult: bool}>
      */
-    public function provideTestValues(): array
+    public static function provideTestValues(): array
     {
         return [
             [
