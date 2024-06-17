@@ -27,7 +27,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.3.0"
+        uses: "actions/checkout@v4.1.7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.23.0"
@@ -51,7 +51,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.3.0"
+        uses: "actions/checkout@v4.1.7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.23.0"
@@ -72,7 +72,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.3.0"
+        uses: "actions/checkout@v4.1.7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.23.0"
@@ -123,7 +123,7 @@ jobs:
           git config --system core.eol lf
 
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.3.0"
+        uses: "actions/checkout@v4.1.7"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.23.0"
@@ -155,7 +155,7 @@ jobs:
 
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.3.0"
+        uses: "actions/checkout@v4.1.7"
 
       - name: "Install expect"
         shell: "bash"
