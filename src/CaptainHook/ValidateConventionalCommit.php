@@ -74,18 +74,18 @@ class ValidateConventionalCommit implements Action, Constrained
             $parser = new Parser($this->findConfiguration(new ArrayInput([]), new Output($io), $options));
             $parser->parse($message->getContent());
         } catch (ConventionalException $exception) {
-            $this->writeErrorMessage($io);
+            $this->writeErrorMessage($io, $exception);
 
             throw new ActionFailed('Validation failed.');
         }
     }
 
-    private function writeErrorMessage(IO $io): void
+    private function writeErrorMessage(IO $io, ConventionalException $exception): void
     {
         $console = $this->styleFactory->factory(new ArrayInput([]), new Output($io));
 
         $console->error([
-            'Invalid Commit Message',
+            'Invalid Commit Message: ' . $exception->getMessage(),
             'The commit message is not properly formatted according to the '
             . 'Conventional Commits specification. For more details, see '
             . 'https://www.conventionalcommits.org/en/v1.0.0/',

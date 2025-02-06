@@ -13,6 +13,8 @@ use Mockery\MockInterface;
 use Ramsey\CaptainHook\Output;
 use Ramsey\CaptainHook\ValidateConventionalCommit;
 use Ramsey\ConventionalCommits\Console\SymfonyStyleFactory;
+use Ramsey\ConventionalCommits\Exception\ConventionalException;
+use Ramsey\ConventionalCommits\Parser;
 use Ramsey\Test\TestCase;
 use SebastianFeldmann\Git\CommitMessage;
 use SebastianFeldmann\Git\Repository;
@@ -93,13 +95,15 @@ class ValidateConventionalCommitTest extends TestCase
             'getOptions->getAll' => ['config' => []],
         ]);
 
+        $rawCommitMessage = 'not a valid commit message';
+
         /** @var CommitMessage & MockInterface $commitMessage */
         $commitMessage = $this->mockery(CommitMessage::class);
         $commitMessage
             ->expects()
             ->getContent()
             ->once()
-            ->andReturn('not a valid commit message');
+            ->andReturn($rawCommitMessage);
 
         /** @var Repository & MockInterface $repository */
         $repository = $this->mockery(Repository::class);
@@ -109,10 +113,20 @@ class ValidateConventionalCommitTest extends TestCase
             ->andReturn($commitMessage);
 
         $console = $this->mockery(SymfonyStyle::class);
+
+        $invalidCommitMessage = '';
+
+        try {
+            $parser = new Parser();
+            $parser->parse($rawCommitMessage);
+        } catch (ConventionalException $exception) {
+            $invalidCommitMessage = $exception->getMessage();
+        }
+
         $console
             ->expects('error')
             ->with([
-                'Invalid Commit Message',
+                'Invalid Commit Message: ' . $invalidCommitMessage,
                 'The commit message is not properly formatted according to the '
                 . 'Conventional Commits specification. For more details, see '
                 . 'https://www.conventionalcommits.org/en/v1.0.0/',
