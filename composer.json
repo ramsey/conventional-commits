@@ -43,7 +43,7 @@
         "phpstan/phpstan-mockery": "^1.1",
         "phpstan/phpstan-phpunit": "^1.3",
         "phpunit/phpunit": "^10.1",
-        "ramsey/coding-standard": "^2.2",
+        "ramsey/coding-standard": "^2.3",
         "ramsey/composer-repl": "^1.4",
         "roave/security-advisories": "dev-latest",
         "sebastianfeldmann/cli": "^3.4",
