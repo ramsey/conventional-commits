@@ -111,7 +111,7 @@
         ],
         "dev:test:coverage:ci": "phpunit --colors=always --coverage-text --coverage-clover build/coverage/clover.xml --coverage-cobertura build/coverage/cobertura.xml --coverage-crap4j build/coverage/crap4j.xml --coverage-xml build/coverage/coverage-xml --log-junit build/junit.xml",
         "dev:test:coverage:html": "phpunit --colors=always --coverage-html build/coverage/coverage-html/",
-        "dev:test:functional": "./tests/bash-test tests/functional-tests.sh",
+        "dev:test:functional": "bats tests/functional",
         "dev:test:unit": "phpunit --colors=always",
         "test": "@dev:test",
         "test-functional": "@dev:test:functional"
