@@ -166,6 +166,11 @@ jobs:
           git clone https://github.com/bats-core/bats-core.git
           sudo ./bats-core/install.sh /usr/local
 
+      - name: "Install expect"
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install expect
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
