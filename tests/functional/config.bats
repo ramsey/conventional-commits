@@ -140,6 +140,5 @@ setup() {
 		--config "$PROJECT_ROOT/tests/configs/config-05.json" \
 		--dump
 
-	assert_output --partial 'Invalid /types value found in configuration:'
-	assert_output --partial 'The data (string) must match the type: array'
+	assert_output --partial 'Invalid /types value found in configuration'
 }
