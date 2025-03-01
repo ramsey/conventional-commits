@@ -28,11 +28,11 @@ class FinderToolTest extends TestCase
 {
     use SnapshotsTool;
 
-    private InputInterface&MockInterface $input;
+    private InputInterface & MockInterface $input;
 
     private object $finderTool;
 
-    private OutputInterface&MockInterface $output;
+    private OutputInterface & MockInterface $output;
 
     protected function setUp(): void
     {

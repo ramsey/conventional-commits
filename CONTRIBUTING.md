@@ -161,7 +161,7 @@ sure to `composer install`.
 To run all the tests and coding standards checks, execute the following from the
 command line, while in the project root directory:
 
-```
+``` bash
 composer test
 ```
 
@@ -170,32 +170,74 @@ repository.
 
 ### Functional Tests
 
-This project includes a suite of functional tests located in `tests/expect/`.
-These tests use the [Expect](https://en.wikipedia.org/wiki/Expect) tool to
-automate CLI interactions. The tests will run automatically as part of
-continuous integration, or you may run them locally with:
+This project includes a suite of functional tests located in `tests/functional/`.
+These tests use [Bats](https://bats-core.readthedocs.io/) and
+[Expect](https://en.wikipedia.org/wiki/Expect) to test CLI interactions.
+The tests will run automatically as part of continuous integration, or you may
+run them locally with:
 
-```
+``` bash
 composer test-functional
 ```
 
 To run the tests, you must have an up-to-date version of coreutils (8.30 or
-later).
+later), and `expect` and `bats` must be installed on your system.
 
-To generate a new functional test:
+Not all functional tests need to use Expect, but anything that requires user
+interaction (i.e., prompting the user for input) will be easier to test with
+Expect.
 
-```
-cd tests/expect/
-autoexpect ../../bin/conventional-commits prepare --config ../configs/default.json
+You can auto-generate an Expect script using the following:
+
+``` bash
+cd tests/functional/expect/
+autoexpect ../../../bin/conventional-commits --no-ansi prepare --config ../../configs/default.json
 ```
 
 Follow the prompts to enter the data you wish to test. When finished,
-`autoexpect` will save the test to `script.exp`. Rename it with a more
-descriptive name, and run it to ensure it does what you expect: `./script.exp`.
-You may need to edit the test file or add to it, according to your needs.
+`autoexpect` will save the test to `script.exp`. Rename it to a more
+descriptive name, and run it to ensure it does what you expect (e.g.,
+`./script.exp`).
 
-When done, `cd ../..` and run `composer test-functional`.
-Your new test should run along with the other functional tests.
+You will need to edit the generated Expect script to ensure the paths are
+correct for running it from Bats. At the very least, your changes should look
+something like this:
+
+``` diff
+--- a/tests/functional/expect/script.exp
++++ b/tests/functional/expect/script.exp
+@@ -42,8 +42,11 @@ if {$force_conservative} {
+ # -Don
+
+
++variable scriptPath [file normalize [info script]]
++variable scriptDir [file dirname $scriptPath]
++
+ set timeout -1
+-spawn ../../../bin/conventional-commits --no-ansi prepare --config ../../configs/default.json
++spawn $scriptDir/../../../bin/conventional-commits --no-ansi prepare --config $scriptDir/../../configs/default.json
+ match_max 100000
+ expect -exact "\r
+ Prepare Commit Message\r
+```
+
+You may also need to make other changes to the Expect script, depending on what
+you're trying to test. Expect scripts are written in Tcl. To learn more about
+what you can do in Expect,
+[check out the man pages and examples](https://wiki.tcl-lang.org/page/Expect).
+
+After you've completed your expect script, you can create a Bats test to run it
+and perform assertions on the output. For example:
+
+``` bats
+@test 'prepares a basic commit message' {
+	run -0 "$PROJECT_ROOT/tests/functional/expect/prepare-basic.exp"
+
+	assert_output -p 'feat: this is a test'
+}
+```
+
+See the other Bats tests in `tests/functional/` for examples.
 
 [github]: https://github.com/ramsey/conventional-commits
 [issues]: https://github.com/ramsey/conventional-commits/issues
