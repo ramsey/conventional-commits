@@ -5,6 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.6.0 - 2025-03-01
+
+### Added
+
+- Improve CaptainHook validation error message ([#101](https://github.com/ramsey/conventional-commits/pull/101))
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 1.5.1 - 2024-05-13
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Allow symfony/console, symfony/filesystem at major version 7.
+
 ## 1.5.0 - 2023-03-18
 
 ### Added
