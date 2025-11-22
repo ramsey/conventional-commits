@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\ConventionalCommits\Configuration;
 
-use Composer\Composer;
 use JsonException;
 use Mockery\MockInterface;
 use Ramsey\ConventionalCommits\Configuration\Configuration;
 use Ramsey\ConventionalCommits\Configuration\FinderTool;
-use Ramsey\ConventionalCommits\Exception\ComposerNotFound;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\Test\SnapshotsTool;
 use Ramsey\Test\TestCase;
 use Ramsey\Test\WindowsSafeTextDriver;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+use function file_put_contents;
 use function json_encode;
 use function realpath;
+use function sys_get_temp_dir;
+use function unlink;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -34,6 +36,8 @@ class FinderToolTest extends TestCase
 
     private OutputInterface & MockInterface $output;
 
+    private Filesystem $fileSystem;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -43,6 +47,7 @@ class FinderToolTest extends TestCase
         $this->finderTool = new class () {
             use FinderTool;
         };
+        $this->fileSystem = new Filesystem();
     }
 
     /**
@@ -168,79 +173,52 @@ class FinderToolTest extends TestCase
         ]);
     }
 
-    public function testGetComposerFindsComposerJsonForCurrentProject(): void
+    public function testFindConfigurationThrowsExceptionWhenComposerJsonDoesNotExist(): void
     {
-        $this->output->shouldReceive('isDebug');
-        $this->output->allows()->getVerbosity()->andReturn(OutputInterface::VERBOSITY_QUIET);
-        $this->output->allows()->isDebug()->andReturnFalse();
-
-        $filesystem = new Filesystem();
-
-        // @phpstan-ignore-next-line
-        $composer = $this->finderTool->getComposer($this->input, $this->output, $filesystem);
-
-        $this->assertInstanceOf(Composer::class, $composer);
-        $this->assertSame('ramsey/conventional-commits', $composer->getPackage()->getName());
-    }
-
-    public function testGetComposerThrowsExceptionWhenAutoloaderDoesNotExist(): void
-    {
-        $this->output->allows()->getVerbosity()->andReturn(OutputInterface::VERBOSITY_QUIET);
-
-        /** @var Filesystem & MockInterface $filesystem */
-        $filesystem = $this->mockery(Filesystem::class);
-        $filesystem->shouldReceive('exists')->twice()->andReturnFalse();
-
-        $this->expectException(ComposerNotFound::class);
-        $this->expectExceptionMessage(
-            'Could not find the autoloader. Did you run composer install or composer update?',
-        );
-
-        // @phpstan-ignore-next-line
-        $this->finderTool->getComposer($this->input, $this->output, $filesystem);
-    }
-
-    public function testGetComposerThrowsExceptionWhenComposerJsonDoesNotExist(): void
-    {
-        $this->output->allows()->getVerbosity()->andReturn(OutputInterface::VERBOSITY_QUIET);
-
-        /** @var Filesystem & MockInterface $filesystem */
-        $filesystem = $this->mockery(Filesystem::class);
-        $filesystem->shouldReceive('exists')->andReturn(false, true, false);
-
-        $this->expectException(ComposerNotFound::class);
-        $this->expectExceptionMessage('Could not find composer.json.');
-
-        // @phpstan-ignore-next-line
-        $this->finderTool->getComposer($this->input, $this->output, $filesystem);
-    }
-
-    public function testFindConfigurationThrowsExceptionWhenComposerHasInvalidValue(): void
-    {
-        /** @var Composer & MockInterface $composer */
-        $composer = $this->mockery(Composer::class, [
-            'getPackage->getExtra' => [
-                'ramsey/conventional-commits' => [
-                    'config' => 'invalid value',
-                ],
-            ],
-        ]);
+        $composerJsonPath = 'path/to/nonexistent/composer.json';
 
         $finderTool = new class () {
             use FinderTool;
 
-            public Composer $composer;
+            public string $composerJsonPath;
 
-            public function getComposer(
-                InputInterface $input,
-                OutputInterface $output,
-                Filesystem $filesystem,
-            ): Composer {
-                return $this->composer;
+            public function findComposerJson(Filesystem $filesystem): string
+            {
+                return $this->composerJsonPath;
             }
         };
 
-        $finderTool->composer = $composer;
+        $finderTool->composerJsonPath = $composerJsonPath;
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("The file \"{$composerJsonPath}\" is not readable.");
+
+        $finderTool->findConfiguration($this->input, $this->output);
+    }
+
+    public function testFindConfigurationThrowsExceptionWhenComposerHasInvalidValue(): void
+    {
+        $composerJsonPath = $this->fileSystem->tempnam(sys_get_temp_dir(), 'cc_', '.json');
+        file_put_contents($composerJsonPath, json_encode([
+            'extra' => [
+                'ramsey/conventional-commits' => [
+                    'config' => 'invalid value',
+                ],
+            ],
+        ]));
+
+        $finderTool = new class () {
+            use FinderTool;
+
+            public string $composerJsonPath;
+
+            public function findComposerJson(Filesystem $filesystem): string
+            {
+                return $this->composerJsonPath;
+            }
+        };
+
+        $finderTool->composerJsonPath = $composerJsonPath;
 
         $this->expectException(InvalidValue::class);
         $this->expectExceptionMessage(
@@ -249,13 +227,15 @@ class FinderToolTest extends TestCase
         );
 
         $finderTool->findConfiguration($this->input, $this->output);
+
+        @unlink($composerJsonPath);
     }
 
     public function testFindConfigurationReturnsConfigurationUsingComposerConfig(): void
     {
-        /** @var Composer & MockInterface $composer */
-        $composer = $this->mockery(Composer::class, [
-            'getPackage->getExtra' => [
+        $composerJsonPath = $this->fileSystem->tempnam(sys_get_temp_dir(), 'cc_', '.json');
+        file_put_contents($composerJsonPath, json_encode([
+            'extra' => [
                 'ramsey/conventional-commits' => [
                     'configFile' => (string) realpath(__DIR__ . '/../../configs/config-03.json'),
                     'config' => [
@@ -263,89 +243,86 @@ class FinderToolTest extends TestCase
                     ],
                 ],
             ],
-        ]);
+        ]));
 
         $finderTool = new class () {
             use FinderTool;
 
-            public Composer $composer;
+            public string $composerJsonPath;
 
-            public function getComposer(
-                InputInterface $input,
-                OutputInterface $output,
-                Filesystem $filesystem,
-            ): Composer {
-                return $this->composer;
+            public function findComposerJson(Filesystem $filesystem): string
+            {
+                return $this->composerJsonPath;
             }
         };
 
-        $finderTool->composer = $composer;
+        $finderTool->composerJsonPath = $composerJsonPath;
 
         /** @var Configuration $configuration */
         $configuration = $finderTool->findConfiguration($this->input, $this->output);
 
         $this->assertMatchesSnapshot(json_encode($configuration), new WindowsSafeTextDriver());
+
+        @unlink($composerJsonPath);
     }
 
     public function testFindConfigurationReturnsConfigurationUsingComposerConfigFile(): void
     {
-        /** @var Composer & MockInterface $composer */
-        $composer = $this->mockery(Composer::class, [
-            'getPackage->getExtra' => [
+        $composerJsonPath = $this->fileSystem->tempnam(sys_get_temp_dir(), 'cc_', '.json');
+        file_put_contents($composerJsonPath, json_encode([
+            'extra' => [
                 'ramsey/conventional-commits' => [
                     'configFile' => (string) realpath(__DIR__ . '/../../configs/config-03.json'),
                 ],
             ],
-        ]);
+        ]));
 
         $finderTool = new class () {
             use FinderTool;
 
-            public Composer $composer;
+            public string $composerJsonPath;
 
-            public function getComposer(
-                InputInterface $input,
-                OutputInterface $output,
-                Filesystem $filesystem,
-            ): Composer {
-                return $this->composer;
+            public function findComposerJson(Filesystem $filesystem): string
+            {
+                return $this->composerJsonPath;
             }
         };
 
-        $finderTool->composer = $composer;
+        $finderTool->composerJsonPath = $composerJsonPath;
 
         /** @var Configuration $configuration */
         $configuration = $finderTool->findConfiguration($this->input, $this->output);
 
         $this->assertMatchesSnapshot(json_encode($configuration), new WindowsSafeTextDriver());
+
+        @unlink($composerJsonPath);
     }
 
     public function testFindConfigurationReturnsDefaultConfigurationWhenComposerHasNone(): void
     {
-        /** @var Composer & MockInterface $composer */
-        $composer = $this->mockery(Composer::class, [
-            'getPackage->getExtra' => [],
-        ]);
+        $composerJsonPath = $this->fileSystem->tempnam(sys_get_temp_dir(), 'cc_', '.json');
+        file_put_contents($composerJsonPath, json_encode([
+            'extra' => [],
+        ]));
 
         $finderTool = new class () {
             use FinderTool;
 
-            public Composer $composer;
+            public string $composerJsonPath;
 
-            public function getComposer(
-                InputInterface $input,
-                OutputInterface $output,
-                Filesystem $filesystem,
-            ): Composer {
-                return $this->composer;
+            public function findComposerJson(Filesystem $filesystem): string
+            {
+                return $this->composerJsonPath;
             }
         };
 
-        $finderTool->composer = $composer;
+        $finderTool->composerJsonPath = $composerJsonPath;
 
         /** @var Configuration $configuration */
         $configuration = $finderTool->findConfiguration($this->input, $this->output);
 
         $this->assertMatchesSnapshot(json_encode($configuration), new WindowsSafeTextDriver());
+
+        @unlink($composerJsonPath);
     }
 }
