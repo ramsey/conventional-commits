@@ -27,7 +27,6 @@ class IssueIdentifierQuestionTest extends TestCase
         $question = new IssueIdentifierQuestion('fix');
         $validator = $question->getValidator();
 
-        /** @var Footer $footer */
         $footer = $validator('1234');
 
         $this->assertInstanceOf(Footer::class, $footer);

@@ -27,7 +27,6 @@ class DescribeBreakingChangesQuestionTest extends TestCase
         $question = new DescribeBreakingChangesQuestion();
         $validator = $question->getValidator();
 
-        /** @var Footer $footer */
         $footer = $validator('these are breaking changes');
 
         $this->assertInstanceOf(Footer::class, $footer);

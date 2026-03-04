@@ -65,7 +65,7 @@ class ValidateConventionalCommit implements Action, Constrained
         Repository $repository,
         ActionConfig $action,
     ): void {
-        /** @var array{config?: ConfigurationOptionsType, configFile?: string} | null $options */
+        /** @var array{config?: ConfigurationOptionsType, configFile?: string} $options */
         $options = $action->getOptions()->getAll();
 
         $message = $repository->getCommitMsg();

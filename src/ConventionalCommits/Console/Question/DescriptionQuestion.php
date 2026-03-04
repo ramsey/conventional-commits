@@ -30,6 +30,7 @@ use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Description;
 use Symfony\Component\Console\Question\Question;
 
+use function is_string;
 use function trim;
 
 /**
@@ -48,7 +49,11 @@ class DescriptionQuestion extends Question implements Configurable
 
     public function getValidator(): callable
     {
-        return function (?string $answer): Description {
+        return function (mixed $answer): Description {
+            if (!is_string($answer) && $answer !== null) {
+                throw new InvalidConsoleInput('The short description must be a string or null.');
+            }
+
             if (trim((string) $answer) === '') {
                 throw new InvalidConsoleInput('You must provide a short description.');
             }

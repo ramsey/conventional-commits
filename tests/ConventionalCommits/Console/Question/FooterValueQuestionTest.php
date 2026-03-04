@@ -27,7 +27,6 @@ class FooterValueQuestionTest extends TestCase
         $question = new FooterValueQuestion('token-name');
         $validator = $question->getValidator();
 
-        /** @var Footer $footer */
         $footer = $validator('this is a footer value');
 
         $this->assertInstanceOf(Footer::class, $footer);
