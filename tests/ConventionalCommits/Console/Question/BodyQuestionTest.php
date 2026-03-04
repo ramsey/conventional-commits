@@ -44,7 +44,6 @@ class BodyQuestionTest extends TestCase
         $question = new BodyQuestion();
         $validator = $question->getValidator();
 
-        /** @var Body $body */
         $body = $validator('this is a body');
 
         $this->assertInstanceOf(Body::class, $body);

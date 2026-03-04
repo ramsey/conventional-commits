@@ -30,6 +30,7 @@ use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Body;
 use Symfony\Component\Console\Question\Question;
 
+use function is_string;
 use function method_exists;
 use function trim;
 
@@ -42,6 +43,7 @@ class BodyQuestion extends Question implements Configurable
 
     public function __construct(?Configuration $configuration = null)
     {
+        /** @phpstan-ignore function.alreadyNarrowedType */
         if (method_exists($this, 'setMultiline')) {
             $this->setMultiline(true); // @codeCoverageIgnore
         }
@@ -56,7 +58,11 @@ class BodyQuestion extends Question implements Configurable
 
     public function getValidator(): callable
     {
-        return function (?string $answer): ?Body {
+        return function (mixed $answer): ?Body {
+            if (!is_string($answer) && $answer !== null) {
+                throw new InvalidConsoleInput('The body must be a string or null.');
+            }
+
             try {
                 $body = new Body(trim((string) $answer));
                 $this->getConfiguration()->getMessageValidator()->validateBody($body);

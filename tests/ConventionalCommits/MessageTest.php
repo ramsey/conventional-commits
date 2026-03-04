@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\ConventionalCommits;
 
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use Ramsey\ConventionalCommits\Configuration\DefaultConfiguration;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message;
@@ -156,6 +157,7 @@ class MessageTest extends TestCase
         $this->assertSame($expectedMessage, (string) $commit);
     }
 
+    #[DoesNotPerformAssertions]
     public function testParserCallsValidateOnMessageAndDoesNotThrowExceptions(): void
     {
         $config = new DefaultConfiguration([
@@ -172,10 +174,7 @@ class MessageTest extends TestCase
 
         $raw = (string) file_get_contents((string) realpath(__DIR__ . '/commit-messages/commit-message-01.txt'));
 
-        $parser = new Parser($config);
-        $message = $parser->parse($raw);
-
-        $this->assertInstanceOf(Message::class, $message);
+        (new Parser($config))->parse($raw);
     }
 
     public function testThrowsInvalidValueWhenScopeIsRequiredAndMissing(): void

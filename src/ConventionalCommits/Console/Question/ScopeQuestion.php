@@ -31,6 +31,7 @@ use Ramsey\ConventionalCommits\Message\Scope;
 use Symfony\Component\Console\Question\Question;
 
 use function count;
+use function is_string;
 use function trim;
 
 /**
@@ -51,7 +52,11 @@ class ScopeQuestion extends Question implements Configurable
 
     public function getValidator(): callable
     {
-        return function (?string $answer): ?Scope {
+        return function (mixed $answer): ?Scope {
+            if (!is_string($answer) && $answer !== null) {
+                throw new InvalidConsoleInput('The scope must be a string or null.');
+            }
+
             if (trim((string) $answer) === '') {
                 $answer = null;
             }

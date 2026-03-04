@@ -79,7 +79,7 @@ class PrepareConventionalCommit implements Action, Constrained
         $input = new ArrayInput([]);
         $output = new Output($io);
 
-        /** @var array{config?: ConfigurationOptionsType, configFile?: string} | null $options */
+        /** @var array{config?: ConfigurationOptionsType, configFile?: string} $options */
         $options = $action->getOptions()->getAll();
 
         $this->prepareCommand->setConfiguration($this->findConfiguration($input, $output, $options));

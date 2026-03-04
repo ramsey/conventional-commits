@@ -27,6 +27,8 @@ use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
+use function is_string;
+
 /**
  * A prompt asking the user to enter an issue tracker identifier
  */
@@ -46,7 +48,11 @@ class IssueIdentifierQuestion extends Question
 
     public function getValidator(): callable
     {
-        return function (?string $answer): Footer {
+        return function (mixed $answer): Footer {
+            if (!is_string($answer) && $answer !== null) {
+                throw new InvalidConsoleInput('The identifier value must be a string or null.');
+            }
+
             try {
                 return new Footer($this->type, (string) $answer, Footer::SEPARATOR_HASH);
             } catch (InvalidArgument | InvalidValue $exception) {

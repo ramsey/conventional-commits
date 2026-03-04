@@ -65,8 +65,16 @@ use Symfony\Component\Console\Input\InputOption;
         'Path to a file containing Conventional Commits configuration',
     ));
 
-    $application->add(new ConfigCommand());
-    $application->add(new PrepareCommand());
-    $application->add(new ValidateCommand());
+    /** @phpstan-ignore function.alreadyNarrowedType */
+    if (method_exists($application, 'addCommand')) {
+        $application->addCommand(new ConfigCommand());
+        $application->addCommand(new PrepareCommand());
+        $application->addCommand(new ValidateCommand());
+    } else {
+        $application->add(new ConfigCommand());
+        $application->add(new PrepareCommand());
+        $application->add(new ValidateCommand());
+    }
+
     $application->run(new ArgvInput($argv));
 })($argv);
