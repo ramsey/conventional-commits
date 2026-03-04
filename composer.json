@@ -42,7 +42,7 @@
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-mockery": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^10.1",
+        "phpunit/phpunit": "^10.5.63",
         "ramsey/coding-standard": "^2.3",
         "ramsey/composer-repl": "^1.5",
         "ramsey/composer-repl-lib": "^1.4.0",
