@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.7.0 - 2026-03-04
+
+### Added
+
+- Verify support for PHP 8.5.
+- Expand symfony/console version to include `^8.0` ([#115](https://github.com/ramsey/conventional-commits/pull/115)).
+- Expand symfony/filesystem version to include `^8.0` ([#115](https://github.com/ramsey/conventional-commits/pull/115)).
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Removed dependency on composer/composer package ([#114](https://github.com/ramsey/conventional-commits/pull/114), [#103](https://github.com/ramsey/conventional-commits/issues/103)).
+
+### Fixed
+
+- Nothing.
+
 ## 1.6.0 - 2025-03-01
 
 ### Added
