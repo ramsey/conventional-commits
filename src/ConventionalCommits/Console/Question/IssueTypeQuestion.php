@@ -27,6 +27,7 @@ use Ramsey\ConventionalCommits\Exception\InvalidValue;
 use Ramsey\ConventionalCommits\Message\Footer;
 use Symfony\Component\Console\Question\Question;
 
+use function is_string;
 use function strlen;
 use function trim;
 
@@ -45,7 +46,11 @@ class IssueTypeQuestion extends Question
 
     public function getValidator(): callable
     {
-        return function (?string $answer): ?string {
+        return function (mixed $answer): ?string {
+            if (!is_string($answer) && $answer !== null) {
+                throw new InvalidConsoleInput('The issues reference type must be a string or null.');
+            }
+
             if ($answer === null || strlen(trim($answer)) === 0) {
                 return null;
             }

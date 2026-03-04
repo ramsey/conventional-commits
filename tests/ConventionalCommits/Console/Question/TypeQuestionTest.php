@@ -28,7 +28,6 @@ class TypeQuestionTest extends TestCase
         $question = new TypeQuestion();
         $validator = $question->getValidator();
 
-        /** @var Type $type */
         $type = $validator('feat');
 
         $this->assertInstanceOf(Type::class, $type);

@@ -31,6 +31,7 @@ use Ramsey\ConventionalCommits\Message\Type;
 use Symfony\Component\Console\Question\Question;
 
 use function array_merge;
+use function is_string;
 
 /**
  * A prompt asking the user to identify the type of change they are committing
@@ -51,7 +52,11 @@ class TypeQuestion extends Question implements Configurable
 
     public function getValidator(): callable
     {
-        return function (?string $answer): Type {
+        return function (mixed $answer): Type {
+            if (!is_string($answer) && $answer !== null) {
+                throw new InvalidConsoleInput('The type must be a string or null.');
+            }
+
             try {
                 $type = new Type((string) $answer);
                 $this->getConfiguration()->getMessageValidator()->validateType($type);

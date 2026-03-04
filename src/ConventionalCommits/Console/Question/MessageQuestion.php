@@ -24,8 +24,10 @@ namespace Ramsey\ConventionalCommits\Console\Question;
 use Ramsey\ConventionalCommits\Configuration\Configurable;
 use Ramsey\ConventionalCommits\Configuration\ConfigurableTool;
 use Ramsey\ConventionalCommits\Configuration\Configuration;
+use Ramsey\ConventionalCommits\Exception\InvalidConsoleInput;
 use Symfony\Component\Console\Question\Question;
 
+use function is_string;
 use function method_exists;
 use function trim;
 
@@ -38,6 +40,7 @@ class MessageQuestion extends Question implements Configurable
 
     public function __construct(?Configuration $configuration = null)
     {
+        /* @phpstan-ignore function.alreadyNarrowedType */
         if (method_exists($this, 'setMultiline')) {
             $this->setMultiline(true); // @codeCoverageIgnore
         }
@@ -51,7 +54,11 @@ class MessageQuestion extends Question implements Configurable
 
     public function getValidator(): callable
     {
-        return function (?string $answer): ?string {
+        return function (mixed $answer): ?string {
+            if (!is_string($answer) && $answer !== null) {
+                throw new InvalidConsoleInput('The message must be a string or null.');
+            }
+
             if (trim((string) $answer) === '') {
                 return null;
             }

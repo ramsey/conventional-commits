@@ -139,7 +139,7 @@ trait FinderTool
     {
         $composer = $this->getComposer($input, $output, new Filesystem());
 
-        /** @var array{"ramsey/conventional-commits"?: array{config?: scalar | array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}, configFile?: scalar}} | null $extra */
+        /** @var array{"ramsey/conventional-commits"?: array{config?: scalar | array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}, configFile?: scalar}} $extra */
         $extra = $composer->getPackage()->getExtra();
 
         $config = $extra['ramsey/conventional-commits']['config'] ?? null;

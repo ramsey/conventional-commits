@@ -28,7 +28,6 @@ class DescriptionQuestionTest extends TestCase
         $question = new DescriptionQuestion();
         $validator = $question->getValidator();
 
-        /** @var Description $description */
         $description = $validator('this is a description');
 
         $this->assertInstanceOf(Description::class, $description);

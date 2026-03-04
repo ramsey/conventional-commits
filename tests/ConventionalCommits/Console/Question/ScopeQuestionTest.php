@@ -44,7 +44,6 @@ class ScopeQuestionTest extends TestCase
         $question = new ScopeQuestion();
         $validator = $question->getValidator();
 
-        /** @var Scope $scope */
         $scope = $validator('component');
 
         $this->assertInstanceOf(Scope::class, $scope);
