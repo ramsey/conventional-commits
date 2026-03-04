@@ -21,9 +21,6 @@ declare(strict_types=1);
 
 namespace Ramsey\ConventionalCommits\Configuration;
 
-use Composer\Composer;
-use Composer\Factory;
-use Composer\IO\ConsoleIO;
 use JsonException;
 use Opis\JsonSchema\Errors\ErrorFormatter;
 use Opis\JsonSchema\Errors\ValidationError;
@@ -32,7 +29,7 @@ use Phar;
 use Ramsey\ConventionalCommits\Exception\ComposerNotFound;
 use Ramsey\ConventionalCommits\Exception\InvalidArgument;
 use Ramsey\ConventionalCommits\Exception\InvalidValue;
-use Symfony\Component\Console\Helper\HelperSet;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -43,6 +40,7 @@ use function getcwd;
 use function gettype;
 use function implode;
 use function is_array;
+use function is_readable;
 use function json_decode;
 use function realpath;
 use function sprintf;
@@ -85,23 +83,6 @@ trait FinderTool
     }
 
     /**
-     * Returns the Composer instance for the current project
-     */
-    public function getComposer(
-        InputInterface $input,
-        OutputInterface $output,
-        Filesystem $filesystem,
-    ): Composer {
-        $composerJson = $this->findComposerJson($filesystem);
-
-        $composerIO = new ConsoleIO($input, $output, new HelperSet());
-        $composerFactory = new Factory();
-
-        /** @var Composer */
-        return $composerFactory->createComposer($composerIO, $composerJson, true, null, true);
-    }
-
-    /**
      * @return array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}
      *
      * @throws InvalidArgument if unable to read the file
@@ -137,10 +118,17 @@ trait FinderTool
      */
     private function loadConfigFromComposer(InputInterface $input, OutputInterface $output): array
     {
-        $composer = $this->getComposer($input, $output, new Filesystem());
-
-        /** @var array{"ramsey/conventional-commits"?: array{config?: scalar | array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}, configFile?: scalar}} $extra */
-        $extra = $composer->getPackage()->getExtra();
+        $composerJsonPath = $this->findComposerJson(new Filesystem());
+        if (!is_readable($composerJsonPath)) {
+            throw new RuntimeException(sprintf('The file "%s" is not readable.', $composerJsonPath));
+        }
+        $contents = @file_get_contents($composerJsonPath);
+        if ($contents === false) {
+            throw new RuntimeException(sprintf('Could not read file "%s"', $composerJsonPath));
+        }
+        $composerData = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+        /** @var array{"ramsey/conventional-commits"?: array{config?: scalar | array{typeCase?: string | null, types?: string[], scopeRequired?: bool, scopeCase?: string | null, scopes?: string[], descriptionCase?: string | null, descriptionEndMark?: string | null, bodyRequired?: bool, bodyWrapWidth?: int | null, requiredFooters?: string[]}, configFile?: scalar}} | null $extra */
+        $extra = is_array($composerData) ? ($composerData['extra'] ?? null) : null;
 
         $config = $extra['ramsey/conventional-commits']['config'] ?? null;
         $configFile = $extra['ramsey/conventional-commits']['configFile'] ?? null;
